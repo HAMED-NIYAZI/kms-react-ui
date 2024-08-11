@@ -1,8 +1,16 @@
+import Footer from "./views/layoutes/Footer";
+import Header from "./views/layoutes/Header";
+import Sidebar from "./views/layoutes/Sidebar";
+
 function App() {
   return (
-    <div>
-      <button className="btn btn-success btn-sm">Submit</button>
-      <h3>App</h3>
+    <div className="page">
+      <Sidebar />
+      <div className="main-content app-content">
+        <Header />
+        <div className="container-fluid"></div>
+      </div>
+      <Footer />
     </div>
   );
 }
