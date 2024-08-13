@@ -41,7 +41,7 @@ export default function Header() {
               <i className="header-icons fe fe-x"></i>
             </a>
           </div>
-          <div className="main-header-center mr-3 d-sm-none d-md-none d-lg-block">
+          {/* <div className="main-header-center mr-3 d-sm-none d-md-none d-lg-block">
             <input
               className="form-control"
               placeholder="هر چیزی را جستجو کنید ..."
@@ -50,10 +50,10 @@ export default function Header() {
             <button className="btn">
               <i className="fas fa-search d-none d-md-block"></i>
             </button>
-          </div>
+          </div> */}
         </div>
         <div className="main-header-right">
-          <ul className="nav">
+          {/* <ul className="nav">
             <li className="">
               <div className="dropdown  nav-itemd-none d-md-flex">
                 <a
@@ -116,7 +116,7 @@ export default function Header() {
                 </div>
               </div>
             </li>
-          </ul>
+          </ul> */}
           <div className="nav nav-item  navbar-nav-right ml-auto">
             <div className="nav-link" id="bs-example-navbar-collapse-1">
               <form className="navbar-form" role="search">
@@ -149,7 +149,7 @@ export default function Header() {
                 </div>
               </form>
             </div>
-            <div className="dropdown nav-item main-header-message ">
+            {/* <div className="dropdown nav-item main-header-message ">
               <a className="new nav-link" href="#">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -242,8 +242,8 @@ export default function Header() {
                   <a href="#">مشاهده همه</a>
                 </div>
               </div>
-            </div>
-            <div className="dropdown nav-item main-header-notification">
+            </div> */}
+            {/* <div className="dropdown nav-item main-header-notification">
               <a className="new nav-link" href="#">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -361,7 +361,7 @@ export default function Header() {
                   <a href="#">مشاهده همه</a>
                 </div>
               </div>
-            </div>
+            </div> */}
             <div className="nav-item full-screen fullscreen-button">
               <a className="new nav-link full-screen-link" href="#">
                 <svg
@@ -411,7 +411,7 @@ export default function Header() {
                 </a>
               </div>
             </div>
-            <div className="dropdown main-header-message right-toggle">
+            {/* <div className="dropdown main-header-message right-toggle">
               <a
                 className="nav-link pe-0"
                 data-bs-toggle="sidebar-left"
@@ -429,7 +429,7 @@ export default function Header() {
                   <line x1="3" y1="18" x2="21" y2="18"></line>
                 </svg>
               </a>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
