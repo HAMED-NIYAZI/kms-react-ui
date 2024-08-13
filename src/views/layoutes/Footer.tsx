@@ -2,9 +2,9 @@ export default function Footer() {
   return (
     <div className="main-footer">
       <div className="container-fluid pd-t-0-f ht-100p">
-        <span>
-          کپی رایت © 1400 <a href="#">ولکس</a> . طراحی شده توسط{" "}
-          <a href="#">تم فیکس</a> کلیه حقوق محفوظ است.
+        <span style={{ color: "blue", textAlign: "center" }}>
+          .کپی رایت © 1403 مدیریت دانش طراحی شده توسط تیم مهندس شیری نژاد و
+          مهندس حامد نیازمند. کلیه حقوق محفوظ می باشد
         </span>
       </div>
     </div>
