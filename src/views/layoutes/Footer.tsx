@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <div className="main-footer ht-40">
+    <div className="main-footer">
       <div className="container-fluid pd-t-0-f ht-100p">
         <span>
           کپی رایت © 1400 <a href="#">ولکس</a> . طراحی شده توسط{" "}
