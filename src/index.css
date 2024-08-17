@@ -1,0 +1,23 @@
+.main-sidemenu {
+    height: 90%;
+    margin-top: 70px;
+    overflow-y: scroll;
+}
+
+.active {
+    color: green;
+}
+
+.mr-4 {
+    margin-right: 10px;
+    ;
+}
+.center{
+       display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.darktext{
+    color: black;
+}
