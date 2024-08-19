@@ -209,7 +209,10 @@ export default function Login() {
                             ورود
                           </button>
 
-                          <button className="btn btn-success btn-block">
+                          <button
+                            className="btn btn-success btn-block"
+                            onClick={() => navigate("/register")}
+                          >
                             درخواست عضویت
                           </button>
                         </form>
