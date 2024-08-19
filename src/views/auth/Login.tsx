@@ -9,7 +9,7 @@ export default function Login() {
 
   const formik = useFormik({
     initialValues: {
-      email: "2669929826",
+      userName: "2669929826",
       password: "123",
     },
     onSubmit: async (values, { resetForm }) => {
@@ -18,7 +18,7 @@ export default function Login() {
       //  errors = {};
       try {
         const response = await AuthService.login({
-          userName: values.email,
+          userName: values.userName,
           password: values.password,
         });
         if (response.data.result == 0) {
@@ -88,12 +88,8 @@ export default function Login() {
       resetForm();
     },
     validationSchema: Yup.object({
-      email: Yup.string("باید رشته ای باشد").required(
-        "وارد کردن ایمیل الزامیست"
-      ),
-      password: Yup.string("باید رشته ای باشد").required(
-        "وارد کردن پسورد الزامیست"
-      ),
+      userName: Yup.string().required("وارد کردن ایمیل الزامیست"),
+      password: Yup.string().required("وارد کردن پسورد الزامیست"),
     }),
   });
   /*
@@ -166,25 +162,28 @@ export default function Login() {
                         alt="logo"
                       />
                       <h1 className="main-logo1 ms-1 me-0 my-auto tx-28 ps-1">
-                        نرم افزار مدیریت دانش
+                        سامانه مدیریت دانش
                       </h1>
                     </div>
                     <div className="card-sigin">
                       <div className="main-signup-header">
-                        <h2> ورود به سامانه</h2>
+                        <h2 style={{ paddingBottom: "30px" }}>
+                          {" "}
+                          ورود به سامانه
+                        </h2>
 
                         <form action="" onSubmit={formik.handleSubmit}>
                           <div className="form-group">
                             <label>نام کاربری </label>{" "}
                             <input
                               className="form-control"
-                              placeholder="ایمیل خود را وارد کنید"
+                              placeholder="نام کاربری خود را وارد کنید"
                               type="text"
                               {...formik.getFieldProps("email")}
                             />
                             <span className="text-danger">
-                              {formik.touched.email && formik.errors.email
-                                ? formik.errors.email
+                              {formik.touched.userName && formik.errors.userName
+                                ? formik.errors.userName
                                 : ""}
                             </span>
                           </div>
@@ -193,7 +192,7 @@ export default function Login() {
                             <input
                               className="form-control"
                               {...formik.getFieldProps("password")}
-                              placeholder="رمز عبور خود را وارد کنید"
+                              placeholder="کلمه عبور خود را وارد کنید"
                               type="password"
                             />
                             <span className="text-danger">
