@@ -83,13 +83,17 @@ export default function Login() {
       resetForm();
     },
     validationSchema: Yup.object({
-      email: Yup.string("باید رشته ای باشد")
-        .required("وارد کردن ایمیل الزامیست"),
+      email: Yup.string("باید رشته ای باشد").required(
+        "وارد کردن ایمیل الزامیست"
+      ),
       password: Yup.string("باید رشته ای باشد").required(
         "وارد کردن پسورد الزامیست"
       ),
     }),
   });
+  const myImgStyle = {
+    borderRadius: "10px",
+  };
 
   return (
     <div className="row no-gutter">
@@ -97,7 +101,8 @@ export default function Login() {
         <div className="row wd-100p mr-center text-center">
           <div className="col-md-12 col-lg-12 col-xl-12 my-auto mr-center wd-100p">
             <img
-              src="assets/img/media/login.png"
+              src="assets/img/media/4.jpg"
+              style={myImgStyle}
               className="my-auto ht-xl-80p wd-md-100p wd-xl-80p mr-center"
               alt="logo"
             />
@@ -112,31 +117,22 @@ export default function Login() {
                 <div className="card-sigin">
                   <div className="card-sigin">
                     <div className="card-sigin d-flex mb-5">
-                      <a href="index.html">
-                        <img
-                          src="assets/img/brand/favicon.png"
-                          className="sign-favicon-a ht-40"
-                          alt="logo"
-                        />
-                        <img
-                          src="assets/img/brand/favicon-white.png"
-                          className="sign-favicon-b ht-40"
-                          alt="logo"
-                        />
-                      </a>
+                      <img
+                        src="assets/img/brand/favicon.png"
+                        className="sign-favicon-a ht-40"
+                        alt="logo"
+                      />
                       <h1 className="main-logo1 ms-1 me-0 my-auto tx-28 ps-1">
-                        Va<span>le</span>x
+                        نرم افزار مدیریت دانش
                       </h1>
                     </div>
                     <div className="card-sigin">
                       <div className="main-signup-header">
-                        <h2>خوش برگشتی!</h2>
-                        <h5 className="fw-semibold mb-4">
-                          لطفا برای ادامه وارد شوید.
-                        </h5>
+                        <h2> ورود به سامانه</h2>
+
                         <form action="" onSubmit={formik.handleSubmit}>
                           <div className="form-group">
-                            <label>پست الکترونیک</label>{" "}
+                            <label>نام کاربری </label>{" "}
                             <input
                               className="form-control"
                               placeholder="ایمیل خود را وارد کنید"
@@ -166,18 +162,11 @@ export default function Login() {
                           <button className="btn btn-main-primary btn-block">
                             ورود
                           </button>
+
+                          <button className="btn btn-success btn-block">
+                            درخواست عضویت
+                          </button>
                         </form>
-                        <div className="main-signin-footer mt-5">
-                          <p>
-                            <a href="forgot.html">
-                              رمز عبور را فراموش کرده اید؟
-                            </a>
-                          </p>
-                          <p>
-                            حساب کاربری ندارید؟
-                            <a href="signup.html"> ایجاد یک حساب کاربری </a>
-                          </p>
-                        </div>
                       </div>
                     </div>
                   </div>
