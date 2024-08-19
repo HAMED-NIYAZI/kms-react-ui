@@ -128,7 +128,7 @@ export default function Header() {
                   <a className="dropdown-item" href="#">
                     <i className="bx bx-user-circle"></i>مشخصات
                   </a>
-                  <a className="dropdown-item" href="#">
+                  {/* <a className="dropdown-item" href="#">
                     <i className="bx bx-cog"></i> ویرایش نمایه
                   </a>
                   <a className="dropdown-item" href="#">
@@ -139,8 +139,8 @@ export default function Header() {
                   </a>
                   <a className="dropdown-item" href="#">
                     <i className="bx bx-slider-alt"></i> تنظیمات حساب
-                  </a>
-                  <a className="dropdown-item" href="signin.html">
+                  </a> */}
+                  <a className="dropdown-item" href="/Login">
                     <i className="bx bx-log-out"></i> خروج از سیستم
                   </a>
                 </div>
