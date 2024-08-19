@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import AuthService from "../../services/AuthService";
 import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -95,7 +96,48 @@ export default function Login() {
       ),
     }),
   });
+  /*
+  useEffect(() => {
+    console.log("Component did mount");
 
+    const getInfoForLoginPage = async () => {
+      try {
+        const response = await AuthService.getInfoForLoginPage();
+        if (response.data.result == 0) {
+          // loginPageInfo = response.data.data;
+          // localStorageService.setHomePageSetting(response.data.data);
+        } else if (response.data.result == 5) {
+          // toast.warning(response.data.message, {
+          //   timeout: 2000,
+          // });
+        } else {
+          // toast.warning(response.data.message, {
+          //   timeout: 2000,
+          // });
+        }
+      } catch (err) {
+        console.error(err);
+        /*if (err.message == "timeout of 60000ms exceeded") {
+          toast.error("سرور در دسترس نیست", {
+            timeout: 10000,
+          });
+        } else if (err.message == "Network Error") {
+          toast.error("سرور در دسترس نیست", {
+            timeout: 10000,
+          });
+        } else {
+          toast.error("پاسخی از سرور دریافت نشد", {
+            timeout: 10000,
+          });
+        } 
+      } finally {
+        // loading.value = false;
+      }
+    };
+
+    getInfoForLoginPage();
+  }, []);
+*/
   return (
     <div className="row no-gutter">
       <div className="col-md-6 col-lg-6 col-xl-7 d-none d-md-flex bg-primary-transparent">
@@ -160,7 +202,10 @@ export default function Login() {
                                 : ""}
                             </span>
                           </div>
-                          <button className="btn btn-main-primary btn-block">
+                          <button
+                            className="btn btn-main-primary btn-block"
+                            type="submit"
+                          >
                             ورود
                           </button>
 
