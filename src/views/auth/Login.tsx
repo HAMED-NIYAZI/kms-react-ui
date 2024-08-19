@@ -153,7 +153,7 @@ export default function Login() {
                           "https://freelancework.ir/" + loginPageInfo.imagePath
                         }
                         className="sign-favicon-a ht-40"
-                        style={{ height: "80px" }}
+                        style={{ height: "80px", borderRadius: "10px" }}
                         alt="logo"
                       />
                       <h4 className="main-logo1 ms-1 me-0 my-auto ps-1">
