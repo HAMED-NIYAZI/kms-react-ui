@@ -21,3 +21,7 @@
 .darktext{
     color: black;
 }
+
+.is-expanded {
+    transition: all  1s;
+}
