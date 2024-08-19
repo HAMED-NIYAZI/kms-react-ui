@@ -2,26 +2,24 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import AuthService from "../../services/AuthService";
 import { useNavigate } from "react-router-dom";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../index.css";
 
 export default function Login() {
   const navigate = useNavigate();
-
+  const [loginPageInfo, setLoginPageInfo] = useState({
+    imagePath: "",
+    title: "",
+    description: "",
+  });
   const formik = useFormik({
     initialValues: {
       userName: "2669929826",
       password: "123",
     },
     onSubmit: async (values, { resetForm }) => {
-      toast.error("This is an error message");
-      toast.success("This is a success message");
-      toast.warn("This is a warning message");
-      toast.info("This is an info message");
-      console.log(values);
-
       //  signInLoading.value = true;
       //  errors = {};
       try {
@@ -30,66 +28,54 @@ export default function Login() {
           password: values.password,
         });
         if (response.data.result == 0) {
-          console.log(response.data);
-          navigate("/");
           //success
+          //save user state
+
           //  localStorageService.setUser(response.data.data.user);
           //  localStorageService.setToken(response.data.data.token);
           //  localStorageService.setExpiresAt(response.data.data.expires_at);
-          //  router.push({ name: "dashboard" });
+          navigate("/");
         } else if (response.data.result == 5) {
           // user not found
-          //  toast.warning(response.data.message, {
-          //    timeout: 3000,
-          //  });
+          toast.warn(response.data.message);
         } else if (response.data.result == 4) {
           // exeption error
-          //  toast.error(response.data.message, {
-          //    timeout: 3000,
-          //  });
+          toast.error(response.data.message);
         } else {
           // other unhandled errors
-          //  toast.error("خطای ناشناخته رخ داده است", {
-          //    timeout: 3000,
-          //  });
+          toast.error("خطای ناشناخته رخ داده است");
         }
-      } catch (err) {
+      } catch (err: any) {
         console.log(err);
 
-        //  if (err.code == "ERR_BAD_REQUEST") {
-        //    if (
-        //      err.response.status == 404 &&
-        //      err.message == "Request failed with status code 404"
-        //    ) {
-        //      toast.error(err.response.data.message, {
-        //        timeout: 4000,
-        //      });
-        //    }
-        //  }
-        //server is down
-        //  if (err.code == "ERR_NETWORK") {
-        //    toast.error("سرور در دسترس نیست", {
-        //      timeout: 4000,
-        //    });
-        //    return;
-        //  }
+        if (err.code == "ERR_BAD_REQUEST") {
+          if (
+            err.response.status == 404 &&
+            err.message == "Request failed with status code 404"
+          ) {
+            toast.error(err.response.data.message);
+          }
+        }
+        //  server is down
+        if (err.code == "ERR_NETWORK") {
+          toast.error("سرور در دسترس نیست");
+          return;
+        }
 
         //validation errors occurred
-        //  if (
-        //    err.response.data.status == 400 &&
-        //    err.response.data.title == "One or more validation errors occurred."
-        //  ) {
-        //    var myerrors = err.response.data.errors;
-        //    for (const key in myerrors) {
-        //      if (myerrors.hasOwnProperty(key)) {
-        //        myerrors[key].forEach((error) => {
-        //          toast.error(error, {
-        //            timeout: 4000,
-        //          });
-        //        });
-        //      }
-        //    }
-        //  }
+        if (
+          err.response.data.status == 400 &&
+          err.response.data.title == "One or more validation errors occurred."
+        ) {
+          var myerrors = err.response.data.errors;
+          for (const key in myerrors) {
+            if (myerrors.hasOwnProperty(key)) {
+              myerrors[key].forEach((error: any) => {
+                toast.error(error);
+              });
+            }
+          }
+        }
       } finally {
         //  signInLoading.value = false;
       }
@@ -100,15 +86,13 @@ export default function Login() {
       password: Yup.string().required("وارد کردن کلمه عبور الزامیست"),
     }),
   });
-  /*
-  useEffect(() => {
-    console.log("Component did mount");
 
+  useEffect(() => {
     const getInfoForLoginPage = async () => {
       try {
         const response = await AuthService.getInfoForLoginPage();
         if (response.data.result == 0) {
-          // loginPageInfo = response.data.data;
+          setLoginPageInfo(response.data.data);
           // localStorageService.setHomePageSetting(response.data.data);
         } else if (response.data.result == 5) {
           // toast.warning(response.data.message, {
@@ -133,7 +117,7 @@ export default function Login() {
           toast.error("پاسخی از سرور دریافت نشد", {
             timeout: 10000,
           });
-        } 
+        } */
       } finally {
         // loading.value = false;
       }
@@ -141,7 +125,7 @@ export default function Login() {
 
     getInfoForLoginPage();
   }, []);
-*/
+
   return (
     <div className="row no-gutter">
       <div className="col-md-6 col-lg-6 col-xl-7 d-none d-md-flex bg-primary-transparent">
@@ -165,20 +149,22 @@ export default function Login() {
                   <div className="card-sigin">
                     <div className="card-sigin d-flex mb-5">
                       <img
-                        src="assets/img/brand/favicon.png"
+                        src={
+                          "https://freelancework.ir/" + loginPageInfo.imagePath
+                        }
                         className="sign-favicon-a ht-40"
+                        style={{ height: "80px" }}
                         alt="logo"
                       />
-                      <h1 className="main-logo1 ms-1 me-0 my-auto tx-28 ps-1">
-                        سامانه مدیریت دانش
-                      </h1>
+                      <h4 className="main-logo1 ms-1 me-0 my-auto ps-1">
+                        {loginPageInfo.title}
+                      </h4>
                     </div>
                     <div className="card-sigin">
                       <div className="main-signup-header">
-                        <h2 style={{ paddingBottom: "30px" }}>
-                          {" "}
+                        <h4 style={{ paddingBottom: "30px", color: "#0162e8" }}>
                           ورود به سامانه
-                        </h2>
+                        </h4>
 
                         <form action="" onSubmit={formik.handleSubmit}>
                           <div className="form-group">
@@ -237,13 +223,7 @@ export default function Login() {
                     padding: "15px",
                   }}
                 >
-                  توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
-                  توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
-                  توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
-                  توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
-                  توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
-                  توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
-                  توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
+                  {loginPageInfo.description}
                 </div>
               </div>
             </div>
