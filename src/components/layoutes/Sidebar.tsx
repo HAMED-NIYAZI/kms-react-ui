@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useEffect } from "react";
-export default function Sidebar() {
+import { connect } from "react-redux";
+function Sidebar({ user }: { user: any }) {
   useEffect(() => {
     // // Toggle Sidebar
     // $(document).on("click", '[data-bs-toggle="sidebar"]', function (event) {
@@ -216,13 +217,13 @@ export default function Sidebar() {
                 <img
                   alt="user-img"
                   className="avatar avatar-xl brround"
-                  src="assets/img/faces/6.jpg"
+                  src={`https://freelancework.ir/${user.imagePath}`}
                 />
                 <span className="avatar-status profile-status bg-green"></span>
               </div>
               <div className="user-info">
-                <h4 className="fw-semibold mt-3 mb-0">پتی کروزر</h4>
-                <span className="mb-0 text-muted">مدیریت</span>
+                <h4 className="fw-semibold mt-3 mb-0">{`${user.firstName} ${user.lastName}`}</h4>
+                {/* <span className="mb-0 text-muted">مدیریت</span> */}
               </div>
             </div>
           </div>
@@ -242,10 +243,7 @@ export default function Sidebar() {
                   />
                   <path d="M3 13h8V3H3v10zm2-8h4v6H5V5zm8 16h8V11h-8v10zm2-8h4v6h-4v-6zM13 3v6h8V3h-8zm6 4h-4V5h4v2zM3 21h8v-6H3v6zm2-4h4v2H5v-2z" />
                 </svg>
-                <span className="side-menu__label">صفحه اصلی</span>
-                <span className="badge bg-success text-light" id="bg-side-text">
-                  1
-                </span>
+                <span className="side-menu__label">پیشخوان</span>
               </NavLink>
             </li>
             <li className="slide" onClick={(e) => menu(e)}>
@@ -1042,3 +1040,10 @@ export default function Sidebar() {
     </>
   );
 }
+
+const mapStateToProps = (state: any) => {
+  return {
+    user: state.userState.user,
+  };
+};
+export default connect(mapStateToProps, null)(Sidebar);

@@ -2,12 +2,14 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import AuthService from "../../services/AuthService";
 import { useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../index.css";
+import { setUser } from "../../store/actions/user-actions";
+import { connect } from "react-redux";
 
-export default function Login() {
+function Login({ setUser }: { setUser: any }) {
   const navigate = useNavigate();
   const [loginPageInfo, setLoginPageInfo] = useState({
     imagePath: "",
@@ -31,7 +33,7 @@ export default function Login() {
           //success
           //save user state
 
-          //  localStorageService.setUser(response.data.data.user);
+          setUser(response.data.data.user);
           //  localStorageService.setToken(response.data.data.token);
           //  localStorageService.setExpiresAt(response.data.data.expires_at);
           navigate("/");
@@ -245,3 +247,9 @@ export default function Login() {
     </div>
   );
 }
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setUser: (user: any) => dispatch(setUser(user)),
+  };
+};
+export default connect(null, mapDispatchToProps)(Login);

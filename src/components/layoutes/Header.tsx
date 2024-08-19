@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { connect } from "react-redux";
 
-export default function Header() {
+function Header({ user }: { user: any }) {
   const [isShowProfileItem, setIsShowProfileItem] = useState(false);
   return (
     <div className="main-header sticky side-header nav nav-item">
@@ -110,18 +111,25 @@ export default function Header() {
                   setIsShowProfileItem((o) => !o);
                 }}
               >
-                <img alt="" src="assets/img/faces/6.jpg" />
+                <img
+                  alt=""
+                  src={`https://freelancework.ir/${user.imagePath}`}
+                />
               </a>
               {isShowProfileItem && (
                 <div className="dropdown-menu d-block">
                   <div className="main-header-profile bg-primary p-3">
                     <div className="d-flex wd-100p">
                       <div className="main-img-user">
-                        <img alt="" src="assets/img/faces/6.jpg" className="" />
+                        <img
+                          alt=""
+                          src={`https://freelancework.ir/${user.imagePath}`}
+                          className=""
+                        />
                       </div>
                       <div className="ms-3 my-auto">
-                        <h6>پتی کروزر</h6>
-                        <span>مدیریت</span>
+                        <h6>{`${user.firstName} ${user.lastName}`}</h6>
+                        {/* <span>مدیریت</span> */}
                       </div>
                     </div>
                   </div>
@@ -152,3 +160,10 @@ export default function Header() {
     </div>
   );
 }
+const mapStateToProps = (state: any) => {
+  return {
+    user: state.userState.user,
+  };
+};
+
+export default connect(mapStateToProps)(Header);
