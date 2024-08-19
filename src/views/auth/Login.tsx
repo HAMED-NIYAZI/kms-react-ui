@@ -3,6 +3,9 @@ import * as Yup from "yup";
 import AuthService from "../../services/AuthService";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "../../index.css";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -13,7 +16,12 @@ export default function Login() {
       password: "123",
     },
     onSubmit: async (values, { resetForm }) => {
+      toast.error("This is an error message");
+      toast.success("This is a success message");
+      toast.warn("This is a warning message");
+      toast.info("This is an info message");
       console.log(values);
+
       //  signInLoading.value = true;
       //  errors = {};
       try {
@@ -88,8 +96,8 @@ export default function Login() {
       resetForm();
     },
     validationSchema: Yup.object({
-      userName: Yup.string().required("وارد کردن ایمیل الزامیست"),
-      password: Yup.string().required("وارد کردن پسورد الزامیست"),
+      userName: Yup.string().required("وارد کردن نام کاربری الزامیست"),
+      password: Yup.string().required("وارد کردن کلمه عبور الزامیست"),
     }),
   });
   /*
@@ -179,7 +187,7 @@ export default function Login() {
                               className="form-control"
                               placeholder="نام کاربری خود را وارد کنید"
                               type="text"
-                              {...formik.getFieldProps("email")}
+                              {...formik.getFieldProps("userName")}
                             />
                             <span className="text-danger">
                               {formik.touched.userName && formik.errors.userName
@@ -242,6 +250,18 @@ export default function Login() {
           </div>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </div>
   );
 }
