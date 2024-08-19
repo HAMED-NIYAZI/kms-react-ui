@@ -1,8 +1,11 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import AuthService from "../../services/AuthService";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       email: "2669929826",
@@ -19,6 +22,7 @@ export default function Login() {
         });
         if (response.data.result == 0) {
           console.log(response.data);
+          navigate("/");
           //success
           //  localStorageService.setUser(response.data.data.user);
           //  localStorageService.setToken(response.data.data.token);
@@ -91,9 +95,6 @@ export default function Login() {
       ),
     }),
   });
-  const myImgStyle = {
-    borderRadius: "10px",
-  };
 
   return (
     <div className="row no-gutter">
@@ -102,7 +103,7 @@ export default function Login() {
           <div className="col-md-12 col-lg-12 col-xl-12 my-auto mr-center wd-100p">
             <img
               src="assets/img/media/4.jpg"
-              style={myImgStyle}
+              style={{ borderRadius: "10px" }}
               className="my-auto ht-xl-80p wd-md-100p wd-xl-80p mr-center"
               alt="logo"
             />
@@ -170,6 +171,24 @@ export default function Login() {
                       </div>
                     </div>
                   </div>
+                </div>
+                <div
+                  className="card-sigin"
+                  v-if="loginPageInfo.description"
+                  style={{
+                    marginTop: "60px",
+                    border: "solid 2px #e1e5ef",
+                    borderRadius: "5px",
+                    padding: "15px",
+                  }}
+                >
+                  توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
+                  توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
+                  توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
+                  توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
+                  توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
+                  توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
+                  توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات
                 </div>
               </div>
             </div>
