@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import Master from "../../components/layoutes/Master";
+import Master from "../../components/Layoutes/Master";
 import * as Yup from "yup";
 import GradeService from "../../services/GradeService";
 import { useEffect, useState } from "react";
@@ -82,9 +82,7 @@ const GradeEdit = () => {
     }),
   });
 
-  const getGrade = (id: string) => {
-
-  };
+  const getGrade = (id: string) => {};
 
   useEffect(() => {
     getGrade(params.id);

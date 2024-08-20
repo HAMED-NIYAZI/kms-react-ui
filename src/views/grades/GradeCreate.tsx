@@ -1,11 +1,11 @@
 import { useFormik } from "formik";
-import Master from "../../components/layoutes/Master";
+import Master from "../../components/Layoutes/Master";
 import * as Yup from "yup";
 import GradeService from "../../services/GradeService";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
- const GradeCreate = () => {
+const GradeCreate = () => {
   let [isLoading, setIsLoading] = useState(false);
 
   let [errors, setErrors] = useState({});
@@ -157,6 +157,6 @@ import { useNavigate } from "react-router-dom";
       </div>
     </Master>
   );
-}
+};
 
 export default GradeCreate;
