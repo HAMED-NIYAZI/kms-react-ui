@@ -4,6 +4,9 @@ import Dashboard from "./views/Dashboard";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { connect } from "react-redux";
 import NotFound from "./components/NotFound";
+import GradeList from "./views/grades/GradeList";
+import GradeCreate from "./views/grades/GradeCreate";
+import GradeEdit from "./views/grades/GradeEdit";
 
 function App({ checkLogin }: { checkLogin: boolean }) {
   return (
@@ -14,6 +17,11 @@ function App({ checkLogin }: { checkLogin: boolean }) {
           {checkLogin && (
             <>
               <Route path="/dashboard" element={<Dashboard />} />
+              //grades
+              <Route path="/grades" element={<GradeList />} />
+              <Route path="/grades/create" element={<GradeCreate />} />
+              <Route path="/grades/edit/:id" element={<GradeEdit />} />
+              //organizatios
             </>
           )}
           //Roots in which the user should not be logged in
