@@ -138,6 +138,16 @@ function Login({
     getInfoForLoginPage();
   }, []);
 
+  const getLogo = () => {
+    // Check if loginPageInfo and imagePath exist
+    if (!loginPageInfo || !loginPageInfo.imagePath) {
+      return "";
+    }
+
+    // Return the constructed URL
+    return "https://freelancework.ir/" + loginPageInfo.imagePath;
+  };
+
   return (
     <div className="row no-gutter">
       <div className="col-md-6 col-lg-6 col-xl-7 d-none d-md-flex bg-primary-transparent">
@@ -161,9 +171,7 @@ function Login({
                   <div className="card-sigin">
                     <div className="card-sigin d-flex mb-5">
                       <img
-                        src={
-                          "https://freelancework.ir/" + loginPageInfo.imagePath
-                        }
+                        src={getLogo()}
                         className="sign-favicon-a ht-40"
                         style={{ height: "80px", borderRadius: "10px" }}
                         alt="logo"

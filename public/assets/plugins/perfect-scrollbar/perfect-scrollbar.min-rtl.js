@@ -399,7 +399,7 @@
 	, H=function(r, l) {
 		var n=this;
 		if(void 0===l&&(l= {}
-		), "string"==typeof r&&(r=document.querySelector(r)), !r||!r.nodeName)throw new Error("no element is specified to initialize PerfectScrollbar");
+		), "string"==typeof r&&(r=document.querySelector(r)), !r||!r.nodeName) return/*throw new Error("no element is specified to initialize PerfectScrollbar")*/;
 		this.element=r, r.classList.add(m.main), this.settings= {
 			handlers: ["click-rail", "drag-thumb", "keyboard", "wheel", "touch"], maxScrollbarLength:null, minScrollbarLength:null, scrollingThreshold:1e3, scrollXMarginOffset:0, scrollYMarginOffset:0, suppressScrollX:!1, suppressScrollY:!1, swipeEasing:!0, useBothWheelAxes:!1, wheelPropagation:!0, wheelSpeed:1
 		}
