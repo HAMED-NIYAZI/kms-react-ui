@@ -1,6 +1,4 @@
 import axios from "axios";
-// import { LocalStorageService } from '@/services/LocalStorageService'
-// const localStorageService = LocalStorageService()
 const api = axios.create({
     baseURL: 'https://freelancework.ir/',
     headers: {
@@ -9,9 +7,9 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(function (config) {
-    // let token = localStorageService.getToken;
+    let token = localStorage.getItem('api_token');
 
-    // config.headers.Authorization = 'Bearer ' + token;
+    config.headers.Authorization = 'Bearer ' + token;
 
     return config;
 }, (err) => {
