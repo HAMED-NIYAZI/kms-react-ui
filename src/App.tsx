@@ -15,17 +15,14 @@ function App({ checkLogin }: { checkLogin: boolean }) {
             <>
               <Route path="/" element={<Dashboard />} />
               <Route path="/dashboard" element={<Dashboard />} />
-            </>
-          )}
-          //Roots in which the user should not be logged in
-          {checkLogin === false && (
-            <>
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/" element={<Login />} />
             </>
           )}
           //not found
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
