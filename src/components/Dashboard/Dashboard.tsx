@@ -1,4 +1,4 @@
-import Master from "../components/layoutes/Master";
+import Master from "../Layoutes/Master";
 
 export default function Dashboard() {
   return (

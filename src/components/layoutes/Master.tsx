@@ -1,6 +1,6 @@
-import Footer from "../../components/layoutes/Footer";
-import Header from "../../components/layoutes/Header";
-import Sidebar from "../../components/layoutes/Sidebar";
+import Footer from "./Footer";
+import Header from "./Header";
+import Sidebar from "./Sidebar";
 export default function Master(props: { children: React.ReactNode }) {
   return (
     <>

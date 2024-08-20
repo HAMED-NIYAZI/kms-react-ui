@@ -1,9 +1,9 @@
-import Login from "./views/auth/Login";
-import Register from "./views/auth/Register";
-import Dashboard from "./views/Dashboard";
+import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
+import Dashboard from "./components/Dashboard/Dashboard";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { connect } from "react-redux";
-import NotFound from "./components/NotFound";
+import NotFound from "./components/NotFound/NotFound";
 
 function App({ checkLogin }: { checkLogin: boolean }) {
   return (
@@ -13,6 +13,7 @@ function App({ checkLogin }: { checkLogin: boolean }) {
           // Roots in which the user must be logged in
           {checkLogin && (
             <>
+              <Route path="/" element={<Dashboard />} />
               <Route path="/dashboard" element={<Dashboard />} />
             </>
           )}
@@ -21,6 +22,7 @@ function App({ checkLogin }: { checkLogin: boolean }) {
             <>
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/" element={<Login />} />
             </>
           )}
           //not found
