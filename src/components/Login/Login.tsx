@@ -6,12 +6,14 @@ import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../index.css";
+
 import {
   setExpiresAt,
   setUser,
   setToken,
 } from "../../store/actions/user-actions";
 import { connect } from "react-redux";
+import Spinner_Page from "../Spinner/Spinner_Page";
 
 function Login({
   setAuthUser,
@@ -22,6 +24,8 @@ function Login({
   setAuthToken: (exeiresAt: number) => void;
   setAuthExpiresAt: (token: string) => void;
 }) {
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
   const [loginPageInfo, setLoginPageInfo] = useState({
     imagePath: "",
@@ -100,11 +104,15 @@ function Login({
   });
 
   useEffect(() => {
+    setIsLoading(true);
+
     const getInfoForLoginPage = async () => {
       try {
         const response = await AuthService.getInfoForLoginPage();
         if (response.data.result == 0) {
           setLoginPageInfo(response.data.data);
+          setIsLoading(false);
+
           // localStorageService.setHomePageSetting(response.data.data);
         } else if (response.data.result == 5) {
           // toast.warning(response.data.message, {
@@ -165,88 +173,96 @@ function Login({
       <div className="col-md-6 col-lg-6 col-xl-5 bg-white">
         <div className="login d-flex align-items-center py-2">
           <div className="container p-0">
-            <div className="row">
-              <div className="col-md-10 col-lg-10 col-xl-9 mr-center">
-                <div className="card-sigin">
+            {isLoading ? (
+              <Spinner_Page /> // Or use a more sophisticated loading component
+            ) : (
+              <div className="row">
+                <div className="col-md-10 col-lg-10 col-xl-9 mr-center">
                   <div className="card-sigin">
-                    <div className="card-sigin d-flex mb-5">
-                      <img
-                        src={getLogo()}
-                        className="sign-favicon-a ht-40"
-                        style={{ height: "80px", borderRadius: "10px" }}
-                        alt="logo"
-                      />
-                      <h4 className="main-logo1 ms-1 me-0 my-auto ps-1">
-                        {loginPageInfo.title}
-                      </h4>
-                    </div>
                     <div className="card-sigin">
-                      <div className="main-signup-header">
-                        <h4 style={{ paddingBottom: "30px", color: "#0162e8" }}>
-                          ورود به سامانه
+                      <div className="card-sigin d-flex mb-5">
+                        <img
+                          src={getLogo()}
+                          className="sign-favicon-a ht-40"
+                          style={{ height: "80px", borderRadius: "10px" }}
+                          alt="logo"
+                        />
+                        <h4 className="main-logo1 ms-1 me-0 my-auto ps-1">
+                          {loginPageInfo.title}
                         </h4>
-
-                        <form action="" onSubmit={formik.handleSubmit}>
-                          <div className="form-group">
-                            <label>نام کاربری </label>{" "}
-                            <input
-                              className="form-control"
-                              placeholder="نام کاربری خود را وارد کنید"
-                              type="text"
-                              {...formik.getFieldProps("userName")}
-                            />
-                            <span className="text-danger">
-                              {formik.touched.userName && formik.errors.userName
-                                ? formik.errors.userName
-                                : ""}
-                            </span>
-                          </div>
-                          <div className="form-group">
-                            <label>کلمه عبور</label>{" "}
-                            <input
-                              className="form-control"
-                              {...formik.getFieldProps("password")}
-                              placeholder="کلمه عبور خود را وارد کنید"
-                              type="password"
-                            />
-                            <span className="text-danger">
-                              {formik.touched.password && formik.errors.password
-                                ? formik.errors.password
-                                : ""}
-                            </span>
-                          </div>
-                          <button
-                            className="btn btn-main-primary btn-block"
-                            type="submit"
+                      </div>
+                      <div className="card-sigin">
+                        <div className="main-signup-header">
+                          <h4
+                            style={{ paddingBottom: "30px", color: "#0162e8" }}
                           >
-                            ورود
-                          </button>
+                            ورود به سامانه
+                          </h4>
 
-                          <button
-                            className="btn btn-success btn-block"
-                            onClick={() => navigate("/register")}
-                          >
-                            درخواست عضویت
-                          </button>
-                        </form>
+                          <form action="" onSubmit={formik.handleSubmit}>
+                            <div className="form-group">
+                              <label>نام کاربری </label>{" "}
+                              <input
+                                className="form-control"
+                                placeholder="نام کاربری خود را وارد کنید"
+                                type="text"
+                                {...formik.getFieldProps("userName")}
+                              />
+                              <span className="text-danger">
+                                {formik.touched.userName &&
+                                formik.errors.userName
+                                  ? formik.errors.userName
+                                  : ""}
+                              </span>
+                            </div>
+                            <div className="form-group">
+                              <label>کلمه عبور</label>{" "}
+                              <input
+                                className="form-control"
+                                {...formik.getFieldProps("password")}
+                                placeholder="کلمه عبور خود را وارد کنید"
+                                type="password"
+                              />
+                              <span className="text-danger">
+                                {formik.touched.password &&
+                                formik.errors.password
+                                  ? formik.errors.password
+                                  : ""}
+                              </span>
+                            </div>
+                            <button
+                              className="btn btn-main-primary btn-block"
+                              type="submit"
+                            >
+                              ورود
+                            </button>
+
+                            <button
+                              className="btn btn-success btn-block"
+                              onClick={() => navigate("/register")}
+                            >
+                              درخواست عضویت
+                            </button>
+                          </form>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  className="card-sigin"
-                  v-if="loginPageInfo.description"
-                  style={{
-                    marginTop: "60px",
-                    border: "solid 2px #e1e5ef",
-                    borderRadius: "5px",
-                    padding: "15px",
-                  }}
-                >
-                  {loginPageInfo.description}
+                  <div
+                    className="card-sigin"
+                    v-if="loginPageInfo.description"
+                    style={{
+                      marginTop: "60px",
+                      border: "solid 2px #e1e5ef",
+                      borderRadius: "5px",
+                      padding: "15px",
+                    }}
+                  >
+                    {loginPageInfo.description}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
