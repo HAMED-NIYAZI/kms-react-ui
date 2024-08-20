@@ -1,15 +1,12 @@
 import { useFormik } from "formik";
-import Master from "../../components/Layoutes/Master";
 import * as Yup from "yup";
 import GradeService from "../../services/GradeService";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Master from "../Layoutes/Master";
 
 const GradeCreate = () => {
   let [isLoading, setIsLoading] = useState(false);
-
-  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -25,7 +22,6 @@ const GradeCreate = () => {
         });
         if (response.data.result == 0) {
           toast.success(response.data.message);
-          // navigate("/grades");
         } else if (response.data.result == 5) {
           // user not found
           // toast.warn(response.data.message);

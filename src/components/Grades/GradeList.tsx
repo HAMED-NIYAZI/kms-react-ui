@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import GradeService from "../../services/GradeService";
-import Master from "../../components/Layoutes/Master";
 import { NavLink } from "react-router-dom";
+import Master from "../Layoutes/Master";
 
 export default function GradeList() {
   const [grades, setGrades] = useState([]);

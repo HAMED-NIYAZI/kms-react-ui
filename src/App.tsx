@@ -5,9 +5,12 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { connect } from "react-redux";
 import NotFound from "./components/NotFound/NotFound";
-import GradeList from "./views/grades/GradeList";
-import GradeCreate from "./views/grades/GradeCreate";
-import GradeEdit from "./views/grades/GradeEdit";
+import GradeList from "./components/Grades/GradeList";
+import GradeCreate from "./components/Grades/GradeCreate";
+import GradeEdit from "./components/Grades/GradeEdit";
+import OrganizationList from "./components/Organization/OrganizationList";
+import OrganizationCreate from "./components/Organization/OrganizationCreate";
+import OrganizationEdit from "./components/Organization/OrganizationEdit";
 
 function App({ checkLogin }: { checkLogin: boolean }) {
   return (
@@ -28,6 +31,15 @@ function App({ checkLogin }: { checkLogin: boolean }) {
               <Route path="/grades/create" element={<GradeCreate />} />
               <Route path="/grades/edit/:id" element={<GradeEdit />} />
               //organizatios
+              <Route path="/organizations" element={<OrganizationList />} />
+              <Route
+                path="/organizations/create"
+                element={<OrganizationCreate />}
+              />
+              <Route
+                path="/organizations/edit/:id"
+                element={<OrganizationEdit />}
+              />
             </>
           )}
           //not found

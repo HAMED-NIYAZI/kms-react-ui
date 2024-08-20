@@ -1,9 +1,9 @@
 import { useFormik } from "formik";
-import Master from "../../components/Layoutes/Master";
 import * as Yup from "yup";
 import GradeService from "../../services/GradeService";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Master from "../Layoutes/Master";
 
 const GradeEdit = () => {
   let [isLoading, setIsLoading] = useState(false);
@@ -79,9 +79,7 @@ const GradeEdit = () => {
     }),
   });
 
-<<<<<<< HEAD
-  const getGrade = (id: string) => {};
-=======
+
   const getGrade = async (id: string) => {
     try {
       const response = await GradeService.getById(id);
@@ -102,7 +100,6 @@ const GradeEdit = () => {
       setIsLoading(false);
     }
   };
->>>>>>> 7e5c7ba (Complete grid implementation)
 
   useEffect(() => {
     if (params.id) {
