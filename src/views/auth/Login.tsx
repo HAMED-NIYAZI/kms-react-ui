@@ -6,10 +6,22 @@ import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../index.css";
-import { setUser } from "../../store/actions/user-actions";
+import {
+  setExpiresAt,
+  setUser,
+  setToken,
+} from "../../store/actions/user-actions";
 import { connect } from "react-redux";
 
-function Login({ setUser }: { setUser: any }) {
+function Login({
+  setAuthUser,
+  setAuthToken,
+  setAuthExpiresAt,
+}: {
+  setAuthUser: (user: any) => void;
+  setAuthToken: (exeiresAt: number) => void;
+  setAuthExpiresAt: (token: string) => void;
+}) {
   const navigate = useNavigate();
   const [loginPageInfo, setLoginPageInfo] = useState({
     imagePath: "",
@@ -30,13 +42,11 @@ function Login({ setUser }: { setUser: any }) {
           password: values.password,
         });
         if (response.data.result == 0) {
-          //success
-          //save user state
+          setAuthUser(response.data.data.user);
+          setAuthToken(response.data.data.token);
+          setAuthExpiresAt(response.data.data.expires_at);
 
-          setUser(response.data.data.user);
-          //  localStorageService.setToken(response.data.data.token);
-          //  localStorageService.setExpiresAt(response.data.data.expires_at);
-          navigate("/");
+          navigate("/dashboard");
         } else if (response.data.result == 5) {
           // user not found
           toast.warn(response.data.message);
@@ -249,7 +259,9 @@ function Login({ setUser }: { setUser: any }) {
 }
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    setUser: (user: any) => dispatch(setUser(user)),
+    setAuthUser: (user: any) => dispatch(setUser(user)),
+    setAuthToken: (token: string) => dispatch(setToken(token)),
+    setAuthExpiresAt: (expers_at: number) => dispatch(setExpiresAt(expers_at)),
   };
 };
 export default connect(null, mapDispatchToProps)(Login);

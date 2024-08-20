@@ -1,8 +1,15 @@
 import { useState } from "react";
 import { connect } from "react-redux";
+import { logoutAction } from "../../store/actions/user-actions";
+import { useNavigate } from "react-router-dom";
 
-function Header({ user }: { user: any }) {
+function Header({ logout, user }: { logout: () => void; user: any }) {
+  const navigate = useNavigate();
   const [isShowProfileItem, setIsShowProfileItem] = useState(false);
+  const logoutFromDashboard = () => {
+    logout();
+    navigate("/login");
+  };
   return (
     <div className="main-header sticky side-header nav nav-item">
       <div className="container-fluid">
@@ -148,7 +155,11 @@ function Header({ user }: { user: any }) {
                   <a className="dropdown-item" href="#">
                     <i className="bx bx-slider-alt"></i> تنظیمات حساب
                   </a> */}
-                  <a className="dropdown-item" href="/Login">
+                  <a
+                    onClick={() => logoutFromDashboard()}
+                    className="dropdown-item"
+                    href="#"
+                  >
                     <i className="bx bx-log-out"></i> خروج از سیستم
                   </a>
                 </div>
@@ -160,10 +171,16 @@ function Header({ user }: { user: any }) {
     </div>
   );
 }
+
 const mapStateToProps = (state: any) => {
   return {
     user: state.userState.user,
   };
 };
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    logout: () => dispatch(logoutAction()),
+  };
+};
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

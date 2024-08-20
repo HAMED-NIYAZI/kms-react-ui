@@ -4,3 +4,5 @@ export const SetToken = 'SET_TOKEN';
 export const GetToken = 'GET_TOKEN';
 export const SetExpiresAt = 'SET_EXPIRES_AT';
 export const GetExpiresAt = 'GET_EXPIRES_AT';
+export const CheckLoginType = 'CHECK_LOGIN';
+export const Logout = 'LOGOUT';

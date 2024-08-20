@@ -1,4 +1,4 @@
-import { GetUser, SetUser, SetToken, GetToken, SetExpiresAt, GetExpiresAt } from "./user-action-type";
+import { GetUser, SetUser, SetToken, GetToken, SetExpiresAt, GetExpiresAt, CheckLoginType, Logout } from "./user-action-type";
 
 export const getUser = () =>  ({
     type:GetUser,
@@ -21,7 +21,13 @@ export const getExpiresAt = () =>  ({
     type:GetExpiresAt,
 })
 
-export const setExpiresAt = (payload:string) =>  ({
+export const setExpiresAt = (payload:number) =>  ({
     type:SetExpiresAt,
     payload
+})
+export const checkLoginAction = () =>  ({
+    type:CheckLoginType
+})
+export const logoutAction = () =>  ({
+    type:Logout
 })
