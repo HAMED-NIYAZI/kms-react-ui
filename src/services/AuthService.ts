@@ -1,6 +1,5 @@
 import api from "../api/api";
 
-
 class AuthService {
     async login(formData:{userName:string, password:string}) {
         return await api.post(`api/Account/Login`, {

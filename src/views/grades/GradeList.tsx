@@ -5,17 +5,19 @@ import { NavLink } from "react-router-dom";
 
 export default function GradeList() {
   const [grades, setGrades] = useState([]);
+
   async function index() {
     const response = await GradeService.index();
     setGrades(response.data.data);
   }
+
   useEffect(() => {
     index();
   }, []);
 
   async function deleteGrade(
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-    id: number
+    id: string
   ) {
     e.preventDefault();
 
@@ -94,7 +96,7 @@ export default function GradeList() {
                                 <i className="fa fa-trash text-danger mr-10"></i>
                               </a>
                               <NavLink
-                                to={"grades/" + grade.id}
+                                to={"/grades/edit/" + grade.id}
                                 className="ms-2"
                               >
                                 <i className="fa fa-pen text-warning"></i>

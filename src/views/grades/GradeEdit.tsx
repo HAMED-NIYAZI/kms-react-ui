@@ -8,10 +8,6 @@ import { useNavigate, useParams } from "react-router-dom";
 const GradeEdit = () => {
   let [isLoading, setIsLoading] = useState(false);
 
-  let [grade, setGrade] = useState("");
-
-  let [errors, setErrors] = useState({});
-
   const navigate = useNavigate();
 
   const params = useParams();
@@ -19,14 +15,16 @@ const GradeEdit = () => {
   const formik = useFormik({
     initialValues: {
       gradeName: "",
-      sortingNumber: 1,
+      sortingNumber: "",
+      id: '',
     },
     onSubmit: async (values, { resetForm }) => {
       try {
         setIsLoading(true);
-        const response = await GradeService.create({
+        const response = await GradeService.update({
+          id: values.id,
           gradeName: values.gradeName,
-          sortingNumber: values.sortingNumber,
+          sortingNumber: Number(values.sortingNumber),
         });
         if (response.data.result == 0) {
           navigate("/grades");
@@ -62,7 +60,6 @@ const GradeEdit = () => {
           err.response.data.status == 400 &&
           err.response.data.title == "One or more validation errors occurred."
         ) {
-          setErrors(err.response.data.errors);
           // for (const key in myerrors) {
           //   if (myerrors.hasOwnProperty(key)) {
           //     myerrors[key].forEach((error: any) => {
@@ -82,87 +79,103 @@ const GradeEdit = () => {
     }),
   });
 
+<<<<<<< HEAD
   const getGrade = (id: string) => {};
+=======
+  const getGrade = async (id: string) => {
+    try {
+      const response = await GradeService.getById(id);
+
+      if (response.data.result == 0) {
+        formik.setValues({ ...response.data.data });
+      } else if (response.data.result == 5) {
+        // toast.warning(response.data.message, {
+        //   timeout: 2000,
+        // });
+      } else {
+        // toast.warning(response.data.message, {
+        //   timeout: 2000,
+        // });
+      }
+    } catch (err) {
+    } finally {
+      setIsLoading(false);
+    }
+  };
+>>>>>>> 7e5c7ba (Complete grid implementation)
 
   useEffect(() => {
-    getGrade(params.id);
+    if (params.id) {
+      getGrade(params.id);
+    }
   }, []);
 
   return (
     <Master>
       <div className="row mt-4">
         <div className="col-xl-12">
-          <form onSubmit={formik.handleSubmit}>
-            <div className="card">
-              <div className="card-header pb-0">
-                <div className="d-flex justify-content-between">
-                  <h4 className="card-title mg-b-0">ایجاد پایه تحصیلی</h4>
-                </div>
-              </div>
-              <div className="card-body">
-                <div className="row">
-                  <div className="col-6">
-                    <div className="form-group">
-                      <label>عنوان پایه تحصیلی</label>
-                      <input
-                        className="form-control"
-                        {...formik.getFieldProps("gradeName")}
-                        placeholder="عنوان پایه تحصیلی را وارد کنید"
-                        type="text"
-                      />
-                      <span className="text-danger">
-                        {formik.touched.gradeName && formik.errors.gradeName
-                          ? formik.errors.gradeName
-                          : ""}
-                      </span>
-                      <br />
-                      <span className="text-danger">
-                        {errors.hasOwnProperty("gradeName") &&
-                          errors.gradeName[0]}
-                      </span>
-                    </div>
+          {isLoading === false && (
+            <form onSubmit={formik.handleSubmit}>
+              <div className="card">
+                <div className="card-header pb-0">
+                  <div className="d-flex justify-content-between">
+                    <h4 className="card-title mg-b-0">ایجاد پایه تحصیلی</h4>
                   </div>
-                  <div className="col-6">
-                    <div className="form-group">
-                      <label>اولویت نمایش</label>
-                      <select
-                        className="form-control"
-                        {...formik.getFieldProps("sortingNumber")}
-                      >
-                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) =>
-                          i == 1 ? (
-                            <option selected value={i}>
-                              {i}
-                            </option>
-                          ) : (
+                </div>
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>عنوان پایه تحصیلی</label>
+                        <input
+                          className="form-control"
+                          {...formik.getFieldProps("gradeName")}
+                          placeholder="عنوان پایه تحصیلی را وارد کنید"
+                          type="text"
+                        />
+                        <span className="text-danger">
+                          {formik.touched.gradeName && formik.errors.gradeName
+                            ? formik.errors.gradeName
+                            : ""}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>اولویت نمایش</label>
+                        <select
+                          className="form-control"
+                          {...formik.getFieldProps("sortingNumber")}
+                        >
+                          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
                             <option value={i}>{i}</option>
-                          )
-                        )}
-                      </select>
-                      <span className="text-danger">
-                        {formik.touched.sortingNumber &&
-                        formik.errors.sortingNumber
-                          ? formik.errors.sortingNumber
-                          : ""}
-                      </span>
+                          ))}
+                        </select>
+                        <span className="text-danger">
+                          {formik.touched.sortingNumber &&
+                          formik.errors.sortingNumber
+                            ? formik.errors.sortingNumber
+                            : ""}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <div className="card-footer text-center">
+                  {isLoading && (
+                    <div className="text-center">
+                      <span className="spinner-border spinner-border-sm"></span>
+                    </div>
+                  )}
+                  {!isLoading && (
+                    <button type="submit" className="btn btn-warning btn-sm">
+                      <i className=" fa fa-pencil-alt"></i>
+                    </button>
+                  )}
+                </div>
               </div>
-              <div className="card-footer text-center">
-                {isLoading && (
-                  <div className="text-center">
-                    <span className="spinner-border spinner-border-sm"></span>
-                  </div>
-                )}
-                {!isLoading && (
-                  <button type="submit" className="btn btn-primary btn-sm">
-                    ثبت
-                  </button>
-                )}
-              </div>
-            </div>
-          </form>
+            </form>
+          )}
         </div>
       </div>
     </Master>

@@ -4,11 +4,10 @@ import * as Yup from "yup";
 import GradeService from "../../services/GradeService";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const GradeCreate = () => {
   let [isLoading, setIsLoading] = useState(false);
-
-  let [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
 
@@ -25,7 +24,8 @@ const GradeCreate = () => {
           sortingNumber: values.sortingNumber,
         });
         if (response.data.result == 0) {
-          navigate("/grades");
+          toast.success(response.data.message);
+          // navigate("/grades");
         } else if (response.data.result == 5) {
           // user not found
           // toast.warn(response.data.message);
@@ -58,7 +58,6 @@ const GradeCreate = () => {
           err.response.data.status == 400 &&
           err.response.data.title == "One or more validation errors occurred."
         ) {
-          setErrors(err.response.data.errors);
           // for (const key in myerrors) {
           //   if (myerrors.hasOwnProperty(key)) {
           //     myerrors[key].forEach((error: any) => {
@@ -105,11 +104,6 @@ const GradeCreate = () => {
                           ? formik.errors.gradeName
                           : ""}
                       </span>
-                      <br />
-                      <span className="text-danger">
-                        {errors.hasOwnProperty("gradeName") &&
-                          errors.gradeName[0]}
-                      </span>
                     </div>
                   </div>
                   <div className="col-6">
@@ -146,8 +140,12 @@ const GradeCreate = () => {
                   </div>
                 )}
                 {!isLoading && (
-                  <button type="submit" className="btn btn-primary btn-sm">
-                    ثبت
+                  <button
+                    type="submit"
+                    className="btn btn-primary btn-sm"
+                    title="ثبت"
+                  >
+                    <i className="fa fa-save"></i>
                   </button>
                 )}
               </div>

@@ -2,6 +2,7 @@ import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import Dashboard from "./components/Dashboard/Dashboard";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import { connect } from "react-redux";
 import NotFound from "./components/NotFound/NotFound";
 import GradeList from "./views/grades/GradeList";
@@ -36,6 +37,19 @@ function App({ checkLogin }: { checkLogin: boolean }) {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
+      ;
     </>
   );
 }
