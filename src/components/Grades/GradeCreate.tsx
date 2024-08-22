@@ -74,8 +74,7 @@ const GradeCreate = () => {
   });
 
   return (
-    <Master>
-      <div className="row mt-4">
+       <div className="row mt-4">
         <div className="col-xl-12">
           <form onSubmit={formik.handleSubmit}>
             <div className="card">
@@ -149,8 +148,7 @@ const GradeCreate = () => {
           </form>
         </div>
       </div>
-    </Master>
-  );
+   );
 };
 
 export default GradeCreate;

@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 
 export default function OrganizationList() {
   return (
-    <Master>
+    <>
       <br />
       <br />
       <br />
@@ -38,6 +38,6 @@ export default function OrganizationList() {
           <OrganizationTree tree_name="OrganizationViewList" />
         </div>
       </div>
-    </Master>
+    </>
   );
 }

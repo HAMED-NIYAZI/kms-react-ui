@@ -4,6 +4,7 @@ import GradeService from "../../services/GradeService";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Master from "../Layoutes/Master";
+import BreadCrumb from "../BreadCrumb/BreadCrumb";
 
 const GradeEdit = () => {
   let [isLoading, setIsLoading] = useState(false);
@@ -107,74 +108,83 @@ const GradeEdit = () => {
   }, []);
 
   return (
-    <div className="row mt-4">
-      <div className="col-xl-12">
-        {isLoading === false && (
-          <form onSubmit={formik.handleSubmit}>
-            <div className="card">
-              <div className="card-header pb-0">
-                <div className="d-flex justify-content-between">
-                  <h4 className="card-title mg-b-0">ایجاد پایه تحصیلی</h4>
-                </div>
-              </div>
-              <div className="card-body">
-                <div className="row">
-                  <div className="col-6">
-                    <div className="form-group">
-                      <label>عنوان پایه تحصیلی</label>
-                      <input
-                        className="form-control"
-                        {...formik.getFieldProps("gradeName")}
-                        placeholder="عنوان پایه تحصیلی را وارد کنید"
-                        type="text"
-                      />
-                      <span className="text-danger">
-                        {formik.touched.gradeName && formik.errors.gradeName
-                          ? formik.errors.gradeName
-                          : ""}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="col-6">
-                    <div className="form-group">
-                      <label>اولویت نمایش</label>
-                      <select
-                        className="form-control"
-                        {...formik.getFieldProps("sortingNumber")}
-                      >
-                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
-                          <option value={i}>{i}</option>
-                        ))}
-                      </select>
-                      <span className="text-danger">
-                        {formik.touched.sortingNumber &&
-                        formik.errors.sortingNumber
-                          ? formik.errors.sortingNumber
-                          : ""}
-                      </span>
-                    </div>
+    <>
+      <BreadCrumb
+        BreadList={[
+          { Title: "اطلاعات پایه", Address: "" },
+          { Title: "پایه تحصیلی", Address: "/grades" },
+          { Title: "ویرایش پایه تحصیلی", Address: "/grades/edit/" + params.id },
+        ]}
+      />
+      <div className="row mt-4">
+        <div className="col-xl-12">
+          {isLoading === false && (
+            <form onSubmit={formik.handleSubmit}>
+              <div className="card">
+                <div className="card-header pb-0">
+                  <div className="d-flex justify-content-between">
+                    <h4 className="card-title mg-b-0">ایجاد پایه تحصیلی</h4>
                   </div>
                 </div>
-              </div>
-              <div
-                className="card-footer text-center d-flex align-items-center justify-content-center"
-                style={{ minHeight: "50px" }}
-              >
-                {isLoading ? (
-                  <div className="text-center">
-                    <span className="spinner-border spinner-border-sm"></span>
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>عنوان پایه تحصیلی</label>
+                        <input
+                          className="form-control"
+                          {...formik.getFieldProps("gradeName")}
+                          placeholder="عنوان پایه تحصیلی را وارد کنید"
+                          type="text"
+                        />
+                        <span className="text-danger">
+                          {formik.touched.gradeName && formik.errors.gradeName
+                            ? formik.errors.gradeName
+                            : ""}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <div className="form-group">
+                        <label>اولویت نمایش</label>
+                        <select
+                          className="form-control"
+                          {...formik.getFieldProps("sortingNumber")}
+                        >
+                          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
+                            <option value={i}>{i}</option>
+                          ))}
+                        </select>
+                        <span className="text-danger">
+                          {formik.touched.sortingNumber &&
+                          formik.errors.sortingNumber
+                            ? formik.errors.sortingNumber
+                            : ""}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                ) : (
-                  <button type="submit" className="btn btn-primary ">
-                    ذخیره
-                  </button>
-                )}
+                </div>
+                <div
+                  className="card-footer text-center d-flex align-items-center justify-content-center"
+                  style={{ minHeight: "50px" }}
+                >
+                  {isLoading ? (
+                    <div className="text-center">
+                      <span className="spinner-border spinner-border-sm"></span>
+                    </div>
+                  ) : (
+                    <button type="submit" className="btn btn-primary ">
+                      ذخیره
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
-          </form>
-        )}
+            </form>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

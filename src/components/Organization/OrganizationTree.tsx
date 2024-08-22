@@ -2,11 +2,7 @@ import { useEffect, useState } from "react";
 import OrganizationService from "../../services/OrganizationService";
 import Spinner_Grid from "../Spinner/Spinner_Grid";
 import TreeSingleSelect from "../Tree/TreeSingleSelect";
-export default function OrganizationTree({
-  tree_name,
-}: {
-  tree_name: string;
-}) {
+export default function OrganizationTree({ tree_name }: { tree_name: string }) {
   const [loading, setLoading] = useState(false);
   const [trees, setTrees] = useState([]);
 
