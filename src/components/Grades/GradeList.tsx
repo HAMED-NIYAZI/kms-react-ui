@@ -2,9 +2,15 @@ import { useEffect, useState } from "react";
 import GradeService from "../../services/GradeService";
 import { NavLink } from "react-router-dom";
 import BreadCrumb from "../BreadCrumb/BreadCrumb";
-
+import { toast } from "react-toastify";
+import { AxiosError } from "axios";
+interface gradesModel {
+  id: string;
+  gradeName: string;
+  sortingNumber: number;
+}
 export default function GradeList() {
-  const [grades, setGrades] = useState([]);
+  const [grades, setGrades] = useState<gradesModel[]>([]);
 
   async function index() {
     const response = await GradeService.index();
@@ -24,19 +30,21 @@ export default function GradeList() {
     if (!confirm("آیا مایل به حذف کردن هستید؟")) {
       return;
     }
+    let originalgrades = { ...grades };
 
-    const response = await GradeService.delete(id);
-    if (response.data.result == 0) {
-      // toast.success(response.data.message);
-      index();
-    } else if (response.data.result == 5) {
-      // toast.warning(response.data.message, {
-      //   timeout: 2000,
-      // });
-    } else {
-      // toast.warning(response.data.message, {
-      //   timeout: 2000,
-      // });
+    try {
+      setGrades(grades.filter((g) => g.id != id));
+      const response = await GradeService.delete(id);
+      if (response.data.result == 0) {
+        toast.success(response.data.message);
+        index();
+      } else {
+        setGrades({ ...originalgrades });
+        toast.warn(response.data.message);
+      }
+    } catch (err) {
+      setGrades({ ...originalgrades });
+      toast.error((err as AxiosError).message);
     }
   }
   return (
@@ -119,7 +127,7 @@ export default function GradeList() {
                     </tbody>
                   </table>
                 ) : (
-                  <div className="alert alert-info" v-else>
+                  <div className="alert alert-info">
                     هیچ گونه دیتایی برای نمایش پیدا نشد
                   </div>
                 )}
