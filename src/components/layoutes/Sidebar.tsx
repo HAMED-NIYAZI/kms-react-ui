@@ -112,11 +112,11 @@ function Sidebar({ user }: { user: any }) {
                   <path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z" />
                 </svg>
                 <span className="side-menu__label">اطلاعات پایه</span>
-                <i className="angle fe fe-chevron-down"></i>
+                <i className="angle fe fe-chevron-down color-black"></i>
               </a>
               <ul className="slide-menu">
                 <li>
-                  <NavLink className="side-menu__item" to={"/grades"}>
+                  <NavLink className="slide-item" to={"/grades"}>
                     پایه تحصیلی
                   </NavLink>
                 </li>

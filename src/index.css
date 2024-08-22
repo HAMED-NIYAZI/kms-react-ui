@@ -34,6 +34,11 @@
    }
   
   .breadcrump-link:hover {
-    color: blue;
+    color: #0162e8 ;
   }
-  
+  .slide.is-expanded a{
+    color:#000 !important
+  }
+  .slide.is-expanded a:hover{
+    color: #0162e8  !important
+  }
