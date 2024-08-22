@@ -122,6 +122,11 @@ function Sidebar({ user }: { user: any }) {
                     پایه تحصیلی
                   </NavLink>
                 </li>
+                <li>
+                  <a className="slide-item" href="/organizations">
+                    سازمان
+                  </a>
+                </li>
               </ul>
             </li>
 

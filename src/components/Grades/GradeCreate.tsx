@@ -145,10 +145,10 @@ const GradeCreate = () => {
                 {!isLoading && (
                   <button
                     type="submit"
-                    className="btn btn-primary btn-sm"
-                    title="ثبت"
+                    className="btn btn-primary"
+                    title="ذخیره"
                   >
-                    <i className="fa fa-save"></i>
+                   ذخیره
                   </button>
                 )}
               </div>
