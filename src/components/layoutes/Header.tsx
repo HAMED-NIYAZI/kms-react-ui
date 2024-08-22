@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { connect } from "react-redux";
 import { logoutAction } from "../../store/actions/user-actions";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function Header({ logout, user }: { logout: () => void; user: any }) {
   const navigate = useNavigate();
@@ -140,9 +140,9 @@ function Header({ logout, user }: { logout: () => void; user: any }) {
                       </div>
                     </div>
                   </div>
-                  <a className="dropdown-item" href="#">
+                  <NavLink to={'/profile'} className="dropdown-item">
                     <i className="bx bx-user-circle"></i>مشخصات
-                  </a>
+                  </NavLink>
                   {/* <a className="dropdown-item" href="#">
                     <i className="bx bx-cog"></i> ویرایش نمایه
                   </a>

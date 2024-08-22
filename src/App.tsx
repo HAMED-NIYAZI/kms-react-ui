@@ -12,6 +12,7 @@ import OrganizationList from "./components/Organization/OrganizationList";
 import OrganizationCreate from "./components/Organization/OrganizationCreate";
 import OrganizationEdit from "./components/Organization/OrganizationEdit";
 import Master from "./components/Layoutes/Master";
+import Profile from "./components/Profile/Profile";
 
 function App({ checkLogin }: { checkLogin: boolean }) {
   return (
@@ -38,6 +39,8 @@ function App({ checkLogin }: { checkLogin: boolean }) {
                   path="/organizations/edit/:id"
                   element={<OrganizationEdit />}
                 />
+                //profile
+                <Route path="profile" element={<Profile />} />
               </Route>
             </>
           )}
