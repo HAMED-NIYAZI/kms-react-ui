@@ -13,7 +13,7 @@ class Grade {
   async update(data: GradeType) {
     return await api.put(`api/Grade/update`, data);
   }
-  async delete(id: Omit<GradeType, "id">) {
+  async delete(id: GradeType["id"]) {
     return await api.delete(`api/Grade/DeleteById/${id}`);
   }
 }

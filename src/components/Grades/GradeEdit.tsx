@@ -3,7 +3,6 @@ import * as Yup from "yup";
 import GradeService from "../../services/GradeService";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Master from "../Layoutes/Master";
 import BreadCrumb from "../BreadCrumb/BreadCrumb";
 
 const GradeEdit = () => {

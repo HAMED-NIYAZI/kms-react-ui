@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import GradeService from "../../services/GradeService";
 import { NavLink } from "react-router-dom";
-import Master from "../Layoutes/Master";
 import BreadCrumb from "../BreadCrumb/BreadCrumb";
 
 export default function GradeList() {
