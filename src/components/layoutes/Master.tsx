@@ -7,7 +7,9 @@ export default function Master(props: { children: React.ReactNode }) {
       <Sidebar />
       <div className="main-content app-content">
         <Header />
-        <div className="container-fluid">{props.children}</div>
+        <div className="container-fluid" style={{ marginTop: "90px" }}>
+          {props.children}
+        </div>
       </div>
       <Footer />
     </>

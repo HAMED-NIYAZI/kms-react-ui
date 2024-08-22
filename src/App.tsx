@@ -42,10 +42,11 @@ function App({ checkLogin }: { checkLogin: boolean }) {
               />
             </>
           )}
-          //not found
+          //auth
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Login />} />
+          //not found
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
@@ -61,7 +62,6 @@ function App({ checkLogin }: { checkLogin: boolean }) {
         pauseOnHover
         theme="colored"
       />
-      ;
     </>
   );
 }

@@ -114,31 +114,22 @@ function Login({
 
           // localStorageService.setHomePageSetting(response.data.data);
         } else if (response.data.result == 5) {
-          // toast.warning(response.data.message, {
-          //   timeout: 2000,
-          // });
+          toast.warn(response.data.message);
         } else {
-          // toast.warning(response.data.message, {
-          //   timeout: 2000,
-          // });
+          toast.warn(response.data.message);
         }
-      } catch (err) {
-        console.error(err);
-        /*if (err.message == "timeout of 60000ms exceeded") {
-          toast.error("سرور در دسترس نیست", {
-            timeout: 10000,
-          });
+      } catch (err: any) {
+        setIsLoading(false);
+
+        if (err.message == "timeout of 60000ms exceeded") {
+          toast.error("سرور در دسترس نیست");
         } else if (err.message == "Network Error") {
-          toast.error("سرور در دسترس نیست", {
-            timeout: 10000,
-          });
+          toast.error("سرور در دسترس نیست");
         } else {
-          toast.error("پاسخی از سرور دریافت نشد", {
-            timeout: 10000,
-          });
-        } */
+          toast.error("پاسخی از سرور دریافت نشد");
+        }
       } finally {
-        // loading.value = false;
+        setIsLoading(false);
       }
     };
 
