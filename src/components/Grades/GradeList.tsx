@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import GradeService from "../../services/GradeService";
 import { NavLink } from "react-router-dom";
 import Master from "../Layoutes/Master";
+import BreadCrumb from "../BreadCrumb/BreadCrumb";
 
 export default function GradeList() {
   const [grades, setGrades] = useState([]);
@@ -41,6 +42,12 @@ export default function GradeList() {
   }
   return (
     <Master>
+      <BreadCrumb
+        BreadList={[
+          { Title: "اطلاعات پایه", Address: "" },
+          { Title: "پایه تحصیلی", Address: "/grades" },
+        ]}
+      />
       <div className="row mt-4">
         <div className="col-xl-12">
           <div className="card">
