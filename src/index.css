@@ -25,3 +25,7 @@
 .is-expanded {
     transition: all  1s;
 }
+
+.width-170{
+    width: 170px;
+}

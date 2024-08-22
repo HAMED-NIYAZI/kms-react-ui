@@ -54,21 +54,26 @@ export default function GradeList() {
             <div className="card-header pb-0">
               <div className="d-flex justify-content-between">
                 <h4 className="card-title mg-b-0">لیست پایه تحصیلی</h4>
-                <button
-                  onClick={index}
-                  type="button"
-                  className="btn btn-success btn-icon"
-                >
-                  <i className="mdi mdi-refresh"></i>
-                </button>
-                <NavLink
-                  to={"/grades/create"}
-                  className="btn btn-success btn-sm"
-                >
-                  <i className="fa fa-plus"></i>
-                </NavLink>
+                <div className="d-flex flex-row-reverse">
+                  <button
+                    onClick={index}
+                    type="button"
+                    className="btn btn-success btn-icon m-2"
+                    title="بروزرسانی"
+                  >
+                    <i className="mdi mdi-refresh" title="بروزرسانی"></i>
+                  </button>
+                  <NavLink
+                    to={"/grades/create"}
+                    className="btn btn-success btn-icon m-2"
+                    title="ایجاد پایه تحصیلی "
+                  >
+                    <i className="fa fa-plus" title="ایجاد پایه تحصیلی "></i>
+                  </NavLink>
+                </div>
               </div>
             </div>
+
             <div className="card-body">
               <div className="table-responsive">
                 {grades.length ? (
