@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import GradeService from "../../services/GradeService";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import Master from "../Layoutes/Master";
+import BreadCrumb from "../BreadCrumb/BreadCrumb";
 
 const GradeCreate = () => {
   let [isLoading, setIsLoading] = useState(false);
@@ -74,7 +74,15 @@ const GradeCreate = () => {
   });
 
   return (
-       <div className="row mt-4">
+    <>
+      <BreadCrumb
+        BreadList={[
+          { Title: "اطلاعات پایه", Address: "" },
+          { Title: "پایه تحصیلی", Address: "/grades" },
+          { Title: "ایجاد پایه تحصیلی", Address: "/grades/create" },
+        ]}
+      />
+      <div className="row mt-4">
         <div className="col-xl-12">
           <form onSubmit={formik.handleSubmit}>
             <div className="card">
@@ -148,7 +156,8 @@ const GradeCreate = () => {
           </form>
         </div>
       </div>
-   );
+    </>
+  );
 };
 
 export default GradeCreate;

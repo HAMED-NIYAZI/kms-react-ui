@@ -29,3 +29,11 @@
 .width-170{
     width: 170px;
 }
+.breadcrump-link {
+    color: black;
+   }
+  
+  .breadcrump-link:hover {
+    color: blue;
+  }
+  

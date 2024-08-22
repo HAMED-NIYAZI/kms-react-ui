@@ -16,11 +16,19 @@ export default function BreadCrumb({ BreadList }: Props) {
           <h4 className="content-title mb-0 my-auto">{BreadList[0].Title}</h4>
           {BreadList.slice(1).map((b, index) => (
             <NavLink
-              className="text-muted mt-1 tx-13 ms-2 mb-0"
+              className="mt-1 tx-13 ms-1 breadcrump-link"
               key={index}
               to={b.Address}
             >
-              / {b.Title}
+              <span
+                style={{
+                  color: "black",
+                  marginLeft: "2px",
+                }}
+              >
+                /
+              </span>
+              {b.Title}
             </NavLink>
           ))}
         </div>
