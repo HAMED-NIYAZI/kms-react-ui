@@ -4,13 +4,13 @@ import { NavLink } from "react-router-dom";
 import BreadCrumb from "../BreadCrumb/BreadCrumb";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
-interface gradesModel {
+interface GradesModel {
   id: string;
   gradeName: string;
   sortingNumber: number;
 }
 export default function GradeList() {
-  const [grades, setGrades] = useState<gradesModel[]>([]);
+  const [grades, setGrades] = useState<GradesModel[]>([]);
 
   async function index() {
     const response = await GradeService.index();
@@ -86,7 +86,6 @@ export default function GradeList() {
                 {grades.length ? (
                   <table
                     className="table table-striped mg-b-0 text-md-nowrap table-hover"
-                    v-if="grades.length"
                   >
                     <thead>
                       <tr>
@@ -99,7 +98,7 @@ export default function GradeList() {
                     <tbody>
                       {grades.map((grade: any, index: number) => {
                         return (
-                          <tr>
+                          <tr key={grade}>
                             <th scope="row">{1 + index}</th>
                             <td>{grade?.gradeName}</td>
                             <td>
@@ -112,11 +111,11 @@ export default function GradeList() {
                                 href="#"
                                 onClick={(e) => deleteGrade(e, grade.id)}
                               >
-                                <i className="fa fa-trash text-danger mr-10"></i>
+                                <i className="fa fa-trash text-danger mx-3"></i>
                               </a>
                               <NavLink
                                 to={"/grades/edit/" + grade.id}
-                                className="ms-2"
+                                className="mx-2"
                               >
                                 <i className="fa fa-pen text-warning"></i>
                               </NavLink>

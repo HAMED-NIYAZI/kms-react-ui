@@ -4,9 +4,11 @@ import GradeService from "../../services/GradeService";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import BreadCrumb from "../BreadCrumb/BreadCrumb";
+import { useNavigate } from "react-router-dom";
 
 const GradeCreate = () => {
   let [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -22,15 +24,9 @@ const GradeCreate = () => {
         });
         if (response.data.result == 0) {
           toast.success(response.data.message);
-        } else if (response.data.result == 5) {
-          // user not found
-          // toast.warn(response.data.message);
-        } else if (response.data.result == 4) {
-          // exeption error
-          // toast.error(response.data.message);
+          navigate("/grades");
         } else {
-          // other unhandled errors
-          // toast.error("خطای ناشناخته رخ داده است");
+          toast.error(response.data.message);
         }
       } catch (err: any) {
         console.log(err);
@@ -40,12 +36,12 @@ const GradeCreate = () => {
             err.response.status == 404 &&
             err.message == "Request failed with status code 404"
           ) {
-            // toast.error(err.response.data.message);
+            toast.error(err.response.data.message);
           }
         }
         //  server is down
         if (err.code == "ERR_NETWORK") {
-          // toast.error("سرور در دسترس نیست");
+          toast.error("سرور در دسترس نیست");
           return;
         }
 
@@ -54,13 +50,13 @@ const GradeCreate = () => {
           err.response.data.status == 400 &&
           err.response.data.title == "One or more validation errors occurred."
         ) {
-          // for (const key in myerrors) {
-          //   if (myerrors.hasOwnProperty(key)) {
-          //     myerrors[key].forEach((error: any) => {
-          //       // toast.error(error);
-          //     });
-          //   }
-          // }
+          for (const key in err) {
+            if (err.hasOwnProperty(key)) {
+              err[key].forEach((error: any) => {
+                toast.error(error);
+              });
+            }
+          }
         }
       } finally {
         setIsLoading(false);
@@ -95,8 +91,9 @@ const GradeCreate = () => {
                 <div className="row">
                   <div className="col-6">
                     <div className="form-group">
-                      <label>عنوان پایه تحصیلی</label>
+                      <label htmlFor="gradeName">عنوان پایه تحصیلی</label>
                       <input
+                        id="gradeName"
                         className="form-control"
                         {...formik.getFieldProps("gradeName")}
                         placeholder="عنوان پایه تحصیلی را وارد کنید"
@@ -111,18 +108,19 @@ const GradeCreate = () => {
                   </div>
                   <div className="col-6">
                     <div className="form-group">
-                      <label>اولویت نمایش</label>
+                      <label htmlFor="sortingNumber">اولویت نمایش</label>
                       <select
+                      id="sortingNumber"
                         className="form-control"
                         {...formik.getFieldProps("sortingNumber")}
                       >
                         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) =>
                           i == 1 ? (
-                            <option selected value={i}>
+                            <option key={i} selected value={i}>
                               {i}
                             </option>
                           ) : (
-                            <option value={i}>{i}</option>
+                            <option  key={i} value={i}>{i}</option>
                           )
                         )}
                       </select>
@@ -148,7 +146,7 @@ const GradeCreate = () => {
                     className="btn btn-primary"
                     title="ذخیره"
                   >
-                   ذخیره
+                    ذخیره
                   </button>
                 )}
               </div>
