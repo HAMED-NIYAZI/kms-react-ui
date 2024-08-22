@@ -11,6 +11,7 @@ import GradeEdit from "./components/Grades/GradeEdit";
 import OrganizationList from "./components/Organization/OrganizationList";
 import OrganizationCreate from "./components/Organization/OrganizationCreate";
 import OrganizationEdit from "./components/Organization/OrganizationEdit";
+import Master from "./components/Layoutes/Master";
 
 function App({ checkLogin }: { checkLogin: boolean }) {
   return (
@@ -21,25 +22,23 @@ function App({ checkLogin }: { checkLogin: boolean }) {
           {checkLogin && (
             <>
               //dashboard
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              //auth
-              <Route path="/register" element={<Register />} />
-              <Route path="/login" element={<Login />} />
-              //grades
-              <Route path="/grades" element={<GradeList />} />
-              <Route path="/grades/create" element={<GradeCreate />} />
-              <Route path="/grades/edit/:id" element={<GradeEdit />} />
-              //organizatios
-              <Route path="/organizations" element={<OrganizationList />} />
-              <Route
-                path="/organizations/create"
-                element={<OrganizationCreate />}
-              />
-              <Route
-                path="/organizations/edit/:id"
-                element={<OrganizationEdit />}
-              />
+              <Route path="/" element={<Master />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+                //grades
+                <Route path="/grades" element={<GradeList />} />
+                <Route path="/grades/create" element={<GradeCreate />} />
+                <Route path="/grades/edit/:id" element={<GradeEdit />} />
+                //organizatios
+                <Route path="/organizations" element={<OrganizationList />} />
+                <Route
+                  path="/organizations/create"
+                  element={<OrganizationCreate />}
+                />
+                <Route
+                  path="/organizations/edit/:id"
+                  element={<OrganizationEdit />}
+                />
+              </Route>
             </>
           )}
           //auth

@@ -41,7 +41,7 @@ export default function GradeList() {
     }
   }
   return (
-    <Master>
+    <>
       <BreadCrumb
         BreadList={[
           { Title: "اطلاعات پایه", Address: "" },
@@ -129,6 +129,6 @@ export default function GradeList() {
           </div>
         </div>
       </div>
-    </Master>
+    </>
   );
 }
