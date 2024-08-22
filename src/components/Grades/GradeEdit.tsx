@@ -2,8 +2,9 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import GradeService from "../../services/GradeService";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import BreadCrumb from "../BreadCrumb/BreadCrumb";
+import { toast } from "react-toastify";
 
 const GradeEdit = () => {
   let [isLoading, setIsLoading] = useState(false);
@@ -27,16 +28,12 @@ const GradeEdit = () => {
           sortingNumber: Number(values.sortingNumber),
         });
         if (response.data.result == 0) {
+          toast.success (response.data.message);
+
           navigate("/grades");
-        } else if (response.data.result == 5) {
-          // user not found
-          // toast.warn(response.data.message);
-        } else if (response.data.result == 4) {
-          // exeption error
-          // toast.error(response.data.message);
-        } else {
-          // other unhandled errors
-          // toast.error("خطای ناشناخته رخ داده است");
+
+        }  else {
+            toast.error (response.data.message);
         }
       } catch (err: any) {
         console.log(err);
@@ -46,12 +43,12 @@ const GradeEdit = () => {
             err.response.status == 404 &&
             err.message == "Request failed with status code 404"
           ) {
-            // toast.error(err.response.data.message);
+           toast.error(err.response.data.message);
           }
         }
         //  server is down
         if (err.code == "ERR_NETWORK") {
-          // toast.error("سرور در دسترس نیست");
+           toast.error("سرور در دسترس نیست");
           return;
         }
 
@@ -60,13 +57,13 @@ const GradeEdit = () => {
           err.response.data.status == 400 &&
           err.response.data.title == "One or more validation errors occurred."
         ) {
-          // for (const key in myerrors) {
-          //   if (myerrors.hasOwnProperty(key)) {
-          //     myerrors[key].forEach((error: any) => {
-          //       // toast.error(error);
-          //     });
-          //   }
-          // }
+          for (const key in err) {
+            if (err.hasOwnProperty(key)) {
+              err[key].forEach((error: any) => {
+               toast.error(error);
+              });
+            }
+          }
         }
       } finally {
         setIsLoading(false);
@@ -85,14 +82,8 @@ const GradeEdit = () => {
 
       if (response.data.result == 0) {
         formik.setValues({ ...response.data.data });
-      } else if (response.data.result == 5) {
-        // toast.warning(response.data.message, {
-        //   timeout: 2000,
-        // });
       } else {
-        // toast.warning(response.data.message, {
-        //   timeout: 2000,
-        // });
+        toast.warning(response.data.message);
       }
     } catch (err) {
     } finally {
@@ -123,14 +114,23 @@ const GradeEdit = () => {
                 <div className="card-header pb-0">
                   <div className="d-flex justify-content-between">
                     <h4 className="card-title mg-b-0">ایجاد پایه تحصیلی</h4>
+                    <div className="d-flex flex-row-reverse">
+                      <NavLink
+                        to="/grades"
+                        className=" btn btn-primary btn-icon m-2"
+                      >
+                        <i className="fa fa-arrow-left"></i>
+                      </NavLink>
+                    </div>
                   </div>
                 </div>
                 <div className="card-body">
                   <div className="row">
                     <div className="col-6">
                       <div className="form-group">
-                        <label>عنوان پایه تحصیلی</label>
+                        <label htmlFor="gradeName">عنوان پایه تحصیلی</label>
                         <input
+                          id="gradeName"
                           className="form-control"
                           {...formik.getFieldProps("gradeName")}
                           placeholder="عنوان پایه تحصیلی را وارد کنید"
@@ -145,13 +145,16 @@ const GradeEdit = () => {
                     </div>
                     <div className="col-6">
                       <div className="form-group">
-                        <label>اولویت نمایش</label>
+                        <label htmlFor="sortingNumber">اولویت نمایش</label>
                         <select
+                          id="sortingNumber"
                           className="form-control"
                           {...formik.getFieldProps("sortingNumber")}
                         >
                           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
-                            <option value={i}>{i}</option>
+                            <option key={i} value={i}>
+                              {i}
+                            </option>
                           ))}
                         </select>
                         <span className="text-danger">

@@ -4,7 +4,7 @@ import GradeService from "../../services/GradeService";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import BreadCrumb from "../BreadCrumb/BreadCrumb";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const GradeCreate = () => {
   let [isLoading, setIsLoading] = useState(false);
@@ -85,6 +85,12 @@ const GradeCreate = () => {
               <div className="card-header pb-0">
                 <div className="d-flex justify-content-between">
                   <h4 className="card-title mg-b-0">ایجاد پایه تحصیلی</h4>
+                  <div className="d-flex flex-row-reverse">
+
+                  <NavLink to="/grades" className=" btn btn-primary btn-icon m-2">
+                            <i className="fa fa-arrow-left"></i>
+                        </NavLink>
+                </div>
                 </div>
               </div>
               <div className="card-body">
