@@ -5,9 +5,7 @@ export default function OrganizationList() {
     <>
       <br />
       <br />
-      <br />
-      <br />
-      <br />
+  
  
       <div className="row">
         <div className="col-lg-12">

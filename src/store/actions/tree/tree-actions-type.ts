@@ -1,0 +1,1 @@
+ export const SetSingleSelectedTreeItemAction = 'SET_SINGLE_SELECTED_TREE_ITEM_ACTION'
