@@ -29,40 +29,38 @@ export default function TreeSingleSelectItem({
   return trees.map((item: any) => (
     <li key={item.id} style={{ listStyle: "none", marginBottom: 10 }}>
       {item.children.length > 0 && (
-        <div className="d-flex align-items-center">
+        <div className=" custom-checkbox custom-control">
           <input
-            className={"checkbox_" + tree_name}
-            value={item.id}
+             value={item.id}
             type="checkbox"
             id={"input-checkbox-" + tree_name + "_" + item.id}
           />
           <i
             id={"icon-" + tree_name + "_" + item.id}
-            className="si si-plus me-1"
+            className="si si-plus me-1"    onClick={() => open(item)}
           ></i>
           <label
             style={{ cursor: "pointer", marginBottom: 0 }}
-            onClick={() => open(item)}
+         
             htmlFor={"input-checkbox-" + tree_name + "_" + item.id}
-            className="ms-2"
+            
           >
             {item.persianTitle}
           </label>
         </div>
       )}
       {item.children.length === 0 && (
-        <div className="d-flex align-items-center">
+        <div className=" custom-checkbox custom-control">
           <input
             id={"input-checkbox-" + tree_name + "_" + item.id}
             type="checkbox"
             value={item.id}
-            className={"checkbox_" + tree_name}
           />
           <label
             onClick={() => single(item)}
             style={{ cursor: "pointer", marginBottom: 0 }}
             htmlFor={"input-checkbox-" + tree_name + "_" + item.id}
-            className="ms-2"
+            className="ms-1"
           >
             {item.persianTitle}
           </label>
