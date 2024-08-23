@@ -38,9 +38,11 @@ export default function TreeSingleSelectItem({
           <i
             id={"icon-" + tree_name + "_" + item.id}
             className="si si-plus me-1"    onClick={() => open(item)}
+            style={{ cursor: "pointer"}}
+
           ></i>
           <label
-            style={{ cursor: "pointer", marginBottom: 0 }}
+            style={{ marginBottom: 0 }}
          
             htmlFor={"input-checkbox-" + tree_name + "_" + item.id}
             
@@ -58,9 +60,10 @@ export default function TreeSingleSelectItem({
           />
           <label
             onClick={() => single(item)}
-            style={{ cursor: "pointer", marginBottom: 0 }}
             htmlFor={"input-checkbox-" + tree_name + "_" + item.id}
             className="ms-1"
+            style={{ marginBottom: 0 }}
+
           >
             {item.persianTitle}
           </label>
