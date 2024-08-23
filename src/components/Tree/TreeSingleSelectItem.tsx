@@ -44,7 +44,7 @@ export default function TreeSingleSelectItem({
           <label
             style={{ marginBottom: 0 }}
          
-            htmlFor={"input-checkbox-" + tree_name + "_" + item.id}
+
             
           >
             {item.persianTitle}
@@ -60,7 +60,7 @@ export default function TreeSingleSelectItem({
           />
           <label
             onClick={() => single(item)}
-            htmlFor={"input-checkbox-" + tree_name + "_" + item.id}
+
             className="ms-1"
             style={{ marginBottom: 0 }}
 
