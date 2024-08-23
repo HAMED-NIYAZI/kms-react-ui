@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import OrganizationService from "../../services/OrganizationService";
-import Spinner_Grid from "../Spinner/Spinner_Grid";
+import SpinnerGrid from "../Spinner/Spinner_Grid";
 import TreeSingleSelect from "../Tree/TreeSingleSelect";
 export default function OrganizationTree({ tree_name }: { tree_name: string }) {
   const [loading, setLoading] = useState(false);
@@ -119,7 +119,7 @@ export default function OrganizationTree({ tree_name }: { tree_name: string }) {
         <div className="card-body">
           <div className="row">
             <div className="col-lg-12">
-              {loading && <Spinner_Grid />}
+              {loading && <SpinnerGrid />}
               {!loading && (
                 <div>
                   <TreeSingleSelect trees={trees} tree_name={tree_name} />

@@ -10,20 +10,7 @@ export default function OrganizationList() {
       <br />
       <br />
       <br />
-      <div className="breadcrumb-header justify-content-between">
-        <div className="my-auto">
-          <div className="d-flex">
-            <h4 className="content-title mb-0 my-auto">
-              <NavLink
-                to={"/organizations"}
-                className="content-title mb-0 my-auto"
-              >
-                سازمان ها
-              </NavLink>
-            </h4>
-          </div>
-        </div>
-      </div>
+ 
       <div className="row">
         <div className="col-lg-12">
           <div className="row pad">

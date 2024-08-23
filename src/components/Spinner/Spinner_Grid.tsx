@@ -1,6 +1,5 @@
-export default function Spinner_Grid() {
+export default function SpinnerGrid() {
   return (
-    <>
       <div style={{ marginTop: "100px !important" }}>
         <img
           src="assets/img/loader.svg"
@@ -8,6 +7,5 @@ export default function Spinner_Grid() {
           alt="Loader"
         />
       </div>
-    </>
   );
 }
