@@ -34,6 +34,8 @@ function Profile({
         if (response.data.result == 0) {
           setUser(response.data.data);
           toast.success(response.data.message);
+            // Reload the window
+  location.reload();
         } else if (response.data.result == 5) {
           toast.warning(response.data.message);
         } else {
@@ -126,7 +128,9 @@ function Profile({
                   <img
                     alt={user.firstName + " " + user.lastName}
                     src={"https://freelancework.ir/" + user.imagePath}
-                  />
+                    onClick={() => $("#avatar").click()}
+                    style={{ cursor: 'pointer' }}
+                   />
                   <a
                     href="#"
                     onClick={() => $("#avatar").click()}
@@ -139,11 +143,8 @@ function Profile({
                     onChange={(e) => loadAvatar(e)}
                     className="d-none"
                   />
-                  {/* <a className="fas fa-camera profile-edit curser-hand" title=" آپلود تصویر جدید"
-                  @click.prevent="selectAvatar($event)">
-                </a>
-                <input type="file" ref="avatar" @change="loadAvatar($event)" id="avatar" className="d-none" /> */}
-                </div>
+
+ </div>
                 <div className="d-flex justify-content-between mg-b-20">
                   <div>
                     <h5 className="main-profile-name">
@@ -339,10 +340,9 @@ function Profile({
                       {!isLoading && (
                         <button
                           type="submit"
-                          className="btn btn-main-primary btn-sm"
+                          className="btn btn-main-primary"
                         >
-                          بروزرسانی پروفایل
-                        </button>
+ذخیره                        </button>
                       )}
                     </div>
                   </form>
@@ -435,7 +435,7 @@ function Profile({
                       ) : (
                         <button
                           type="submit"
-                          className="btn btn-main-primary btn-sm"
+                          className="btn btn-main-primary"
                         >
                           بروزرسانی کلمه عبور
                         </button>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import OrganizationService from "../../services/OrganizationService";
 import SpinnerGrid from "../Spinner/Spinner_Grid";
 import TreeSingleSelect from "../Tree/TreeSingleSelect";
+import { NavLink } from "react-router-dom";
 export default function OrganizationTree({ tree_name }: { tree_name: string }) {
   const [loading, setLoading] = useState(false);
   const [trees, setTrees] = useState([]);
@@ -75,7 +76,7 @@ export default function OrganizationTree({ tree_name }: { tree_name: string }) {
         ],
       },
     ];
-    setTrees(trs);
+    setTrees(trs as []);
     return;
     setLoading(true);
 
@@ -114,6 +115,22 @@ export default function OrganizationTree({ tree_name }: { tree_name: string }) {
               سازمان ها
             </h4>
             <div className="d-flex gap-1"></div>
+            <div className="d-flex justify-content-between">            <NavLink
+              to={"organizations/create"}
+              className="btn btn-success btn-icon m-2"
+              title="ایجاد سازمان"
+            >
+              <i className="fa fa-plus"></i>
+            </NavLink>
+            <button
+                    onClick={index}
+                    type="button"
+                    className="btn btn-success btn-icon m-2"
+                    title="بروزرسانی"
+                  >
+                    <i className="mdi mdi-refresh" title="بروزرسانی"></i>
+                  </button></div>
+
           </div>
         </div>
         <div className="card-body">
