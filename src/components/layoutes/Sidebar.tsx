@@ -132,6 +132,11 @@ function Sidebar({ user }: { user: any }) {
                     سازمان
                   </a>
                 </li>
+                <li>
+                  <a className="slide-item" href="/KnowledgeFieldPage">
+                    فیلد دانش
+                  </a>
+                </li>
               </ul>
             </li>
 

@@ -13,6 +13,7 @@ import OrganizationCreate from "./components/Organization/OrganizationCreate";
 import OrganizationEdit from "./components/Organization/OrganizationEdit";
 import Master from "./components/Layoutes/Master";
 import Profile from "./components/Profile/Profile";
+import KnowledgeFieldPage from "./components/KnowledgeField/KnowledgeFieldPage";
 
 function App({ checkLogin }: { checkLogin: boolean }) {
   return (
@@ -41,6 +42,10 @@ function App({ checkLogin }: { checkLogin: boolean }) {
                 />
                 //profile
                 <Route path="profile" element={<Profile />} />
+
+                //KnowledgeFieldPage
+                <Route path="KnowledgeFieldPage" element={<KnowledgeFieldPage />} />
+
               </Route>
             </>
           )}
