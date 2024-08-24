@@ -136,7 +136,14 @@ async function handleReload() {
       <div className="row">
         <div className="col-lg-12">
           <div className="row pad"></div>
-          {loading ? <SpinnerGrid/> :<SingleSelectTreeComponent  
+          {loading ? 
+              <div className="col-xl-12">
+              <div className="card">
+          <SpinnerGrid/>
+          </div>
+          </div>
+
+           :<SingleSelectTreeComponent  
             tree_name="KnowledgeFieldForKnowledgeFieldPage"
             tree_caption="فیلدهای دانش"
             tree_data={tree_data}
