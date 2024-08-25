@@ -55,7 +55,7 @@ export default function GradeList() {
           { Title: "پایه تحصیلی", Address: "/grades" },
         ]}
       />
-      <div className="row mt-4">
+      <div className="row">
         <div className="col-xl-12">
           <div className="card">
             <div className="card-header pb-0">
@@ -98,7 +98,7 @@ export default function GradeList() {
                     <tbody>
                       {grades.map((grade: any, index: number) => {
                         return (
-                          <tr key={grade}>
+                          <tr key={grade?.gradeName}>
                             <th scope="row">{1 + index}</th>
                             <td>{grade?.gradeName}</td>
                             <td>

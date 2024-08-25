@@ -1,22 +1,18 @@
 
-import TreeSingleSelectItem from "./TreeSingleItem";
+import TreeSingleItem from "./TreeSingleItem";
 
-export default function TreeSingleSelect({
+export default function TreeSingle({
   trees,
-  tree_name,
-  handleSelectedItem
-}: {
+  tree_name
+ }: {
   trees: any;
   tree_name: string;
-  handleSelectedItem:(id:string)=>void
-}) {
+ }) {
 
-  const handleSelectedItem2=(id:string)=>{
-    handleSelectedItem(id);
-  }
+ 
   return (
     <ul id={tree_name} className="tree-ul">
-      <TreeSingleSelectItem tree_name={tree_name} trees={trees} SelectedItem={handleSelectedItem2}/>
+      <TreeSingleItem tree_name={tree_name} trees={trees}  />
     </ul>
   );
 }

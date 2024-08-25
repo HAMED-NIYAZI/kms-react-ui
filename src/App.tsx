@@ -14,23 +14,25 @@ import OrganizationEdit from "./components/Organization/OrganizationEdit";
 import Master from "./components/Layoutes/Master";
 import Profile from "./components/Profile/Profile";
 import KnowledgeFieldPage from "./components/KnowledgeField/KnowledgeFieldPage";
+import KnowledgeFieldCreate from "./components/KnowledgeField/KnowledgeFieldCreate";
+import KnowledgeFieldEdit from "./components/KnowledgeField/KnowledgeFieldEdit";
 
 function App({ checkLogin }: { checkLogin: boolean }) {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          // Roots in which the user must be logged in
+          {/*Roots in which the user must be logged in*/}
           {checkLogin && (
             <>
-              //dashboard
+              {/*dashboard*/}
               <Route path="/" element={<Master />}>
                 <Route path="/dashboard" element={<Dashboard />} />
-                //grades
+                {/*grades*/}
                 <Route path="/grades" element={<GradeList />} />
                 <Route path="/grades/create" element={<GradeCreate />} />
                 <Route path="/grades/edit/:id" element={<GradeEdit />} />
-                //organizatios
+                {/*organizations*/}
                 <Route path="/organizations" element={<OrganizationList />} />
                 <Route
                   path="/organizations/create"
@@ -40,20 +42,30 @@ function App({ checkLogin }: { checkLogin: boolean }) {
                   path="/organizations/edit/:id"
                   element={<OrganizationEdit />}
                 />
-                //profile
+                {/*profile*/}
                 <Route path="profile" element={<Profile />} />
-
-                //KnowledgeFieldPage
-                <Route path="KnowledgeFieldPage" element={<KnowledgeFieldPage />} />
+                {/*KnowledgeFieldPage*/}
+                <Route
+                  path="KnowledgeFieldPage"
+                  element={<KnowledgeFieldPage />}
+                />
+                              <Route
+                  path="KnowledgeFieldCreate"
+                  element={<KnowledgeFieldCreate />}
+                />
+                              <Route
+                  path="KnowledgeFieldEdit"
+                  element={<KnowledgeFieldEdit />}
+                />
 
               </Route>
             </>
           )}
-          //auth
+          {/*auth*/}
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Login />} />
-          //not found
+          {/*not found*/}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

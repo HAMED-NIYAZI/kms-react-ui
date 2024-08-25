@@ -3,11 +3,13 @@ import KnowledgeFieldService from "../../services/KnowledgeFieldService";
 import SingleSelectTreeComponent from "./SingleSelectTreeComponent";
 import { toast } from "react-toastify";
 import SpinnerGrid from "../Spinner/Spinner_Grid";
+import { useNavigate } from "react-router-dom";
+import BreadCrumb from "../BreadCrumb/BreadCrumb";
 
 export default function KnowledgeFieldPage() {
   const [tree_data, setTree_data] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [singleSelectValue, setSingleSelectValue] = useState<string>('');
+  const navigate = useNavigate();
 
   async function handleDelete(id: string, name: string) {//حذف ایتم انتخاب شده
     if (!confirm("آیا مایل به حذف  (" + name + ")  هستید؟")) {
@@ -28,24 +30,34 @@ export default function KnowledgeFieldPage() {
     } catch (err) {
       console.log(err);
     } finally {
+      // TODO document why this block is empty
     }
   }
-  async function handleGetSingleSelectValue(id: string) {//دریافت کد انتخاب شده
-    setSingleSelectValue(id);
-    console.log(singleSelectValue);
+  
+   function handleGetSingleSelectValue(id: string):string {//دریافت کد انتخاب شده
+     console.log(id);
+    return id;
   }
 async function handleReload() {//بروزرسانی تری
-  console.log('index added')
   index();
+}
+
+async function handleAdd() {//اضافه کردن تری
+   alert('rroute to add');
+   navigate("/KnowledgeFieldCreate");
+
+}
+async function handleEdit() {//اضافه کردن تری
+   alert('rroute to edit');
+   navigate("/KnowledgeFieldEdit");
+
 }
   const index = async () => {//دریافت اطلاعات تری =پرکردن تری
     setLoading(true);
 
     try {
-      console.log("start");
       const response = await KnowledgeFieldService.getKnowledgeFieldTree();
       if (response.data.result == 0) {
-        console.log("finished");
         setTree_data([]);
         setTree_data(response.data.data);
       } else if (response.data.result == 5) {
@@ -66,12 +78,13 @@ async function handleReload() {//بروزرسانی تری
 
   return (
     <>
-      <br />
-      <br />
-      <br />
-      <br />
-      <div className="row">
-        <div className="col-lg-12">
+ <BreadCrumb
+        BreadList={[
+          { Title: "فیلدهای دانش", Address: "" },
+        ]}
+      />
+      <div className="row"  >
+        <div className="col-xl-12"  style={{paddingRight:'0px' ,paddingLeft:'0px'}}>
           <div className="row pad"></div>
           {loading ? 
               <div className="col-xl-12">
@@ -86,6 +99,8 @@ async function handleReload() {//بروزرسانی تری
             tree_data={tree_data}
             onDelete={handleDelete}
             onReload={handleReload}
+            onAdd={handleAdd}
+            onEdit={handleEdit}
             onGetSingleSelectValue={handleGetSingleSelectValue}
           />}
 

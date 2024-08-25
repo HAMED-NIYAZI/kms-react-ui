@@ -1,17 +1,15 @@
 import { connect } from "react-redux";
 import { setSingleSelectedTreeItemAction } from "../../store/actions/tree/tree-actions";
 import "./style.css";
-function TreeSingleSelectItem({
+function TreeSingleItem({
   trees,
   tree_name,
   setTreeSelectedItem,
-  SelectedItem,
-}: {
+ }: {
   trees: [];
   tree_name: string;
   setTreeSelectedItem: (item: any, tree_name: string) => void;
-  SelectedItem: (id: string) => void;
-}) {
+ }) {
   function open(item: any) {
     $("#sub-tree-ul-" + tree_name + "-" + item.id).toggleClass("d-none");
     if ($("#icon-" + tree_name + "_" + item.id).hasClass("si-plus")) {
@@ -67,10 +65,9 @@ function TreeSingleSelectItem({
           className="d-none sub-tree-ul"
           id={"sub-tree-ul-" + tree_name + "-" + item.id}
         >
-          <TreeSingleSelectItem
+          <TreeSingleItem
             setTreeSelectedItem={setTreeSelectedItem}
-            SelectedItem={SelectedItem}
-            tree_name={tree_name}
+             tree_name={tree_name}
             trees={item.children}
           />
         </ul>
@@ -85,4 +82,4 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(setSingleSelectedTreeItemAction(item, treeName)),
   };
 };
-export default connect(null, mapDispatchToProps)(TreeSingleSelectItem);
+export default connect(null, mapDispatchToProps)(TreeSingleItem);

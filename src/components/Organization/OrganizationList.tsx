@@ -11,7 +11,7 @@ function OrganizationList({
   treeSingleSelectValue,
   setTreeItem,
 }: {
-  tree_name: string;
+  tree_name?: string;
   treeSingleSelectValue: any;
   setTreeItem: any;
 }) {
