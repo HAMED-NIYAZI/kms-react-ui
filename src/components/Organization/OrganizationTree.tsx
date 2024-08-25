@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import OrganizationService from "../../services/OrganizationService";
 import SpinnerGrid from "../Spinner/Spinner_Grid";
 import TreeSingleSelect from "../Tree/TreeSingleSelect";
-import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { setSingleSelectedTreeItemAction } from "../../store/actions/tree/tree-actions";
@@ -17,79 +16,80 @@ function OrganizationTree({
   setTreeItem: any;
 }) {
   const [loading, setLoading] = useState(false);
-  const [loadingRemove, setLoadingRemove] = useState(false);
+
   const [trees, setTrees] = useState([]);
 
   const index = async () => {
-    // let trs = [
-    //   {
-    //     id: "27fb51de-ecc5-42ab-85bd-344300ec0a30",
-    //     sortingNumber: 0,
-    //     persianTitle: "fsdfsdf",
-    //     isSelected: false,
-    //     parentId: null,
-    //     children: [],
-    //   },
-    //   {
-    //     id: "dee564e8-0c8d-4b25-a1c0-708edd3c9f95",
-    //     sortingNumber: 0,
-    //     persianTitle: "وزارت ارتباطات و فناوری اطلاعات",
-    //     isSelected: false,
-    //     parentId: null,
-    //     children: [],
-    //   },
-    //   {
-    //     id: "79a32549-6bfe-40fa-b2e2-210cd327bd34",
-    //     sortingNumber: 1,
-    //     persianTitle: "وزارت اطلاعات",
-    //     isSelected: false,
-    //     parentId: null,
-    //     children: [
-    //       {
-    //         id: "3d579aaf-4c4c-447c-8356-11dbf0555cad",
-    //         sortingNumber: 0,
-    //         persianTitle: "سازمان ب 0 ",
-    //         isSelected: false,
-    //         parentId: "79a32549-6bfe-40fa-b2e2-210cd327bd34",
-    //         children: [],
-    //       },
-    //       {
-    //         id: "9a2f4534-4dfb-4bca-a3cb-051831c6c814",
-    //         sortingNumber: 1,
-    //         persianTitle: "سازمان الف",
-    //         isSelected: false,
-    //         parentId: "79a32549-6bfe-40fa-b2e2-210cd327bd34",
-    //         children: [],
-    //       },
-    //       {
-    //         id: "9b486d7b-037c-4b95-ae83-9c071f963cb9",
-    //         sortingNumber: 2,
-    //         persianTitle: "بخش امنیتی",
-    //         isSelected: false,
-    //         parentId: "79a32549-6bfe-40fa-b2e2-210cd327bd34",
-    //         children: [],
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     id: "9cf321b8-a481-4078-954e-04ef42e3be9e",
-    //     sortingNumber: 1,
-    //     persianTitle: "aaa",
-    //     isSelected: false,
-    //     parentId: null,
-    //     children: [
-    //       {
-    //         id: "5ece808b-1f21-4e72-a498-50e3b622e500",
-    //         sortingNumber: 2,
-    //         persianTitle: "bbb",
-    //         isSelected: false,
-    //         parentId: "9cf321b8-a481-4078-954e-04ef42e3be9e",
-    //         children: [],
-    //       },
-    //     ],
-    //   },
-    // ];
-
+    let trs = [
+      {
+        id: "27fb51de-ecc5-42ab-85bd-344300ec0a30",
+        sortingNumber: 0,
+        persianTitle: "fsdfsdf",
+        isSelected: false,
+        parentId: null,
+        children: [],
+      },
+      {
+        id: "dee564e8-0c8d-4b25-a1c0-708edd3c9f95",
+        sortingNumber: 0,
+        persianTitle: "وزارت ارتباطات و فناوری اطلاعات",
+        isSelected: false,
+        parentId: null,
+        children: [],
+      },
+      {
+        id: "79a32549-6bfe-40fa-b2e2-210cd327bd34",
+        sortingNumber: 1,
+        persianTitle: "وزارت اطلاعات",
+        isSelected: false,
+        parentId: null,
+        children: [
+          {
+            id: "3d579aaf-4c4c-447c-8356-11dbf0555cad",
+            sortingNumber: 0,
+            persianTitle: "سازمان ب 0 ",
+            isSelected: false,
+            parentId: "79a32549-6bfe-40fa-b2e2-210cd327bd34",
+            children: [],
+          },
+          {
+            id: "9a2f4534-4dfb-4bca-a3cb-051831c6c814",
+            sortingNumber: 1,
+            persianTitle: "سازمان الف",
+            isSelected: false,
+            parentId: "79a32549-6bfe-40fa-b2e2-210cd327bd34",
+            children: [],
+          },
+          {
+            id: "9b486d7b-037c-4b95-ae83-9c071f963cb9",
+            sortingNumber: 2,
+            persianTitle: "بخش امنیتی",
+            isSelected: false,
+            parentId: "79a32549-6bfe-40fa-b2e2-210cd327bd34",
+            children: [],
+          },
+        ],
+      },
+      {
+        id: "9cf321b8-a481-4078-954e-04ef42e3be9e",
+        sortingNumber: 1,
+        persianTitle: "aaa",
+        isSelected: false,
+        parentId: null,
+        children: [
+          {
+            id: "5ece808b-1f21-4e72-a498-50e3b622e500",
+            sortingNumber: 2,
+            persianTitle: "bbb",
+            isSelected: false,
+            parentId: "9cf321b8-a481-4078-954e-04ef42e3be9e",
+            children: [],
+          },
+        ],
+      },
+    ];
+    // setTrees(trs);
+    // return;
     setLoading(true);
 
     try {
@@ -107,30 +107,7 @@ function OrganizationTree({
     }
   };
 
-  async function remove(id: string, name: string) {
-    if (!confirm("آیا مایل به حذف  (" + name + ")  هستید؟")) {
-      return;
-    }
-    setLoadingRemove(true);
-    try {
-      let response = await OrganizationService.delete(id);
 
-      if (response.data.result == 4) {
-        toast.error(response.data.message);
-        return;
-      }
-
-      if (response.data.result == 0) {
-        toast.success("عملیات حذف با موفقیت انجام شد");
-        setTreeItem(tree_name, "");
-        // FupdateOrganizationTree();
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoadingRemove(false);
-    }
-  }
 
   useEffect(() => {
     index();
@@ -148,48 +125,7 @@ function OrganizationTree({
               سازمان ها
             </h4>
             <p>{treeSingleSelectValue[tree_name]?.persianTitle}</p>
-            <div className="d-flex gap-1"></div>
-            <div className="d-flex justify-content-between align-items-center gap-1">
-              {/* <router-link :to="{ name: 'create_organization' }" class="btn btn-success btn-icon" title="ایجاد سازمان">
-          <i class="fa fa-plus"></i>
-        </router-link> */}
-              {/* <router-link v-if="OrganizationViewList_Value && OrganizationViewList_Value.id" :to="{
-            name: 'edit_organization',
-            params: { id: OrganizationViewList_Value.id },
-          }" class="btn btn-warning btn-icon mr-2" title="ویرایش سازمان">
-          <i class="fa fa-pen"></i>
-        </router-link> */}
-              {loadingRemove && (
-                <div
-                  className="spinner-border text-primary spinner-border-sm"
-                  role="status"
-                >
-                  <span className="sr-only"></span>
-                </div>
-              )}
-              {!loadingRemove &&
-                treeSingleSelectValue[tree_name]?.persianTitle && (
-                  <a
-                    href="#"
-                    onClick={() =>
-                      remove(
-                        treeSingleSelectValue[tree_name].id,
-                        treeSingleSelectValue[tree_name].persianTitle
-                      )
-                    }
-                    title="حذف سازمان"
-                  >
-                    <i className="fa fa-trash text-danger"></i>
-                  </a>
-                )}
-
-              <NavLink to={"organizations/create"} title="ایجاد سازمان">
-                <i className="fa fa-plus"></i>
-              </NavLink>
-              <a href="#" onClick={() => index()} title="بروزرسانی">
-                بروزرسانی
-              </a>
-            </div>
+           
           </div>
         </div>
         <div className="card-body">
