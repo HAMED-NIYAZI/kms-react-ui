@@ -1,6 +1,6 @@
-import TreeSingleSelect from "../Tree/TreeSingleSelect";
-import { connect } from "react-redux";
+ import { connect } from "react-redux";
 import { setSingleSelectedTreeItemAction } from "../../store/actions/tree/tree-actions";
+import TreeSingleSelect from "./TreeSingle";
 
 function SingleSelectTreeComponent({
   tree_name,
@@ -10,6 +10,7 @@ function SingleSelectTreeComponent({
   setTreeItem,
   onDelete,
   onReload,
+  onGetSingleSelectValue
 }: {
   tree_name: string;
   tree_caption?: string;
@@ -18,7 +19,10 @@ function SingleSelectTreeComponent({
   setTreeItem: any;
   onDelete?: (id: string, name: string) => void;
   onReload: () => void;
+  onGetSingleSelectValue: (id: string) => void;
 }) {
+
+  const handleSelectedItem=(id:string)=>{onGetSingleSelectValue(id);}
   return (
     <div className="col-xl-12">
       <div className="card">
@@ -27,7 +31,11 @@ function SingleSelectTreeComponent({
           <h4 className="card-title mg-b-0" style={{ paddingTop: "10px!important" }}>
     {tree_caption}
     {treeSingleSelectValue[tree_name]?.persianTitle && (
-      <span className="badge badge-warning mx-3" style={{textTransform:'none',fontSize:'14px'}}>{treeSingleSelectValue[tree_name]?.persianTitle}</span>
+      <span className="badge badge-warning mx-3" style={{textTransform:'none',fontSize:'14px'}}>{treeSingleSelectValue[tree_name]?.persianTitle}
+      {/* {treeSingleSelectValue[tree_name]?.persianTitle!=null && ( onGetSingleSelectValue(treeSingleSelectValue[tree_name].id))
+      } */}
+      
+      </span>
     )}
   </h4>
              <div className="d-flex gap-1"> { (treeSingleSelectValue[tree_name]?.persianTitle && onDelete )&& (
@@ -61,7 +69,7 @@ function SingleSelectTreeComponent({
           <div className="row">
             <div className="col-lg-12">
               <div>
-                <TreeSingleSelect trees={tree_data} tree_name={tree_name} />
+                <TreeSingleSelect trees={tree_data} tree_name={tree_name} handleSelectedItem={handleSelectedItem} />
               </div>
             </div>
           </div>

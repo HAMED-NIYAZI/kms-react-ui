@@ -5,10 +5,12 @@ function TreeSingleSelectItem({
   trees,
   tree_name,
   setTreeSelectedItem,
+  SelectedItem,
 }: {
   trees: [];
   tree_name: string;
   setTreeSelectedItem: (item: any, tree_name: string) => void;
+  SelectedItem: (id: string) => void;
 }) {
   function open(item: any) {
     $("#sub-tree-ul-" + tree_name + "-" + item.id).toggleClass("d-none");
@@ -67,6 +69,7 @@ function TreeSingleSelectItem({
         >
           <TreeSingleSelectItem
             setTreeSelectedItem={setTreeSelectedItem}
+            SelectedItem={SelectedItem}
             tree_name={tree_name}
             trees={item.children}
           />
