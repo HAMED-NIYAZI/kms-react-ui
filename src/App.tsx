@@ -15,7 +15,7 @@ import Profile from "./components/Profile/Profile";
 import KnowledgeFieldPage from "./components/KnowledgeField/KnowledgeFieldPage";
 import KnowledgeFieldCreate from "./components/KnowledgeField/KnowledgeFieldCreate";
 import KnowledgeFieldEdit from "./components/KnowledgeField/KnowledgeFieldEdit";
-import Master from "./components/layoutes/Master";
+import Master from "./components/Layoutes/Master";
 
 function App({ checkLogin }: { checkLogin: boolean }) {
   return (

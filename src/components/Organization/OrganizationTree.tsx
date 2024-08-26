@@ -107,36 +107,37 @@ function OrganizationTree({
     }
   };
 
-
-
   useEffect(() => {
     index();
   }, []);
 
   return (
-    <div className="col-xl-12">
-      <div className="card">
-        <div className="card-header pb-0">
-          <div className="d-flex justify-content-between">
-            <h4
-              className="card-title mg-b-0"
-              style={{ paddingTop: "10px!important" }}
-            >
-              سازمان ها
-            </h4>
-            <p>{treeSingleSelectValue[tree_name]?.persianTitle}</p>
-           
+    <div className="row">
+      <div className="col-xl-12">
+        <div className="card">
+          <div className="card-header pb-0">
+            <div className="d-flex justify-content-between">
+              <h4
+                className="card-title mg-b-0"
+                style={{ paddingTop: "10px!important" }}
+              >
+                سازمان ها
+              </h4>
+              <p className=" badge badge-warning p-2 text-black">
+                {treeSingleSelectValue[tree_name]?.persianTitle}
+              </p>
+            </div>
           </div>
-        </div>
-        <div className="card-body">
-          <div className="row">
-            <div className="col-lg-12">
-              {loading && <SpinnerGrid />}
-              {!loading && (
-                <div>
-                  <TreeSingleSelect trees={trees} tree_name={tree_name} />
-                </div>
-              )}
+          <div className="card-body">
+            <div className="row">
+              <div className="col-lg-12">
+                {loading && <SpinnerGrid />}
+                {!loading && (
+                  <div>
+                    <TreeSingleSelect trees={trees} tree_name={tree_name} />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

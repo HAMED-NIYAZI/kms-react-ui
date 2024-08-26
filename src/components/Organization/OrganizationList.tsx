@@ -16,6 +16,8 @@ function OrganizationList({
   setTreeItem: any;
 }) {
   const [loadingRemove, setLoadingRemove] = useState(false);
+  const [key, setKey] = useState(0);
+
   async function remove(id: string, name: string) {
     if (!confirm("آیا مایل به حذف  (" + name + ")  هستید؟")) {
       return;
@@ -32,7 +34,7 @@ function OrganizationList({
       if (response.data.result == 0) {
         toast.success("عملیات حذف با موفقیت انجام شد");
         setTreeItem(tree_name, "");
-        // index();
+        setKey((n) => n + 1);
       }
     } catch (err) {
       console.log(err);
@@ -48,61 +50,65 @@ function OrganizationList({
       <div className="row">
         <div className="col-lg-12">
           <div className="row pad">
-            <div className="d-flex gap-1"></div>
-            <div className="d-flex justify-content-end   align-items-center gap-1 mb-2">
-              {loadingRemove && (
-                <div
-                  className="spinner-border text-primary spinner-border-sm"
-                  role="status"
-                >
-                  <span className="sr-only"></span>
-                </div>
-              )}
-              {!loadingRemove &&
-                treeSingleSelectValue["OrganizationViewList"]?.persianTitle && (
-                  <a
-                    href="#"
-                    className="btn btn-danger btn-sm"
-                    onClick={() =>
-                      remove(
-                        treeSingleSelectValue["OrganizationViewList"].id,
-                        treeSingleSelectValue["OrganizationViewList"]
-                          .persianTitle
-                      )
-                    }
-                    title="حذف سازمان"
+            <div className="col-lg-12">
+              <div className="d-flex gap-1"></div>
+              <div className="d-flex justify-content-end   align-items-center gap-1 mb-2">
+                {loadingRemove && (
+                  <div
+                    className="spinner-border text-primary spinner-border-sm"
+                    role="status"
                   >
-                    <i className="fa fa-trash "></i>
-                  </a>
+                    <span className="sr-only"></span>
+                  </div>
+                )}
+                {!loadingRemove &&
+                  treeSingleSelectValue["OrganizationViewList"]
+                    ?.persianTitle && (
+                    <a
+                      href="#"
+                      className="btn btn-danger btn-sm"
+                      onClick={() =>
+                        remove(
+                          treeSingleSelectValue["OrganizationViewList"].id,
+                          treeSingleSelectValue["OrganizationViewList"]
+                            .persianTitle
+                        )
+                      }
+                      title="حذف سازمان"
+                    >
+                      <i className="fa fa-trash "></i>
+                    </a>
+                  )}
+
+                {treeSingleSelectValue["OrganizationViewList"]
+                  ?.persianTitle && (
+                  <NavLink
+                    to={`/organizations/edit/${treeSingleSelectValue["OrganizationViewList"].id}`}
+                    className="btn btn-warning btn-sm"
+                    title="ویرایش سازمان"
+                  >
+                    <i className="fa fa-pen"></i>
+                  </NavLink>
                 )}
 
-              {treeSingleSelectValue["OrganizationViewList"]?.persianTitle && (
                 <NavLink
-                  to={`/organizations/edit/${treeSingleSelectValue["OrganizationViewList"].id}`}
-                  className="btn btn-warning btn-sm"
-                  title="ویرایش سازمان"
+                  className="btn btn-success btn-sm"
+                  to={"/organizations/create"}
+                  title="ایجاد سازمان"
                 >
-                  <i className="fa fa-pen"></i>
+                  <i className="fa fa-plus"></i>
                 </NavLink>
-              )}
-
-              <NavLink
-                className="btn btn-success btn-sm"
-                to={"/organizations/create"}
-                title="ایجاد سازمان"
-              >
-                <i className="fa fa-plus"></i>
-              </NavLink>
-              {/* <a
+                {/* <a
                 href="#"
                 onClick={() => console.log("first")}
                 title="بروزرسانی"
               >
                 بروزرسانی
               </a> */}
+              </div>
             </div>
           </div>
-          <OrganizationTree tree_name="OrganizationViewList" />
+          <OrganizationTree tree_name="OrganizationViewList" key={key} />
         </div>
       </div>
     </>
