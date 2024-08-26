@@ -11,11 +11,11 @@ import GradeEdit from "./components/Grades/GradeEdit";
 import OrganizationList from "./components/Organization/OrganizationList";
 import OrganizationCreate from "./components/Organization/OrganizationCreate";
 import OrganizationEdit from "./components/Organization/OrganizationEdit";
-import Master from "./components/Layoutes/Master";
 import Profile from "./components/Profile/Profile";
 import KnowledgeFieldPage from "./components/KnowledgeField/KnowledgeFieldPage";
 import KnowledgeFieldCreate from "./components/KnowledgeField/KnowledgeFieldCreate";
 import KnowledgeFieldEdit from "./components/KnowledgeField/KnowledgeFieldEdit";
+import Master from "./components/layoutes/Master";
 
 function App({ checkLogin }: { checkLogin: boolean }) {
   return (
@@ -49,15 +49,14 @@ function App({ checkLogin }: { checkLogin: boolean }) {
                   path="KnowledgeFieldPage"
                   element={<KnowledgeFieldPage />}
                 />
-                              <Route
+                <Route
                   path="KnowledgeFieldCreate"
                   element={<KnowledgeFieldCreate />}
                 />
-                              <Route
+                <Route
                   path="KnowledgeFieldEdit"
                   element={<KnowledgeFieldEdit />}
                 />
-
               </Route>
             </>
           )}
