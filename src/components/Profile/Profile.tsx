@@ -3,7 +3,7 @@ import { useState } from "react";
 import { connect } from "react-redux";
 import * as Yup from "yup";
 import UserService from "../../services/UserService";
-import Spinner_btn from "../Spinner/Spinner_btn";
+import SpinnerBtn from "../Spinner/Spinner_btn";
 import { toast } from "react-toastify";
 import { setUser } from "../../store/actions/user-actions";
 
@@ -34,8 +34,8 @@ function Profile({
         if (response.data.result == 0) {
           setUser(response.data.data);
           toast.success(response.data.message);
-            // Reload the window
-  location.reload();
+          // Reload the window
+          location.reload();
         } else if (response.data.result == 5) {
           toast.warning(response.data.message);
         } else {
@@ -100,10 +100,7 @@ function Profile({
 
       fd.append("file", target.files[0]);
 
-      const response = await UserService.uploadAvatar(
-        fd,
-        user.userId
-      );
+      const response = await UserService.uploadAvatar(fd, user.userId);
 
       if (response.data.result == 0) {
         toast.success(response.data.message);
@@ -129,8 +126,8 @@ function Profile({
                     alt={user.firstName + " " + user.lastName}
                     src={"https://freelancework.ir/" + user.imagePath}
                     onClick={() => $("#avatar").click()}
-                    style={{ cursor: 'pointer' }}
-                   />
+                    style={{ cursor: "pointer" }}
+                  />
                   <a
                     href="#"
                     onClick={() => $("#avatar").click()}
@@ -143,8 +140,7 @@ function Profile({
                     onChange={(e) => loadAvatar(e)}
                     className="d-none"
                   />
-
- </div>
+                </div>
                 <div className="d-flex justify-content-between mg-b-20">
                   <div>
                     <h5 className="main-profile-name">
@@ -336,13 +332,11 @@ function Profile({
                       </div>
                     </div>
                     <div className="card-footer text-center">
-                      {isLoading && <Spinner_btn />}
+                      {isLoading && <SpinnerBtn />}
                       {!isLoading && (
-                        <button
-                          type="submit"
-                          className="btn btn-main-primary"
-                        >
-ذخیره                        </button>
+                        <button type="submit" className="btn btn-main-primary">
+                          ذخیره{" "}
+                        </button>
                       )}
                     </div>
                   </form>
@@ -431,12 +425,9 @@ function Profile({
                     </div>
                     <div className="card-footer text-center">
                       {isLoading ? (
-                        <Spinner_btn />
+                        <SpinnerBtn />
                       ) : (
-                        <button
-                          type="submit"
-                          className="btn btn-main-primary"
-                        >
+                        <button type="submit" className="btn btn-main-primary">
                           بروزرسانی کلمه عبور
                         </button>
                       )}

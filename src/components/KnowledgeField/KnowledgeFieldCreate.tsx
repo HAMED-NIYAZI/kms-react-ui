@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Spinner_btn from "../Spinner/Spinner_btn";
+import SpinnerBtn from "../Spinner/Spinner_btn";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -9,7 +9,7 @@ import BreadCrumb from "../BreadCrumb/BreadCrumb";
 
 export default function KnowledgeFieldCreate() {
   const navigate = useNavigate();
-  const [loading, setLloading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const formik = useFormik({
     initialValues: {
       persianTitle: "",
@@ -17,7 +17,7 @@ export default function KnowledgeFieldCreate() {
       parentId: "",
     },
     onSubmit: async (values, { resetForm }) => {
-      setLloading(true);
+      setLoading(true);
       try {
         const response = await KnowledgeFieldService.create(values);
         if (response.data.result === 0) {
@@ -29,7 +29,7 @@ export default function KnowledgeFieldCreate() {
         }
       } catch (err) {
       } finally {
-        setLloading(false);
+        setLoading(false);
       }
     },
     validationSchema: Yup.object({
@@ -130,7 +130,7 @@ export default function KnowledgeFieldCreate() {
             </div>
             <div className="card-footer text-center">
               {loading ? (
-                <Spinner_btn />
+                <SpinnerBtn />
               ) : (
                 <button type="submit" className="btn btn-success btn-sm">
                   ذخیره

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Spinner_btn from "../Spinner/Spinner_btn";
+import SpinnerBtn from "../Spinner/Spinner_btn";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -160,7 +160,7 @@ function OrganizationCreate({
             </div>
             <div className="card-footer text-center">
               {loading ? (
-                <Spinner_btn />
+                <SpinnerBtn />
               ) : (
                 <button type="submit" className="btn btn-success btn-sm">
                   ذخیره

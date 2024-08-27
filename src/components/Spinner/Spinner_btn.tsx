@@ -1,4 +1,4 @@
-export default function Spinner_btn() {
+export default function SpinnerBtn() {
   return (
     <>
       {" "}

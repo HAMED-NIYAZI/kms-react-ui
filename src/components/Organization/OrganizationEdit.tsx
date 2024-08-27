@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Spinner_btn from "../Spinner/Spinner_btn";
+import SpinnerBtn from "../Spinner/Spinner_btn";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -182,7 +182,7 @@ function OrganizationEdit({
               </div>
               <div className="card-footer text-center">
                 {loading ? (
-                  <Spinner_btn />
+                  <SpinnerBtn />
                 ) : (
                   <button type="submit" className="btn btn-warning btn-sm">
                     ذخیره
