@@ -54,7 +54,7 @@ function App({ checkLogin }: { checkLogin: boolean }) {
                   element={<KnowledgeFieldCreate />}
                 />
                 <Route
-                  path="KnowledgeFieldEdit"
+                  path="/KnowledgeFieldPage/Edit/:id"
                   element={<KnowledgeFieldEdit />}
                 />
               </Route>

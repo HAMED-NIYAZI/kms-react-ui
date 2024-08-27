@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SpinnerBtn from "../Spinner/Spinner_btn";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -6,10 +6,14 @@ import * as Yup from "yup";
 import KnowledgeFieldService from "../../services/KnowledgeFieldService";
 import { toast } from "react-toastify";
 import BreadCrumb from "../BreadCrumb/BreadCrumb";
+import SingleSelectTreeComponent from "./SingleSelectTreeComponent";
+import SpinnerGrid from "../Spinner/Spinner_Grid";
 
 export default function KnowledgeFieldCreate() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [loadingParent, setLoadingParent] = useState(false);
+  let localParent: string = "";
   const formik = useFormik({
     initialValues: {
       persianTitle: "",
@@ -19,6 +23,7 @@ export default function KnowledgeFieldCreate() {
     onSubmit: async (values, { resetForm }) => {
       setLoading(true);
       try {
+        values.parentId = localParent;
         const response = await KnowledgeFieldService.create(values);
         if (response.data.result === 0) {
           resetForm();
@@ -40,6 +45,44 @@ export default function KnowledgeFieldCreate() {
     }),
   });
 
+  const [tree_data_KnowledgeFields, setTree_data_KnowledgeFields] = useState(
+    []
+  );
+  function handleGetSingleSelectValue(id: string): string {
+    //دریافت کد انتخاب شده
+    localParent = id;
+    return id;
+  }
+
+  async function handleReload() {
+    //بروزرسانی تری
+    index();
+  }
+
+  const index = async () => {
+    //دریافت اطلاعات تری =پرکردن تری
+    setLoadingParent(true);
+
+    try {
+      const response = await KnowledgeFieldService.getKnowledgeFieldTree();
+      if (response.data.result == 0) {
+        setTree_data_KnowledgeFields([]);
+        setTree_data_KnowledgeFields(response.data.data);
+      } else if (response.data.result == 5) {
+        toast.warning(response.data.message);
+      } else {
+        toast.warning(response.data.message);
+      }
+    } catch (err) {
+    } finally {
+      setLoadingParent(false);
+    }
+  };
+
+  useEffect(() => {
+    index();
+  }, []);
+
   return (
     <>
       <BreadCrumb
@@ -59,7 +102,7 @@ export default function KnowledgeFieldCreate() {
               <div className="d-flex justify-content-between">
                 <h4 className="card-title mg-b-0">اضافه کردن فیلد دانش</h4>
                 <NavLink
-                  to={"/organizations/create"}
+                  to={"/KnowledgeFieldPage"}
                   className=" btn btn-primary btn-icon"
                 >
                   <i className="fa  fa-arrow-left"></i>
@@ -109,22 +152,35 @@ export default function KnowledgeFieldCreate() {
                   </div>
                 </div>
 
-                <div className="col-lg-12">
-                  <label>نام سرشاخه</label>
-                  <div className="row">
-                    <div className="col-6">
-                      <input
-                        className="form-control"
-                        disabled={true}
-                        value={""}
-                        type="text"
-                      />
-                    </div>
+                <div
+                  className="col-8"
+                  style={{
+                    padding: "0px",
+                  }}
+                >
+                  <label
+                    style={{
+                      padding: "0.75rem",
+                    }}
+                  >
+                    سرشاخه
+                  </label>
 
-                    <div className="col-2">
-                      {/* <OrganizationTreeModalSingleSelect /> */}
+                  {loadingParent ? (
+                    <div className="col-xl-12">
+                      <div className="card">
+                        <SpinnerGrid />
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <SingleSelectTreeComponent
+                      tree_name="KnowledgeFieldForKnowledgeFieldCreate"
+                      tree_caption=""
+                      tree_data={tree_data_KnowledgeFields}
+                      onReload={handleReload}
+                      onGetSingleSelectValue={handleGetSingleSelectValue}
+                    />
+                  )}
                 </div>
               </div>
             </div>

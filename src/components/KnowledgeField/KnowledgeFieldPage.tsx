@@ -47,13 +47,11 @@ export default function KnowledgeFieldPage() {
 
   async function handleAdd() {
     //اضافه کردن تری
-    alert("rroute to add");
     navigate("/KnowledgeFieldPage/Create");
   }
-  async function handleEdit() {
+  async function handleEdit(id: string) {
     //اضافه کردن تری
-    alert("rroute to edit");
-    navigate("/KnowledgeFieldEdit");
+    navigate("/KnowledgeFieldPage/Edit/" + id);
   }
   const index = async () => {
     //دریافت اطلاعات تری =پرکردن تری

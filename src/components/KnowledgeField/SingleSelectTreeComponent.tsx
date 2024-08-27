@@ -23,7 +23,7 @@ function SingleSelectTreeComponent({
   onDelete?: (id: string, name: string) => void;
   onReload: () => void;
   onAdd?: () => void;
-  onEdit?: () => void;
+  onEdit?: (id: string) => void;
   onGetSingleSelectValue: (id: string) => void;
 }>) {
   return (
@@ -78,7 +78,7 @@ function SingleSelectTreeComponent({
                   className="btn btn-warning btn-icon"
                   style={{ marginLeft: "8px" }}
                   onClick={() => {
-                    onEdit();
+                    onEdit(treeSingleSelectValue[tree_name].id);
                   }}
                   title="ویرایش"
                 >
