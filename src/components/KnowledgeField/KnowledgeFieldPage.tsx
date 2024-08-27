@@ -11,7 +11,8 @@ export default function KnowledgeFieldPage() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  async function handleDelete(id: string, name: string) {//حذف ایتم انتخاب شده
+  async function handleDelete(id: string, name: string) {
+    //حذف ایتم انتخاب شده
     if (!confirm("آیا مایل به حذف  (" + name + ")  هستید؟")) {
       return;
     }
@@ -33,26 +34,29 @@ export default function KnowledgeFieldPage() {
       // TODO document why this block is empty
     }
   }
-  
-   function handleGetSingleSelectValue(id: string):string {//دریافت کد انتخاب شده
-     console.log(id);
+
+  function handleGetSingleSelectValue(id: string): string {
+    //دریافت کد انتخاب شده
+    console.log(id);
     return id;
   }
-async function handleReload() {//بروزرسانی تری
-  index();
-}
+  async function handleReload() {
+    //بروزرسانی تری
+    index();
+  }
 
-async function handleAdd() {//اضافه کردن تری
-   alert('rroute to add');
-   navigate("/KnowledgeFieldCreate");
-
-}
-async function handleEdit() {//اضافه کردن تری
-   alert('rroute to edit');
-   navigate("/KnowledgeFieldEdit");
-
-}
-  const index = async () => {//دریافت اطلاعات تری =پرکردن تری
+  async function handleAdd() {
+    //اضافه کردن تری
+    alert("rroute to add");
+    navigate("/KnowledgeFieldPage/Create");
+  }
+  async function handleEdit() {
+    //اضافه کردن تری
+    alert("rroute to edit");
+    navigate("/KnowledgeFieldEdit");
+  }
+  const index = async () => {
+    //دریافت اطلاعات تری =پرکردن تری
     setLoading(true);
 
     try {
@@ -75,36 +79,33 @@ async function handleEdit() {//اضافه کردن تری
     index();
   }, []);
 
-
   return (
     <>
- <BreadCrumb
-        BreadList={[
-          { Title: "فیلدهای دانش", Address: "" },
-        ]}
-      />
-      <div className="row"  >
-        <div className="col-xl-12"  style={{paddingRight:'0px' ,paddingLeft:'0px'}}>
+      <BreadCrumb BreadList={[{ Title: "فیلدهای دانش", Address: "" }]} />
+      <div className="row">
+        <div
+          className="col-xl-12"
+          style={{ paddingRight: "0px", paddingLeft: "0px" }}
+        >
           <div className="row pad"></div>
-          {loading ? 
-              <div className="col-xl-12">
+          {loading ? (
+            <div className="col-xl-12">
               <div className="card">
-          <SpinnerGrid/>
-          </div>
-          </div>
-
-           :<SingleSelectTreeComponent  
-            tree_name="KnowledgeFieldForKnowledgeFieldPage"
-            tree_caption="فیلدهای دانش"
-            tree_data={tree_data}
-            onDelete={handleDelete}
-            onReload={handleReload}
-            onAdd={handleAdd}
-            onEdit={handleEdit}
-            onGetSingleSelectValue={handleGetSingleSelectValue}
-          />}
-
-
+                <SpinnerGrid />
+              </div>
+            </div>
+          ) : (
+            <SingleSelectTreeComponent
+              tree_name="KnowledgeFieldForKnowledgeFieldPage"
+              tree_caption="فیلدهای دانش"
+              tree_data={tree_data}
+              onDelete={handleDelete}
+              onReload={handleReload}
+              onAdd={handleAdd}
+              onEdit={handleEdit}
+              onGetSingleSelectValue={handleGetSingleSelectValue}
+            />
+          )}
         </div>
       </div>
     </>
