@@ -8,12 +8,16 @@ import { toast } from "react-toastify";
 import BreadCrumb from "../BreadCrumb/BreadCrumb";
 import SingleSelectTreeComponent from "./SingleSelectTreeComponent";
 import SpinnerGrid from "../Spinner/Spinner_Grid";
+import TreeModalSingleSelect from "./TreeModalSingleSelect";
 
 export default function KnowledgeFieldCreate() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [loadingParent, setLoadingParent] = useState(false);
   let localParent: string = "";
+  const [tree_data_KnowledgeFields, setTree_data_KnowledgeFields] = useState(
+    []
+  );
   const formik = useFormik({
     initialValues: {
       persianTitle: "",
@@ -45,12 +49,11 @@ export default function KnowledgeFieldCreate() {
     }),
   });
 
-  const [tree_data_KnowledgeFields, setTree_data_KnowledgeFields] = useState(
-    []
-  );
   function handleGetSingleSelectValue(id: string): string {
     //دریافت کد انتخاب شده
+
     localParent = id;
+    console.log(localParent);
     return id;
   }
 
@@ -113,8 +116,9 @@ export default function KnowledgeFieldCreate() {
               <div className="row">
                 <div className="col-lg-8">
                   <div className="form-group">
-                    <label>نام فیلد دانش</label>
+                    <label htmlFor="persianTitle">نام فیلد دانش</label>
                     <input
+                      id="persianTitle"
                       className="form-control"
                       placeholder="نام سازمان را وارد کنید"
                       type="text"
@@ -129,8 +133,9 @@ export default function KnowledgeFieldCreate() {
                 </div>
                 <div className="col-lg-4">
                   <div className="form-group">
-                    <label>اولویت نمایش</label>
+                    <label htmlFor="sortingNumber">اولویت نمایش</label>
                     <select
+                      id="sortingNumber"
                       className="form-control"
                       {...formik.getFieldProps("sortingNumber")}
                     >
@@ -153,34 +158,47 @@ export default function KnowledgeFieldCreate() {
                 </div>
 
                 <div
-                  className="col-8"
+                  className="col-12"
                   style={{
                     padding: "0px",
                   }}
                 >
                   <label
+                    htmlFor="parentName"
                     style={{
                       padding: "0.75rem",
                     }}
                   >
                     سرشاخه
                   </label>
-
-                  {loadingParent ? (
-                    <div className="col-xl-12">
-                      <div className="card">
-                        <SpinnerGrid />
-                      </div>
+                  <div className="row">
+                    <div className="col-8">
+                      <input
+                        id="parentName"
+                        className="form-control"
+                        disabled={true}
+                        value={""}
+                        type="text"
+                      />
                     </div>
-                  ) : (
-                    <SingleSelectTreeComponent
-                      tree_name="KnowledgeFieldForKnowledgeFieldCreate"
-                      tree_caption=""
-                      tree_data={tree_data_KnowledgeFields}
-                      onReload={handleReload}
-                      onGetSingleSelectValue={handleGetSingleSelectValue}
-                    />
-                  )}
+                    <div className="col-1">
+                      {loadingParent ? (
+                        <div className="col-xl-12">
+                          <div className="card">
+                            <SpinnerGrid />
+                          </div>
+                        </div>
+                      ) : (
+                        <TreeModalSingleSelect
+                          tree_name="modeladdknowledgeField"
+                          tree_data={tree_data_KnowledgeFields}
+                          onReload={handleReload}
+                          tree_caption="انتخاب سرشاخه"
+                          onGetSingleSelectValue={handleGetSingleSelectValue}
+                        />
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

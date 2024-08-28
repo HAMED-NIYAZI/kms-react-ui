@@ -49,10 +49,8 @@ function OrganizationCreate({
     validationSchema: Yup.object({
       persianTitle: Yup.string()
         .required("پرکردن این فیلد الزامیست")
-        .max("50", "حداکثر 50 کارکتر وارد کنید"),
-      sortingNumber: Yup.number("باید عددی باشد").required(
-        "پرکردن این فیلد الزامیست"
-      ),
+        .max(50, "حداکثر 50 کارکتر وارد کنید"),
+      sortingNumber: Yup.number().required("پرکردن این فیلد الزامیست"),
       parentId: Yup.string().nullable(),
     }),
   });
