@@ -14,14 +14,9 @@ export default function TreeModalSingleSelect({
   onReload: () => void;
   onGetSingleSelectValue: (id: string, name: string) => void;
 }>) {
-  let localParent: string = "";
-
-  function handleGetSingleSelectValue(id: string, name: string): string {
+  function handleGetSingleSelectValue(id: string, name: string): void {
     //دریافت کد انتخاب شده
-    localParent = id;
     onGetSingleSelectValue(id, name);
-
-    return id;
   }
 
   async function handleReload() {
@@ -30,7 +25,9 @@ export default function TreeModalSingleSelect({
     onReload();
   }
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    onGetSingleSelectValue("", "");
+  }, []);
 
   return (
     <>
@@ -39,6 +36,9 @@ export default function TreeModalSingleSelect({
           className="btn btn-primary btn-icon"
           data-bs-target="#modal1"
           data-bs-toggle="modal"
+          onClick={(e) => {
+            e.preventDefault();
+          }}
         >
           <i className="fa fa-ellipsis-h"></i>
         </button>

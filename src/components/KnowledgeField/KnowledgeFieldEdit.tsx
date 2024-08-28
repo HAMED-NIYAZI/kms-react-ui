@@ -3,14 +3,45 @@ import SpinnerBtn from "../Spinner/Spinner_btn";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import OrganizationService from "../../services/OrganizationService";
+import KnowledgeFieldService from "../../services/KnowledgeFieldService";
 import { toast } from "react-toastify";
+import BreadCrumb from "../BreadCrumb/BreadCrumb";
+import TreeModalSingleSelect from "./TreeModalSingleSelect";
 
 export default function KnowledgeFieldEdit() {
   const navigate = useNavigate();
   const params = useParams();
 
   const [loading, setLloading] = useState(false);
+  let parentId: string = "";
+  const [parentName, setParentName] = useState<string>("");
+  let tree_name: string = "modeleditknowledgeField";
+  const [tree_data_KnowledgeFields, setTree_data_KnowledgeFields] = useState(
+    []
+  );
+
+  function handleGetSingleSelectValue(id: string, name: string): void {
+    //دریافت کد انتخاب شده
+
+    setParentName(name);
+    parentId = id;
+  }
+
+  async function handleBack() {
+    setParentName("");
+
+    navigate("/KnowledgeFieldPage");
+  }
+  async function handleReload() {
+    if (params.id) {
+      getById(params.id);
+    }
+
+    $(".checkbox_" + tree_name).prop("checked", false);
+    setParentName("");
+    parentId = "";
+  }
+
   const formik = useFormik({
     initialValues: {
       id: "",
@@ -21,15 +52,10 @@ export default function KnowledgeFieldEdit() {
     onSubmit: async (values, { resetForm }) => {
       setLloading(true);
       try {
-        // if (treeItem["OrganizationViewList_ModalCreate"].id) {
-        //   values.parentId = treeItem["OrganizationViewList_ModalCreate"].id;
-        // }
-
         const response = await OrganizationService.update(values);
         if (response.data.result === 0) {
           resetForm();
           toast.success(response.data.message);
-          // setTreeItem("OrganizationViewList_ModalCreate", null);
           navigate("/KnowledgeFieldPage");
         } else {
           toast.warning(response.data.message);
@@ -50,12 +76,8 @@ export default function KnowledgeFieldEdit() {
 
   async function getById(id: string) {
     try {
-      const response = await OrganizationService.getById(id);
+      const response = await KnowledgeFieldService.getById(id);
       formik.setValues({ ...response.data.data });
-      // setTreeItem("OrganizationViewList_ModalCreate", {
-      //   id: response.data.data.parentId,
-      //   persianTitle: response.data.data.parentPersianTitle,
-      // });
     } catch (err) {
     } finally {
     }
@@ -68,6 +90,16 @@ export default function KnowledgeFieldEdit() {
 
   return (
     <>
+      <BreadCrumb
+        BreadList={[
+          { Title: "اطلاعات پایه", Address: "" },
+          { Title: "فیلد دانش", Address: "/KnowledgeFieldPage" },
+          {
+            Title: "ویرایش فیلد دانش",
+            Address: "/KnowledgeFieldPage/Edit/" + params.id,
+          },
+        ]}
+      />
       <div className="col-xl-12">
         {loading === false && (
           <form onSubmit={formik.handleSubmit}>
@@ -76,7 +108,7 @@ export default function KnowledgeFieldEdit() {
                 <div className="d-flex justify-content-between">
                   <h4 className="card-title mg-b-0">ویرایش فیلد دانش</h4>
                   <NavLink
-                    to={"/organizations"}
+                    to={"/KnowledgeFieldPage"}
                     className=" btn btn-primary btn-sm"
                   >
                     <i className="fa  fa-arrow-left"></i>
@@ -124,11 +156,39 @@ export default function KnowledgeFieldEdit() {
                       </span>
                     </div>
                   </div>
-
-                  <div className="col-lg-6">
-                    <label>نام سرشاخه</label>
-                    <div className="col-2">
-                      {/* <OrganizationTreeModalSingleSelect /> */}
+                  <div
+                    className="col-12"
+                    style={{
+                      padding: "0px",
+                    }}
+                  >
+                    <label
+                      htmlFor="parentName"
+                      style={{
+                        padding: "0.75rem",
+                      }}
+                    >
+                      سرشاخه
+                    </label>
+                    <div className="row">
+                      <div className="col-8">
+                        <input
+                          id="parentName"
+                          className="form-control"
+                          disabled={true}
+                          value={parentName}
+                          type="text"
+                        />
+                      </div>
+                      <div className="col-1">
+                        <TreeModalSingleSelect
+                          tree_name={tree_name}
+                          tree_data={tree_data_KnowledgeFields}
+                          onReload={handleReload}
+                          tree_caption="انتخاب سرشاخه"
+                          onGetSingleSelectValue={handleGetSingleSelectValue}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -14,8 +14,8 @@ export default function KnowledgeFieldCreate() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [loadingParent, setLoadingParent] = useState(false);
-  let localParent: string = "";
-  const [parentName, setParentName] = useState("");
+  let parentId: string = "";
+  const [parentName, setParentName] = useState<string>("");
 
   let tree_name: string = "modeladdknowledgeField";
   const [tree_data_KnowledgeFields, setTree_data_KnowledgeFields] = useState(
@@ -30,7 +30,7 @@ export default function KnowledgeFieldCreate() {
     onSubmit: async (values, { resetForm }) => {
       setLoading(true);
       try {
-        values.parentId = localParent;
+        values.parentId = parentId;
         const response = await KnowledgeFieldService.create(values);
         if (response.data.result === 0) {
           resetForm();
@@ -53,20 +53,23 @@ export default function KnowledgeFieldCreate() {
     }),
   });
 
-  function handleGetSingleSelectValue(id: string, name: string): string {
+  function handleGetSingleSelectValue(id: string, name: string): void {
     //دریافت کد انتخاب شده
 
-    // Update the state with the new value
     setParentName(name);
-
-    // Log the new value
-    console.log("New parent name:", parentName, "------------", name);
-    return id;
+    parentId = id;
   }
 
+  async function handleBack() {
+    setParentName("");
+
+    navigate("/KnowledgeFieldPage");
+  }
   async function handleReload() {
     index();
     $(".checkbox_" + tree_name).prop("checked", false);
+    setParentName("");
+    parentId = "";
   }
 
   const index = async () => {
@@ -77,6 +80,8 @@ export default function KnowledgeFieldCreate() {
       if (response.data.result == 0) {
         // setTree_data_KnowledgeFields([]);
         setTree_data_KnowledgeFields(response.data.data);
+        setParentName("");
+        console.log("loaded");
       } else if (response.data.result == 5) {
         toast.warning(response.data.message);
       } else {
@@ -109,12 +114,12 @@ export default function KnowledgeFieldCreate() {
             <div className="card-header pb-0">
               <div className="d-flex justify-content-between">
                 <h4 className="card-title mg-b-0">ایجاد فیلد دانش</h4>
-                <NavLink
-                  to={"/KnowledgeFieldPage"}
+                <button
+                  onClick={handleBack}
                   className="btn btn-primary btn-icon"
                 >
                   <i className="fa  fa-arrow-left"></i>
-                </NavLink>
+                </button>
               </div>
             </div>
             <div className="card-body">
@@ -187,21 +192,13 @@ export default function KnowledgeFieldCreate() {
                       />
                     </div>
                     <div className="col-1">
-                      {loadingParent ? (
-                        <div className="col-xl-12">
-                          <div className="card">
-                            <SpinnerGrid />
-                          </div>
-                        </div>
-                      ) : (
-                        <TreeModalSingleSelect
-                          tree_name={tree_name}
-                          tree_data={tree_data_KnowledgeFields}
-                          onReload={handleReload}
-                          tree_caption="انتخاب سرشاخه"
-                          onGetSingleSelectValue={handleGetSingleSelectValue}
-                        />
-                      )}
+                      <TreeModalSingleSelect
+                        tree_name={tree_name}
+                        tree_data={tree_data_KnowledgeFields}
+                        onReload={handleReload}
+                        tree_caption="انتخاب سرشاخه"
+                        onGetSingleSelectValue={handleGetSingleSelectValue}
+                      />
                     </div>
                   </div>
                 </div>
