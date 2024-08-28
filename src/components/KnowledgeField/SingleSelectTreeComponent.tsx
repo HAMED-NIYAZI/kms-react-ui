@@ -24,7 +24,7 @@ function SingleSelectTreeComponent({
   onReload: () => void;
   onAdd?: () => void;
   onEdit?: (id: string) => void;
-  onGetSingleSelectValue: (id: string) => void;
+  onGetSingleSelectValue: (id: string, name: string) => void;
 }>) {
   return (
     <div className="col-xl-12">
@@ -47,7 +47,8 @@ function SingleSelectTreeComponent({
               <span style={{ display: "none" }}>
                 {treeSingleSelectValue[tree_name]?.persianTitle != null &&
                   (onGetSingleSelectValue(
-                    treeSingleSelectValue[tree_name].id
+                    treeSingleSelectValue[tree_name].id,
+                    treeSingleSelectValue[tree_name]?.persianTitle
                   ) as ReactNode)}
               </span>
             </h4>

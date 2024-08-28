@@ -34,8 +34,7 @@ function Profile({
         if (response.data.result == 0) {
           setUser(response.data.data);
           toast.success(response.data.message);
-          // Reload the window
-          location.reload();
+          // TODO: Reload the window
         } else if (response.data.result == 5) {
           toast.warning(response.data.message);
         } else {

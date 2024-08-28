@@ -15,6 +15,9 @@ export default function KnowledgeFieldCreate() {
   const [loading, setLoading] = useState(false);
   const [loadingParent, setLoadingParent] = useState(false);
   let localParent: string = "";
+  const [parentName, setParentName] = useState("");
+
+  let tree_name: string = "modeladdknowledgeField";
   const [tree_data_KnowledgeFields, setTree_data_KnowledgeFields] = useState(
     []
   );
@@ -42,34 +45,37 @@ export default function KnowledgeFieldCreate() {
       }
     },
     validationSchema: Yup.object({
-      persianTitle: Yup.string().required("پرکردن این فیلد الزامیست"),
-      //.max("50", "حداکثر 50 کارکتر وارد کنید"),
+      persianTitle: Yup.string()
+        .required("پرکردن این فیلد الزامیست")
+        .max(50, "حداکثر 50 کارکتر وارد کنید"),
       sortingNumber: Yup.number().required("پرکردن این فیلد الزامیست"),
       parentId: Yup.string().nullable(),
     }),
   });
 
-  function handleGetSingleSelectValue(id: string): string {
+  function handleGetSingleSelectValue(id: string, name: string): string {
     //دریافت کد انتخاب شده
 
-    localParent = id;
-    console.log(localParent);
+    // Update the state with the new value
+    setParentName(name);
+
+    // Log the new value
+    console.log("New parent name:", parentName, "------------", name);
     return id;
   }
 
   async function handleReload() {
-    //بروزرسانی تری
     index();
+    $(".checkbox_" + tree_name).prop("checked", false);
   }
 
   const index = async () => {
     //دریافت اطلاعات تری =پرکردن تری
-    setLoadingParent(true);
 
     try {
       const response = await KnowledgeFieldService.getKnowledgeFieldTree();
       if (response.data.result == 0) {
-        setTree_data_KnowledgeFields([]);
+        // setTree_data_KnowledgeFields([]);
         setTree_data_KnowledgeFields(response.data.data);
       } else if (response.data.result == 5) {
         toast.warning(response.data.message);
@@ -78,7 +84,6 @@ export default function KnowledgeFieldCreate() {
       }
     } catch (err) {
     } finally {
-      setLoadingParent(false);
     }
   };
 
@@ -103,10 +108,10 @@ export default function KnowledgeFieldCreate() {
           <div className="card">
             <div className="card-header pb-0">
               <div className="d-flex justify-content-between">
-                <h4 className="card-title mg-b-0">اضافه کردن فیلد دانش</h4>
+                <h4 className="card-title mg-b-0">ایجاد فیلد دانش</h4>
                 <NavLink
                   to={"/KnowledgeFieldPage"}
-                  className=" btn btn-primary btn-icon"
+                  className="btn btn-primary btn-icon"
                 >
                   <i className="fa  fa-arrow-left"></i>
                 </NavLink>
@@ -120,7 +125,7 @@ export default function KnowledgeFieldCreate() {
                     <input
                       id="persianTitle"
                       className="form-control"
-                      placeholder="نام سازمان را وارد کنید"
+                      placeholder="نام فیلد دانش را وارد کنید"
                       type="text"
                       {...formik.getFieldProps("persianTitle")}
                     />
@@ -177,7 +182,7 @@ export default function KnowledgeFieldCreate() {
                         id="parentName"
                         className="form-control"
                         disabled={true}
-                        value={""}
+                        value={parentName}
                         type="text"
                       />
                     </div>
@@ -190,7 +195,7 @@ export default function KnowledgeFieldCreate() {
                         </div>
                       ) : (
                         <TreeModalSingleSelect
-                          tree_name="modeladdknowledgeField"
+                          tree_name={tree_name}
                           tree_data={tree_data_KnowledgeFields}
                           onReload={handleReload}
                           tree_caption="انتخاب سرشاخه"

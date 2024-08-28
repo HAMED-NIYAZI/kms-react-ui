@@ -12,60 +12,36 @@ export default function TreeModalSingleSelect({
   tree_caption?: string;
   tree_data: any[];
   onReload: () => void;
-  onGetSingleSelectValue: (id: string) => void;
+  onGetSingleSelectValue: (id: string, name: string) => void;
 }>) {
-  const [loadingParent, setLoadingParent] = useState(false);
   let localParent: string = "";
-  const [tree_data_KnowledgeFields, setTree_data_KnowledgeFields] = useState(
-    []
-  );
 
-  function handleGetSingleSelectValue(id: string): string {
+  function handleGetSingleSelectValue(id: string, name: string): string {
     //دریافت کد انتخاب شده
     localParent = id;
+    onGetSingleSelectValue(id, name);
+
     return id;
   }
 
   async function handleReload() {
     //بروزرسانی تری
-    index();
+    // index();
+    onReload();
   }
 
-  const index = async () => {
-    //دریافت اطلاعات تری =پرکردن تری
-    setLoadingParent(true);
-
-    try {
-      const response = await KnowledgeFieldService.getKnowledgeFieldTree();
-      if (response.data.result == 0) {
-        setTree_data_KnowledgeFields([]);
-        setTree_data_KnowledgeFields(response.data.data);
-      } else if (response.data.result == 5) {
-        toast.warning(response.data.message);
-      } else {
-        toast.warning(response.data.message);
-      }
-    } catch (err) {
-    } finally {
-      setLoadingParent(false);
-    }
-  };
-
-  useEffect(() => {
-    index();
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <>
       <div>
-        <a
-          className="btn btn-primary btn-sm"
+        <button
+          className="btn btn-primary btn-icon"
           data-bs-target="#modal1"
           data-bs-toggle="modal"
-          href="#"
         >
           <i className="fa fa-ellipsis-h"></i>
-        </a>
+        </button>
       </div>
 
       <div
@@ -74,7 +50,7 @@ export default function TreeModalSingleSelect({
         style={{ display: "none" }}
         aria-hidden="true"
       >
-        <div className="modal-dialog" role="document">
+        <div className="modal-dialog">
           <div className="modal-content modal-content-demo">
             <div className="modal-header">
               <h6 className="modal-title"> </h6>

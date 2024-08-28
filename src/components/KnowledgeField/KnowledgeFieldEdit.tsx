@@ -68,30 +68,13 @@ export default function KnowledgeFieldEdit() {
 
   return (
     <>
-      <div className="breadcrumb-header justify-content-between">
-        <div className="my-auto">
-          <div className="d-flex">
-            <h4 className="content-title mb-0 my-auto">
-              <NavLink
-                to={"/organizations"}
-                className="content-title mb-0 my-auto"
-              >
-                سازمان ها
-              </NavLink>
-            </h4>
-            <span className="text-muted mt-1 tx-13 ms-2 mb-0">
-              ویرایش سازمان
-            </span>
-          </div>
-        </div>
-      </div>
       <div className="col-xl-12">
         {loading === false && (
           <form onSubmit={formik.handleSubmit}>
             <div className="card">
               <div className="card-header pb-0">
                 <div className="d-flex justify-content-between">
-                  <h4 className="card-title mg-b-0">ویرایش سازمان</h4>
+                  <h4 className="card-title mg-b-0">ویرایش فیلد دانش</h4>
                   <NavLink
                     to={"/organizations"}
                     className=" btn btn-primary btn-sm"
@@ -104,7 +87,7 @@ export default function KnowledgeFieldEdit() {
                 <div className="row">
                   <div className="col-lg-4">
                     <div className="form-group">
-                      <label>نام سازمان</label>
+                      <label>نام فیلد دانش</label>
                       <input
                         className="form-control"
                         placeholder="نام سازمان را وارد کنید"
