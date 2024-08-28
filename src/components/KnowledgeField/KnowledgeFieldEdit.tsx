@@ -33,14 +33,27 @@ export default function KnowledgeFieldEdit() {
     navigate("/KnowledgeFieldPage");
   }
   async function handleReload() {
-    if (params.id) {
-      getById(params.id);
-    }
-
     $(".checkbox_" + tree_name).prop("checked", false);
     setParentName("");
     parentId = "";
   }
+  const index = async () => {
+    //دریافت اطلاعات تری =پرکردن تری
+
+    try {
+      const response = await KnowledgeFieldService.getKnowledgeFieldTree();
+      if (response.data.result == 0) {
+        setTree_data_KnowledgeFields(response.data.data);
+        setParentName("");
+      } else if (response.data.result == 5) {
+        toast.warning(response.data.message);
+      } else {
+        toast.warning(response.data.message);
+      }
+    } catch (err) {
+    } finally {
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -52,7 +65,7 @@ export default function KnowledgeFieldEdit() {
     onSubmit: async (values, { resetForm }) => {
       setLloading(true);
       try {
-        const response = await OrganizationService.update(values);
+        const response = await KnowledgeFieldService.update(values);
         if (response.data.result === 0) {
           resetForm();
           toast.success(response.data.message);
@@ -78,6 +91,7 @@ export default function KnowledgeFieldEdit() {
     try {
       const response = await KnowledgeFieldService.getById(id);
       formik.setValues({ ...response.data.data });
+      console.log(response.data.data.parentPersianTitle);
     } catch (err) {
     } finally {
     }
@@ -86,6 +100,7 @@ export default function KnowledgeFieldEdit() {
     if (params.id) {
       getById(params.id);
     }
+    index();
   }, []);
 
   return (
@@ -109,7 +124,7 @@ export default function KnowledgeFieldEdit() {
                   <h4 className="card-title mg-b-0">ویرایش فیلد دانش</h4>
                   <NavLink
                     to={"/KnowledgeFieldPage"}
-                    className=" btn btn-primary btn-sm"
+                    className=" btn btn-primary btn-icon"
                   >
                     <i className="fa  fa-arrow-left"></i>
                   </NavLink>
@@ -119,8 +134,9 @@ export default function KnowledgeFieldEdit() {
                 <div className="row">
                   <div className="col-lg-4">
                     <div className="form-group">
-                      <label>نام فیلد دانش</label>
+                      <label htmlFor="persianTitle">نام فیلد دانش</label>
                       <input
+                        id="persianTitle"
                         className="form-control"
                         placeholder="نام سازمان را وارد کنید"
                         type="text"
@@ -136,8 +152,9 @@ export default function KnowledgeFieldEdit() {
                   </div>
                   <div className="col-lg-2">
                     <div className="form-group">
-                      <label>اولویت نمایش</label>
+                      <label htmlFor="sortingNumber">اولویت نمایش</label>
                       <select
+                        id="sortingNumber"
                         className="form-control"
                         {...formik.getFieldProps("sortingNumber")}
                       >
@@ -145,7 +162,9 @@ export default function KnowledgeFieldEdit() {
                           1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
                           17, 18, 19, 20,
                         ].map((i) => (
-                          <option value={i}>{i}</option>
+                          <option key={i} value={i}>
+                            {i}
+                          </option>
                         ))}
                       </select>
                       <span className="text-danger">
