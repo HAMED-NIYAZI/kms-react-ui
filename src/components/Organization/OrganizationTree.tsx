@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import OrganizationService from "../../services/OrganizationService";
-import SpinnerGrid from "../Spinner/Spinner_Grid";
+import SpinnerGrid from "../Spinner/SpinnerGrid";
 import TreeSingleSelect from "../Tree/TreeSingleSelect";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";

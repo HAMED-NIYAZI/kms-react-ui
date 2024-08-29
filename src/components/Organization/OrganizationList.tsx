@@ -6,7 +6,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { NavLink } from "react-router-dom";
 import BreadCrumb from "../BreadCrumb/BreadCrumb";
-import SpinnerBtn from "../Spinner/Spinner_btn";
+import SpinnerBtn from "../Spinner/SpinnerBtn";
 
 function OrganizationList({
   tree_name,

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { connect } from "react-redux";
 import * as Yup from "yup";
 import UserService from "../../services/UserService";
-import SpinnerBtn from "../Spinner/Spinner_btn";
+import SpinnerBtn from "../Spinner/SpinnerBtn";
 import { toast } from "react-toastify";
 import { setUser } from "../../store/actions/user-actions";
 import BreadCrumb from "../BreadCrumb/BreadCrumb";

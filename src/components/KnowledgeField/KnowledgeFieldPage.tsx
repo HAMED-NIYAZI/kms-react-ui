@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import KnowledgeFieldService from "../../services/KnowledgeFieldService";
 import SingleSelectTreeComponent from "./SingleSelectTreeComponent";
 import { toast } from "react-toastify";
-import SpinnerGrid from "../Spinner/Spinner_Grid";
+import SpinnerGrid from "../Spinner/SpinnerGrid";
 import { useNavigate } from "react-router-dom";
 import BreadCrumb from "../BreadCrumb/BreadCrumb";
 

@@ -12,7 +12,7 @@ import {
   setToken,
 } from "../../store/actions/user-actions";
 import { connect } from "react-redux";
-import Spinner_Page from "../Spinner/Spinner_Page";
+import SpinnerPage from "../Spinner/SpinnerPage";
 
 function Login({
   setAuthUser,
@@ -164,7 +164,7 @@ function Login({
         <div className="login d-flex align-items-center py-2">
           <div className="container p-0">
             {isLoading ? (
-              <Spinner_Page /> // Or use a more sophisticated loading component
+              <SpinnerPage /> // Or use a more sophisticated loading component
             ) : (
               <div className="row">
                 <div className="col-md-10 col-lg-10 col-xl-9 mr-center">
