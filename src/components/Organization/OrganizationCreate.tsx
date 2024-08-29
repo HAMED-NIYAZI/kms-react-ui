@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import OrganizationService from "../../services/OrganizationService";
 import { toast } from "react-toastify";
 import { setSingleSelectedTreeItemAction } from "../../store/actions/tree/tree-actions";
+import BreadCrumb from "../BreadCrumb/BreadCrumb";
 function OrganizationCreate({
   treeItem,
   setTreeItem,
@@ -77,6 +78,14 @@ function OrganizationCreate({
           </div>
         </div>
       </div>
+      <BreadCrumb
+        BreadList={[
+          { Title: "اطلاعات پایه", Address: "" },
+          { Title: "سازمان ها", Address: "/organizations" },
+          { Title: "ایجاد سازمان", Address: "/organizations/create" },
+        ]}
+      />
+
       <div className="col-xl-12">
         <form onSubmit={formik.handleSubmit}>
           <div className="card">

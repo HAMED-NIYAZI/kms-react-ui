@@ -5,6 +5,7 @@ import OrganizationService from "../../services/OrganizationService";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { NavLink } from "react-router-dom";
+import BreadCrumb from "../BreadCrumb/BreadCrumb";
 
 function OrganizationList({
   tree_name,
@@ -44,8 +45,12 @@ function OrganizationList({
   }
   return (
     <>
-      <br />
-      <br />
+      <BreadCrumb
+        BreadList={[
+          { Title: "اطلاعات پایه", Address: "" },
+          { Title: "سازمان ها", Address: "/organizations" },
+        ]}
+      />
 
       <div className="row">
         <div className="col-lg-12">

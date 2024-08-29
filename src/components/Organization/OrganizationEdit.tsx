@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import OrganizationService from "../../services/OrganizationService";
 import { toast } from "react-toastify";
 import { setSingleSelectedTreeItemAction } from "../../store/actions/tree/tree-actions";
+import BreadCrumb from "../BreadCrumb/BreadCrumb";
 
 function OrganizationEdit({
   treeItem,
@@ -81,23 +82,17 @@ function OrganizationEdit({
 
   return (
     <>
-      <div className="breadcrumb-header justify-content-between">
-        <div className="my-auto">
-          <div className="d-flex">
-            <h4 className="content-title mb-0 my-auto">
-              <NavLink
-                to={"/organizations"}
-                className="content-title mb-0 my-auto"
-              >
-                سازمان ها
-              </NavLink>
-            </h4>
-            <span className="text-muted mt-1 tx-13 ms-2 mb-0">
-              ویرایش سازمان
-            </span>
-          </div>
-        </div>
-      </div>
+      <BreadCrumb
+        BreadList={[
+          { Title: "اطلاعات پایه", Address: "" },
+          { Title: "سازمان ها", Address: "/organizations" },
+          {
+            Title: "ویرایش سازمان",
+            Address: "/organizations/edit/" + params.id,
+          },
+        ]}
+      />
+
       <div className="col-xl-12">
         {loading === false && (
           <form onSubmit={formik.handleSubmit}>
