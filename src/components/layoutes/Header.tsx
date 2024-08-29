@@ -140,8 +140,8 @@ function Header({ logout, user }: { logout: () => void; user: any }) {
                       </div>
                     </div>
                   </div>
-                  <NavLink to={'/profile'} className="dropdown-item">
-                    <i className="bx bx-user-circle"></i>مشخصات
+                  <NavLink to={"/profile"} className="dropdown-item">
+                    <i className="bx bx-user-circle"></i>پروفایل من
                   </NavLink>
                   {/* <a className="dropdown-item" href="#">
                     <i className="bx bx-cog"></i> ویرایش نمایه

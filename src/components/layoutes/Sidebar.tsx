@@ -119,7 +119,7 @@ function Sidebar({ user }: { user: any }) {
               <ul className="slide-menu  color-black">
                 <li className="color-black">
                   <NavLink className="slide-item  color-black" to={"/profile"}>
-                    مشخصات پروفایل
+                    پروفایل من{" "}
                   </NavLink>
                 </li>
                 <li className="color-black">

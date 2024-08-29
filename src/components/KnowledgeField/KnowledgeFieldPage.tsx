@@ -79,7 +79,13 @@ export default function KnowledgeFieldPage() {
 
   return (
     <>
-      <BreadCrumb BreadList={[{ Title: "فیلدهای دانش", Address: "" }]} />
+      <BreadCrumb
+        BreadList={[
+          { Title: "اطلاعات پایه", Address: "" },
+          { Title: "فیلدهای دانش", Address: "/KnowledgeFieldPage" },
+        ]}
+      />
+
       <div className="row">
         <div
           className="col-xl-12"

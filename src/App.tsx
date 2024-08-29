@@ -43,10 +43,10 @@ function App({ checkLogin }: { checkLogin: boolean }) {
                   element={<OrganizationEdit />}
                 />
                 {/*profile*/}
-                <Route path="profile" element={<Profile />} />
+                <Route path="/profile" element={<Profile />} />
                 {/*KnowledgeFieldPage*/}
                 <Route
-                  path="KnowledgeFieldPage"
+                  path="/KnowledgeFieldPage"
                   element={<KnowledgeFieldPage />}
                 />
                 <Route
