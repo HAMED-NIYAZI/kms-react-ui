@@ -59,6 +59,7 @@ function OrganizationEdit({
   });
 
   async function getById(id: string) {
+    setTreeItem("OrganizationViewList", null);
     try {
       const response = await OrganizationService.getById(id);
       formik.setValues({ ...response.data.data });

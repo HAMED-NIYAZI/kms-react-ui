@@ -1,6 +1,6 @@
 import axios from "axios";
 const api = axios.create({
-    baseURL: 'https://freelancework.ir/',
+    baseURL: import.meta.env.VITE_APP_BASE_URL,
     headers: {
         'Accept': 'application/json'
     }

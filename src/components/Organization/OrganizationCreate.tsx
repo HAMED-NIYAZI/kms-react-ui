@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SpinnerBtn from "../Spinner/SpinnerBtn";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -54,6 +54,10 @@ function OrganizationCreate({
       parentId: Yup.string().nullable(),
     }),
   });
+
+  useEffect(() => {
+    setTreeItem("OrganizationViewList", null);
+  }, []);
 
   return (
     <>

@@ -1,19 +1,16 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 import SpinnerBtn from "../Spinner/SpinnerBtn";
-import { NavLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import KnowledgeFieldService from "../../services/KnowledgeFieldService";
 import { toast } from "react-toastify";
 import BreadCrumb from "../BreadCrumb/BreadCrumb";
-import SingleSelectTreeComponent from "./SingleSelectTreeComponent";
-import SpinnerGrid from "../Spinner/SpinnerGrid";
 import TreeModalSingleSelect from "./TreeModalSingleSelect";
+import { useNavigate } from "react-router-dom";
 
 export default function KnowledgeFieldCreate() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [loadingParent, setLoadingParent] = useState(false);
   let parentId: string = "";
   const [parentName, setParentName] = useState<string>("");
 
