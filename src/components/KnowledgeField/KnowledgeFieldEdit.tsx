@@ -27,9 +27,9 @@ export default function KnowledgeFieldEdit() {
     parentId = id;
   }
 
-  async function handleBack() {
+  function handleBack() {
     setParentName("");
-
+    console.log(parentName);
     navigate("/KnowledgeFieldPage");
   }
   async function handleReload() {
@@ -44,7 +44,6 @@ export default function KnowledgeFieldEdit() {
       const response = await KnowledgeFieldService.getKnowledgeFieldTree();
       if (response.data.result == 0) {
         setTree_data_KnowledgeFields(response.data.data);
-        setParentName("");
       } else if (response.data.result == 5) {
         toast.warning(response.data.message);
       } else {
@@ -65,6 +64,7 @@ export default function KnowledgeFieldEdit() {
     onSubmit: async (values, { resetForm }) => {
       setLloading(true);
       try {
+        console.log(values);
         const response = await KnowledgeFieldService.update(values);
         if (response.data.result === 0) {
           resetForm();
@@ -91,7 +91,7 @@ export default function KnowledgeFieldEdit() {
     try {
       const response = await KnowledgeFieldService.getById(id);
       formik.setValues({ ...response.data.data });
-      console.log(response.data.data.parentPersianTitle);
+      setParentName(response.data.data.parentId);
     } catch (err) {
     } finally {
     }
@@ -122,12 +122,12 @@ export default function KnowledgeFieldEdit() {
               <div className="card-header pb-0">
                 <div className="d-flex justify-content-between">
                   <h4 className="card-title mg-b-0">ویرایش فیلد دانش</h4>
-                  <NavLink
-                    to={"/KnowledgeFieldPage"}
-                    className=" btn btn-primary btn-icon"
+                  <button
+                    onClick={handleBack}
+                    className="btn btn-primary btn-icon"
                   >
                     <i className="fa  fa-arrow-left"></i>
-                  </NavLink>
+                  </button>
                 </div>
               </div>
               <div className="card-body">

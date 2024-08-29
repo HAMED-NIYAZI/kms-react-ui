@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import SpinnerBtn from "../Spinner/Spinner_btn";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -17,7 +17,7 @@ export default function KnowledgeFieldCreate() {
   let parentId: string = "";
   const [parentName, setParentName] = useState<string>("");
 
-  let tree_name: string = "modeladdknowledgeField";
+  let tree_name: string = "modeladdknowledgeField1";
   const [tree_data_KnowledgeFields, setTree_data_KnowledgeFields] = useState(
     []
   );
@@ -61,8 +61,7 @@ export default function KnowledgeFieldCreate() {
   }
 
   async function handleBack() {
-    setParentName("");
-
+    resetParentName();
     navigate("/KnowledgeFieldPage");
   }
   async function handleReload() {
@@ -71,7 +70,22 @@ export default function KnowledgeFieldCreate() {
     setParentName("");
     parentId = "";
   }
+  function resetParentName() {
+    const inputElement = document.getElementById(
+      "parentName"
+    ) as HTMLInputElement;
+    console.log(inputElement);
+    if (inputElement) {
+      inputElement.value = "";
+      inputElement.setAttribute("value", "");
+      handleGetSingleSelectValue("", "");
+      inputElement.setAttribute("defaultValue", "");
+    }
 
+    console.log(inputElement);
+    setParentName("");
+    console.log(parentName);
+  }
   const index = async () => {
     //دریافت اطلاعات تری =پرکردن تری
 
@@ -82,6 +96,10 @@ export default function KnowledgeFieldCreate() {
         setTree_data_KnowledgeFields(response.data.data);
         setParentName("");
         console.log("loaded");
+        setTimeout(() => {
+          resetParentName();
+          console.log("resetParentName");
+        }, 1000);
       } else if (response.data.result == 5) {
         toast.warning(response.data.message);
       } else {
@@ -93,9 +111,17 @@ export default function KnowledgeFieldCreate() {
   };
 
   useEffect(() => {
-    index();
+    resetParentName();
+
+    console.log("useEffect");
   }, []);
 
+  useLayoutEffect(() => {
+    index();
+
+    console.log("useLayoutEffect");
+    // Perform actions after component renders
+  }, []); // Empty dependency array means this effect runs once after render
   return (
     <>
       <BreadCrumb
@@ -115,7 +141,10 @@ export default function KnowledgeFieldCreate() {
               <div className="d-flex justify-content-between">
                 <h4 className="card-title mg-b-0">ایجاد فیلد دانش</h4>
                 <button
-                  onClick={handleBack}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleBack();
+                  }}
                   className="btn btn-primary btn-icon"
                 >
                   <i className="fa  fa-arrow-left"></i>
