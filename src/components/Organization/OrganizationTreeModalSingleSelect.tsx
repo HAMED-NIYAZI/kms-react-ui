@@ -6,7 +6,7 @@ function OrganizationTreeModalSingleSelect() {
     <>
       <div>
         <a
-          className="btn btn-primary btn-sm"
+          className="btn btn-primary btn-icon"
           data-bs-target="#modal1"
           data-bs-toggle="modal"
           href="#"
@@ -21,7 +21,7 @@ function OrganizationTreeModalSingleSelect() {
         style={{ display: "none" }}
         aria-hidden="true"
       >
-        <div className="modal-dialog" role="document">
+        <div className="modal-dialog">
           <div className="modal-content modal-content-demo">
             <div className="modal-header">
               <h6 className="modal-title"> </h6>
@@ -39,7 +39,7 @@ function OrganizationTreeModalSingleSelect() {
             </div>
             <div className="modal-footer">
               <button
-                className="btn ripple btn-secondary btn-sm"
+                className="btn ripple btn-primary"
                 data-bs-dismiss="modal"
                 type="button"
               >

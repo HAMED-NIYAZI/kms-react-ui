@@ -12,13 +12,13 @@ import BreadCrumb from "../BreadCrumb/BreadCrumb";
 function OrganizationCreate({
   treeItem,
   setTreeItem,
-}: {
+}: Readonly<{
   treeItem: any;
   setTreeItem: (treeName: string, item: null) => void;
-}) {
+}>) {
   const navigate = useNavigate();
 
-  const [loading, setLloading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const formik = useFormik({
     initialValues: {
       persianTitle: "",
@@ -26,7 +26,7 @@ function OrganizationCreate({
       parentId: "",
     },
     onSubmit: async (values, { resetForm }) => {
-      setLloading(true);
+      setLoading(true);
       try {
         values.parentId = treeItem["OrganizationViewList_ModalCreate"]?.id;
         setTreeItem("OrganizationViewList_ModalCreate", null);
@@ -41,10 +41,9 @@ function OrganizationCreate({
           toast.warning(response.data.message);
         }
       } catch (err) {
-        // toast.error(err.message);
       } finally {
         debugger;
-        setLloading(false);
+        setLoading(false);
       }
     },
     validationSchema: Yup.object({
@@ -58,26 +57,6 @@ function OrganizationCreate({
 
   return (
     <>
-      <div className="breadcrumb-header justify-content-between">
-        <div className="my-auto">
-          <div className="d-flex">
-            <h4 className="content-title mb-0 my-auto">
-              <NavLink
-                to={"/organizations"}
-                className="content-title mb-0 my-auto"
-              >
-                سازمان ها
-              </NavLink>
-            </h4>
-            <span className="text-muted mt-1 tx-13 ms-2 mb-0">
-              <NavLink to={"/organizations/create"}>
-                {" "}
-                اضافه کردن سازمان{" "}
-              </NavLink>
-            </span>
-          </div>
-        </div>
-      </div>
       <BreadCrumb
         BreadList={[
           { Title: "اطلاعات پایه", Address: "" },
@@ -91,9 +70,9 @@ function OrganizationCreate({
           <div className="card">
             <div className="card-header pb-0">
               <div className="d-flex justify-content-between">
-                <h4 className="card-title mg-b-0">اضافه کردن سازمان</h4>
+                <h4 className="card-title mg-b-0">ایجاد سازمان </h4>
                 <NavLink
-                  to={"/organizations/create"}
+                  to={"/organizations"}
                   className=" btn btn-primary btn-icon"
                 >
                   <i className="fa  fa-arrow-left"></i>
@@ -104,8 +83,9 @@ function OrganizationCreate({
               <div className="row">
                 <div className="col-lg-8">
                   <div className="form-group">
-                    <label>نام سازمان</label>
+                    <label htmlFor="persianTitle">نام سازمان</label>
                     <input
+                      id="persianTitle"
                       className="form-control"
                       placeholder="نام سازمان را وارد کنید"
                       type="text"
@@ -120,8 +100,9 @@ function OrganizationCreate({
                 </div>
                 <div className="col-lg-4">
                   <div className="form-group">
-                    <label>اولویت نمایش</label>
+                    <label htmlFor="sortingNumber">اولویت نمایش</label>
                     <select
+                      id="sortingNumber"
                       className="form-control"
                       {...formik.getFieldProps("sortingNumber")}
                     >
@@ -129,7 +110,9 @@ function OrganizationCreate({
                         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
                         17, 18, 19, 20,
                       ].map((i) => (
-                        <option value={i}>{i}</option>
+                        <option key={i} value={i}>
+                          {i}
+                        </option>
                       ))}
                     </select>
                     <span className="text-danger">
@@ -142,10 +125,13 @@ function OrganizationCreate({
                 </div>
 
                 <div className="col-lg-12">
-                  <label>نام سرشاخه</label>
+                  <label htmlFor="OrganizationViewList_ModalCreate">
+                    نام سرشاخه
+                  </label>
                   <div className="row">
                     <div className="col-6">
                       <input
+                        id="OrganizationViewList_ModalCreate"
                         className="form-control"
                         disabled={true}
                         value={
@@ -169,7 +155,7 @@ function OrganizationCreate({
               {loading ? (
                 <SpinnerBtn />
               ) : (
-                <button type="submit" className="btn btn-success btn-sm">
+                <button type="submit" className="btn btn-primary">
                   ذخیره
                 </button>
               )}

@@ -13,14 +13,14 @@ import BreadCrumb from "../BreadCrumb/BreadCrumb";
 function OrganizationEdit({
   treeItem,
   setTreeItem,
-}: {
+}: Readonly<{
   treeItem: any;
   setTreeItem: (treeName: string, item: any) => void;
-}) {
+}>) {
   const navigate = useNavigate();
   const params = useParams();
 
-  const [loading, setLloading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const formik = useFormik({
     initialValues: {
       id: "",
@@ -29,7 +29,7 @@ function OrganizationEdit({
       parentId: "",
     },
     onSubmit: async (values, { resetForm }) => {
-      setLloading(true);
+      setLoading(true);
       try {
         if (treeItem["OrganizationViewList_ModalCreate"].id) {
           values.parentId = treeItem["OrganizationViewList_ModalCreate"].id;
@@ -45,19 +45,15 @@ function OrganizationEdit({
           toast.warning(response.data.message);
         }
       } catch (err) {
-        // toast.error(err.message);
       } finally {
-        debugger;
-        setLloading(false);
+        setLoading(false);
       }
     },
     validationSchema: Yup.object({
       persianTitle: Yup.string()
         .required("پرکردن این فیلد الزامیست")
-        .max("50", "حداکثر 50 کارکتر وارد کنید"),
-      sortingNumber: Yup.number("باید عددی باشد").required(
-        "پرکردن این فیلد الزامیست"
-      ),
+        .max(50, "حداکثر 50 کارکتر وارد کنید"),
+      sortingNumber: Yup.number().required("پرکردن این فیلد الزامیست"),
       parentId: Yup.string().nullable(),
     }),
   });
@@ -70,9 +66,7 @@ function OrganizationEdit({
         id: response.data.data.parentId,
         persianTitle: response.data.data.parentPersianTitle,
       });
-    } catch (err) {
-    } finally {
-    }
+    } catch (err) {}
   }
   useEffect(() => {
     if (params.id) {
@@ -102,7 +96,7 @@ function OrganizationEdit({
                   <h4 className="card-title mg-b-0">ویرایش سازمان</h4>
                   <NavLink
                     to={"/organizations"}
-                    className=" btn btn-primary btn-sm"
+                    className=" btn btn-primary btn-icon"
                   >
                     <i className="fa  fa-arrow-left"></i>
                   </NavLink>
@@ -112,8 +106,9 @@ function OrganizationEdit({
                 <div className="row">
                   <div className="col-lg-4">
                     <div className="form-group">
-                      <label>نام سازمان</label>
+                      <label htmlFor="persianTitle">نام سازمان</label>
                       <input
+                        id="persianTitle"
                         className="form-control"
                         placeholder="نام سازمان را وارد کنید"
                         type="text"
@@ -129,8 +124,9 @@ function OrganizationEdit({
                   </div>
                   <div className="col-lg-2">
                     <div className="form-group">
-                      <label>اولویت نمایش</label>
+                      <label htmlFor="sortingNumber">اولویت نمایش</label>
                       <select
+                        id="sortingNumber"
                         className="form-control"
                         {...formik.getFieldProps("sortingNumber")}
                       >
@@ -138,7 +134,9 @@ function OrganizationEdit({
                           1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
                           17, 18, 19, 20,
                         ].map((i) => (
-                          <option value={i}>{i}</option>
+                          <option key={i} value={i}>
+                            {i}
+                          </option>
                         ))}
                       </select>
                       <span className="text-danger">
@@ -151,10 +149,13 @@ function OrganizationEdit({
                   </div>
 
                   <div className="col-lg-6">
-                    <label>نام سرشاخه</label>
+                    <label htmlFor="OrganizationViewList_ModalCreate">
+                      نام سرشاخه
+                    </label>
                     <div className="row align-items-center">
                       <div className="col-10">
                         <input
+                          id="OrganizationViewList_ModalCreate"
                           className="form-control"
                           disabled={true}
                           value={
@@ -179,7 +180,7 @@ function OrganizationEdit({
                 {loading ? (
                   <SpinnerBtn />
                 ) : (
-                  <button type="submit" className="btn btn-warning btn-sm">
+                  <button type="submit" className="btn btn-primary">
                     ذخیره
                   </button>
                 )}
