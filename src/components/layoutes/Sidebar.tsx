@@ -128,14 +128,14 @@ function Sidebar({ user }: { user: any }) {
                   </NavLink>
                 </li>
                 <li>
-                  <a className="slide-item" href="/organizations">
+                  <NavLink className="slide-item" to={"/organizations"}>
                     سازمان
-                  </a>
+                  </NavLink>
                 </li>
                 <li>
-                  <a className="slide-item" href="/KnowledgeFieldPage">
+                  <NavLink className="slide-item" to={"/KnowledgeFieldPage"}>
                     فیلد دانش
-                  </a>
+                  </NavLink>
                 </li>
               </ul>
             </li>
