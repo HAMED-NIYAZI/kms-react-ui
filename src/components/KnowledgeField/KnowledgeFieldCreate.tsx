@@ -234,7 +234,7 @@ export default function KnowledgeFieldCreate() {
               {loading ? (
                 <SpinnerBtn />
               ) : (
-                <button type="submit" className="btn btn-success btn-sm">
+                <button type="submit" className="btn btn-success">
                   ذخیره
                 </button>
               )}

@@ -74,7 +74,7 @@ export default function TreeModalSingleSelect({
             </div>
             <div className="modal-footer">
               <button
-                className="btn ripple btn-secondary btn-sm"
+                className="btn ripple btn-success"
                 data-bs-dismiss="modal"
                 type="button"
               >

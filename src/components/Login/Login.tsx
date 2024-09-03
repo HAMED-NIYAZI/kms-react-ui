@@ -18,11 +18,11 @@ function Login({
   setAuthUser,
   setAuthToken,
   setAuthExpiresAt,
-}: {
+}: Readonly<{
   setAuthUser: (user: any) => void;
   setAuthToken: (exeiresAt: number) => void;
   setAuthExpiresAt: (token: string) => void;
-}) {
+}>) {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -37,8 +37,6 @@ function Login({
       password: "123",
     },
     onSubmit: async (values, { resetForm }) => {
-      //  signInLoading.value = true;
-      //  errors = {};
       try {
         const response = await AuthService.login({
           userName: values.userName,
@@ -82,7 +80,7 @@ function Login({
           err.response.data.status == 400 &&
           err.response.data.title == "One or more validation errors occurred."
         ) {
-          var myerrors = err.response.data.errors;
+          const myerrors = err.response.data.errors;
           for (const key in myerrors) {
             if (myerrors.hasOwnProperty(key)) {
               myerrors[key].forEach((error: any) => {

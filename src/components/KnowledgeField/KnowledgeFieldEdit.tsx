@@ -51,6 +51,7 @@ export default function KnowledgeFieldEdit() {
       }
     } catch (err) {
     } finally {
+      console.log("fill tree");
     }
   };
 
@@ -64,7 +65,7 @@ export default function KnowledgeFieldEdit() {
     onSubmit: async (values, { resetForm }) => {
       setLloading(true);
       try {
-        console.log(values);
+        values.parentId = parentId;
         const response = await KnowledgeFieldService.update(values);
         if (response.data.result === 0) {
           resetForm();
@@ -73,7 +74,8 @@ export default function KnowledgeFieldEdit() {
         } else {
           toast.warning(response.data.message);
         }
-      } catch (err) {
+      } catch (err: any) {
+        toast.warning(err);
       } finally {
         setLloading(false);
       }
@@ -216,7 +218,7 @@ export default function KnowledgeFieldEdit() {
                 {loading ? (
                   <SpinnerBtn />
                 ) : (
-                  <button type="submit" className="btn btn-warning btn-sm">
+                  <button type="submit" className="btn btn-success">
                     ذخیره
                   </button>
                 )}
