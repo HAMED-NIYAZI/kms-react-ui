@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { setSingleSelectedTreeItemAction } from "../../store/actions/tree/tree-actions";
 import TreeSingle from "./TreeSingle";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 
 function SingleSelectTreeComponent({
   tree_name,
@@ -26,6 +26,10 @@ function SingleSelectTreeComponent({
   onEdit?: (id: string) => void;
   onGetSingleSelectValue: (id: string, name: string) => void;
 }>) {
+  useEffect(() => {
+    treeSingleSelectValue[tree_name] = null;
+  }, []);
+
   return (
     <div className="col-xl-12">
       <div className="card">
