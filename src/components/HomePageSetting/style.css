@@ -1,0 +1,36 @@
+.card-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .rounded {
+    border-radius: 5px !important;
+  }
+  .buttons-container {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: flex-start; /* Align buttons to the start of the container */
+    margin-left: -25px; /* Adjust based on the width of the.bd pd-20 clearfix div */
+    margin-top: 24px;
+  }
+  
+  .right-button {
+    padding: 5px 10px; /* Example padding */
+    background-color: #007bff; /* Example background color */
+    color: white; /* Text color */
+    border: none;
+    cursor: pointer;
+    border-radius: 5px; /* Rounded corners */
+    margin-top: 5px; /* Space between buttons */
+  }
+  
+  .main-img-user img {
+    border-radius: 0%;
+    -o-object-fit: cover;
+    object-fit: cover;
+  }
+  .main-img-user {
+    height: 75px;
+    position: relative;
+    width: 75px;
+  }
