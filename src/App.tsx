@@ -16,6 +16,7 @@ import KnowledgeFieldPage from "./components/KnowledgeField/KnowledgeFieldPage";
 import KnowledgeFieldCreate from "./components/KnowledgeField/KnowledgeFieldCreate";
 import KnowledgeFieldEdit from "./components/KnowledgeField/KnowledgeFieldEdit";
 import Master from "./components/Layoutes/Master";
+import HomePageSetting from "./components/HomePageSetting/HomePageSetting";
 
 function App({ checkLogin }: { checkLogin: boolean }) {
   return (
@@ -57,6 +58,8 @@ function App({ checkLogin }: { checkLogin: boolean }) {
                   path="/KnowledgeFieldPage/Edit/:id"
                   element={<KnowledgeFieldEdit />}
                 />
+                {/* HomePageSetting */}
+                <Route path="/HomePageSetting" element={<HomePageSetting />} />
               </Route>
             </>
           )}

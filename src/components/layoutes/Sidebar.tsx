@@ -137,6 +137,11 @@ function Sidebar({ user }: { user: any }) {
                     فیلد دانش
                   </NavLink>
                 </li>
+                <li>
+                  <NavLink className="slide-item" to={"/HomePageSetting"}>
+                    تنظیمات
+                  </NavLink>
+                </li>
               </ul>
             </li>
 
