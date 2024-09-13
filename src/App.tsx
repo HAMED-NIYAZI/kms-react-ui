@@ -16,9 +16,17 @@ import KnowledgeFieldPage from "./components/KnowledgeField/KnowledgeFieldPage";
 import KnowledgeFieldCreate from "./components/KnowledgeField/KnowledgeFieldCreate";
 import KnowledgeFieldEdit from "./components/KnowledgeField/KnowledgeFieldEdit";
 import Master from "./components/Layoutes/Master";
+<<<<<<< Updated upstream
 import HomePageSetting from "./components/HomePageSetting/HomePageSetting";
+=======
+import ChartList from "./components/Chart/ChartList";
+import ChartCreate from "./components/Chart/ChartCreate";
+import ChartEdit from "./components/Chart/ChartEdit";
+>>>>>>> Stashed changes
 
-function App({ checkLogin }: { checkLogin: boolean }) {
+export type AppProps = { checkLogin: boolean };
+
+function App({ checkLogin }: AppProps) {
   return (
     <>
       <BrowserRouter>
@@ -43,6 +51,10 @@ function App({ checkLogin }: { checkLogin: boolean }) {
                   path="/organizations/edit/:id"
                   element={<OrganizationEdit />}
                 />
+                {/*chart*/}
+                <Route path="/charts" element={<ChartList />} />
+                <Route path="/charts/create" element={<ChartCreate />} />
+                <Route path="/charts/edit/:id" element={<ChartEdit />} />
                 {/*profile*/}
                 <Route path="/profile" element={<Profile />} />
                 {/*KnowledgeFieldPage*/}

@@ -97,7 +97,7 @@ function Sidebar({ user }: { user: any }) {
               </NavLink>
             </li>
 
-            <li className="slide" onClick={(e) => menu(e)}>
+            <li className={'slide'} onClick={(e) => menu(e)}>
               <a className="side-menu__item" data-bs-toggle="slide" href="#">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -119,7 +119,7 @@ function Sidebar({ user }: { user: any }) {
               <ul className="slide-menu  color-black">
                 <li className="color-black">
                   <NavLink className="slide-item  color-black" to={"/profile"}>
-                    پروفایل من{" "}
+                    پروفایل من
                   </NavLink>
                 </li>
                 <li className="color-black">
@@ -138,8 +138,13 @@ function Sidebar({ user }: { user: any }) {
                   </NavLink>
                 </li>
                 <li>
+<<<<<<< Updated upstream
                   <NavLink className="slide-item" to={"/HomePageSetting"}>
                     تنظیمات
+=======
+                  <NavLink className="slide-item" to={"/charts"}>
+                    چارت
+>>>>>>> Stashed changes
                   </NavLink>
                 </li>
               </ul>
