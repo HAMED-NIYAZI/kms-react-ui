@@ -13,16 +13,19 @@ import {
 } from "../../store/actions/user-actions";
 import { connect } from "react-redux";
 import SpinnerPage from "../Spinner/SpinnerPage";
+import { setHomePageSettingsAction } from "../../store/actions/home-page-setting-actions";
 
 function Login({
   setAuthUser,
   setAuthToken,
   setAuthExpiresAt,
-}: Readonly<{
+  setHomePage,
+}: {
   setAuthUser: (user: any) => void;
   setAuthToken: (exeiresAt: number) => void;
   setAuthExpiresAt: (token: string) => void;
-}>) {
+  setHomePage: (item: any) => void;
+}) {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -107,6 +110,7 @@ function Login({
       try {
         const response = await AuthService.getInfoForLoginPage();
         if (response.data.result == 0) {
+          setHomePage(response.data.data);
           setLoginPageInfo(response.data.data);
           setIsLoading(false);
 
@@ -257,8 +261,10 @@ function Login({
     </div>
   );
 }
+
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    setHomePage: (item: any) => dispatch(setHomePageSettingsAction(item)),
     setAuthUser: (user: any) => dispatch(setUser(user)),
     setAuthToken: (token: string) => dispatch(setToken(token)),
     setAuthExpiresAt: (expers_at: number) => dispatch(setExpiresAt(expers_at)),

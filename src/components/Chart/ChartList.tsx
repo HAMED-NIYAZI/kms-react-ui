@@ -8,13 +8,12 @@ import BreadCrumb from "../BreadCrumb/BreadCrumb";
 import SpinnerBtn from "../Spinner/SpinnerBtn";
 import ChartService from "../../services/ChartService";
 
-function ChartList({
-  treeItem,
-  setTreeItem,
-}: Readonly<{
+interface ChartListInterface {
   treeItem: any;
-  setTreeItem: (treeName: string, treeItem: any) => void;
-}>) {
+  setTreeItem(treeName: string, treeItem: any): void;
+}
+
+function ChartList({ treeItem, setTreeItem }: ChartListInterface) {
   const [loadingRemove, setLoadingRemove] = useState<boolean>(false);
   const [componentKey, setComponentKey] = useState<number>(0);
 
