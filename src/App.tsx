@@ -16,13 +16,11 @@ import KnowledgeFieldPage from "./components/KnowledgeField/KnowledgeFieldPage";
 import KnowledgeFieldCreate from "./components/KnowledgeField/KnowledgeFieldCreate";
 import KnowledgeFieldEdit from "./components/KnowledgeField/KnowledgeFieldEdit";
 import Master from "./components/Layoutes/Master";
-<<<<<<< Updated upstream
 import HomePageSetting from "./components/HomePageSetting/HomePageSetting";
-=======
 import ChartList from "./components/Chart/ChartList";
 import ChartCreate from "./components/Chart/ChartCreate";
 import ChartEdit from "./components/Chart/ChartEdit";
->>>>>>> Stashed changes
+
 
 export type AppProps = { checkLogin: boolean };
 
