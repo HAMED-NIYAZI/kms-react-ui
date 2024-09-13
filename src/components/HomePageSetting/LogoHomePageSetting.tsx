@@ -1,20 +1,28 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import HomePageSettingService from "../../services/HomePageSettingService";
-
+import { connect } from "react-redux";
+import { setHomePageSettingsAction } from "../../store/actions/home-page-setting-actions";
 
 interface HomePageSetting {
   id: number;
   imagePath: string;
 }
 
-const  LogoHomePageSetting: React.FC = () => {
-  const [logoPath, setLogoPath] = useState<string>('');
+function LogoHomePageSetting({
+  homePageSettings,
+  setHomePageSetting,
+}: {
+  homePageSettings: any;
+  setHomePageSetting: (item: any) => void;
+}) {
+  const [logoPath, setLogoPath] = useState<string>("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const logoInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    console.log(homePageSettings);
     // Simulating getting data from local storage
-    const storedSetting = localStorage.getItem('homePageSetting');
+    const storedSetting = localStorage.getItem("homePageSetting");
     if (storedSetting) {
       const setting = JSON.parse(storedSetting) as HomePageSetting;
       setLogoPath(`${process.env.REACT_APP_BASE_URL}${setting.imagePath}`);
@@ -29,26 +37,28 @@ const  LogoHomePageSetting: React.FC = () => {
     if (!selectedFile) return;
 
     const formData = new FormData();
-    formData.append("id", localStorage.getItem('homePageSettingId') || '');//todo
-    formData.append("imagePath", '');
+    formData.append("id", homePageSettings.id); //todo
+    formData.append("imagePath", "");
     formData.append("file", selectedFile);
 
     try {
       const response = await HomePageSettingService.updateLogo(formData);
       console.log(response.data);
-      
+
       if (response.data.result === 0) {
         alert(response.data.message);
         // Update local storage
-        localStorage.setItem('homePageSetting', JSON.stringify(response.data.data));
+        setHomePageSetting(response.data.data);
         // Update logo path state
-        setLogoPath(`${process.env.REACT_APP_BASE_URL}${response.data.data.imagePath}`);
+        setLogoPath(
+          `${process.env.REACT_APP_BASE_URL}${response.data.data.imagePath}`
+        );
       } else {
         alert(response.data.message);
       }
     } catch (err) {
       console.error(err);
-      alert('An error occurred while updating the logo.');
+      alert("An error occurred while updating the logo.");
     }
   };
 
@@ -76,7 +86,7 @@ const  LogoHomePageSetting: React.FC = () => {
                       <button
                         type="button"
                         className="fas fa-camera profile-edit position-absolute"
-                        style={{ cursor: 'pointer' }}
+                        style={{ cursor: "pointer" }}
                         title=" آپلود لوگوی جدید"
                         onClick={selectAvatar}
                       >
@@ -99,10 +109,22 @@ const  LogoHomePageSetting: React.FC = () => {
       </div>
     </div>
   );
+}
+
+const mapStateToProps = (state: any) => {
+  return {
+    homePageSettings: state.homePageSettingState.homePageSetting,
+  };
 };
 
-export default LogoHomePageSetting;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setHomePageSetting: (item: any) =>
+      dispatch(setHomePageSettingsAction(item)),
+  };
+};
 
-
- 
-  
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LogoHomePageSetting);
