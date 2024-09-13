@@ -13,10 +13,10 @@ function ChartList({
   setTreeItem,
 }: Readonly<{
   treeItem: any;
-  setTreeItem: any;
+  setTreeItem: (treeName: string, treeItem: any) => void;
 }>) {
-  const [loadingRemove, setLoadingRemove] = useState(false);
-  const [key, setKey] = useState(0);
+  const [loadingRemove, setLoadingRemove] = useState<boolean>(false);
+  const [componentKey, setComponentKey] = useState<number>(0);
 
   async function remove(id: string, name: string) {
     if (!confirm("آیا مایل به حذف  (" + name + ")  هستید؟")) {
@@ -33,8 +33,8 @@ function ChartList({
 
       if (response.data.result == 0) {
         toast.success("عملیات حذف با موفقیت انجام شد");
-        setTreeItem("ChartTree", null);
-        setKey((n) => n + 1);
+        setTreeItem("OrganizationChartViewList", null);
+        setComponentKey((n) => n + 1);
       }
     } catch (err) {
       console.log(err);
@@ -56,7 +56,7 @@ function ChartList({
           <div className="row pad">
             <div className="col-lg-12">
               <div className="d-flex gap-1"></div>
-              <div className="d-flex justify-content-end   align-items-center gap-1 mb-2">
+              <div className="d-flex justify-content-end  align-items-center gap-1 mb-2">
                 {loadingRemove && <SpinnerBtn />}
                 {!loadingRemove &&
                   treeItem["OrganizationChartViewList"]?.persianTitle && (
@@ -94,7 +94,7 @@ function ChartList({
               </div>
             </div>
           </div>
-          <ChartTree tree_name="OrganizationChartViewList" key={key} />
+          <ChartTree tree_name="OrganizationChartViewList" key={componentKey} />
         </div>
       </div>
     </>
