@@ -67,7 +67,7 @@ function Sidebar({ user }: { user: any }) {
                 <img
                   alt="user-img"
                   className="avatar avatar-xl brround"
-                  src={`https://freelancework.ir/${user.imagePath}`}
+                  src={import.meta.env.VITE_APP_BASE_URL+user.imagePath}
                 />
                 <span className="avatar-status profile-status bg-green"></span>
               </div>

@@ -126,7 +126,7 @@ function Profile({
                   <div className="main-img-user profile-user">
                     <img
                       alt={user.firstName + " " + user.lastName}
-                      src={"https://freelancework.ir/" + user.imagePath}
+                      src={import.meta.env.VITE_APP_BASE_URL + user.imagePath}
                       onClick={() => $("#avatar").click()}
                       style={{ cursor: "pointer" }}
                     />

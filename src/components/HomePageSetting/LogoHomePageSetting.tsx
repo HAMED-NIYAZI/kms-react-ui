@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import HomePageSettingService from "../../services/HomePageSettingService";
 
 
 interface HomePageSetting {
@@ -6,7 +7,7 @@ interface HomePageSetting {
   imagePath: string;
 }
 
-const LogoSelector: React.FC = () => {
+const  LogoHomePageSetting: React.FC = () => {
   const [logoPath, setLogoPath] = useState<string>('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const logoInputRef = useRef<HTMLInputElement>(null);
@@ -28,12 +29,12 @@ const LogoSelector: React.FC = () => {
     if (!selectedFile) return;
 
     const formData = new FormData();
-    formData.append("id", localStorage.getItem('homePageSettingId') || '');
+    formData.append("id", localStorage.getItem('homePageSettingId') || '');//todo
     formData.append("imagePath", '');
     formData.append("file", selectedFile);
 
     try {
-      const response = await axios.post('/api/update-logo', formData);
+      const response = await HomePageSettingService.updateLogo(formData);
       console.log(response.data);
       
       if (response.data.result === 0) {
@@ -54,6 +55,7 @@ const LogoSelector: React.FC = () => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       setSelectedFile(event.target.files[0]);
+      updateLogo();
     }
   };
 
@@ -99,115 +101,8 @@ const LogoSelector: React.FC = () => {
   );
 };
 
-export default LogoSelector;
+export default LogoHomePageSetting;
 
-
-// import { toast } from "react-toastify";
-// import HomePageSettingService from "../../services/HomePageSettingService";
-
-// import "./style.css";
 
  
-
-// export default function LogoHomePageSetting() {
-
-//   function handleAvatarSelected () {
-//      $("#logo").click();
-//   }
-  
-//   async function UpdateLogo(e: React.ChangeEvent<HTMLInputElement>) {
-//        const target = e.target;
-//       console.log('target:   ',target);
-    
-//       if (target && target.files) {
-//         logo.value = target.files[0];
-      
-//       }
-    
-//       if (!logo.value) {
-//         return false;
-//       }
-    
-//       try {
-//         let fd = new FormData();
-//         fd.append("id", localStorageService.getHomePageSetting.id);
-//         fd.append("imagePath",'');
-//         fd.append("file", logo.value);
-     
-//         const response = await HomePageSettingService.updateLogo(fd);
-//         console.log('response:   ',response);
-    
-//         if (response.data.result == 0) {
-//           toast.success(response.data.message);
-    
-//           localStorageService.setHomePageSetting(response.data.data);
-//         } else if (response.data.result == 5) {
-//           toast.warning(response.data.message);
-//         } else {
-//           toast.warning(response.data.message);
-//         }
-//       } catch (err) {
-    
-//         console.log('err:   ',err);
-    
-//       }
-    
-//     }
-
-//     return (
-//         <div className="row">
-//         <div className="col-xl-12 col-md-12">
-//           <div className="card mg-b-20 mg-lg-b-0">
-//             <div className="card-body p-0">
-//               <div className="todo-widget-header pb-2 pd-20">
-//                 <h5
-//                   style={{
-//                     paddingTop:"10px",
-//                     paddingBottom: "10px",
-//                     display: "flex",
-//                     justifyContent: "center",
-//                     alignItems: "center"}}               
-//                 >
-//                   لوگو سازمان
-//                 </h5>
-//                 <form>
-//                   <div className="form-group">
-//                     <div
-//                       className="bd pd-20 clearfix"
-//                       style={{        display: "flex",
-//                         justifyContent: "center",
-//                         alignItems: "center"}}
-                
-                      
-//                     >
-//                       <div className="main-img-user profile-user">
-//                         {/* <img :src="logoPath" /> */}
-//                         <a
-//                           className="fas fa-camera profile-edit"
-//                           style= {{cursor: "pointer"}}
-//                           title=" آپلود لوگوی جدید"
-//                           // @click.prevent="selectAvatar($event)"
-//                           onClick={handleAvatarSelected}
-//                          ></a>
-//                         <input
-//                           type="file"
-//                           ref="logo"
-//                           // @change="UpdateLogo($event)"
-//                           id="logo"
-//                           className="d-none"
-//                           onChange={UpdateLogo}
-//                         />
-//                       </div>
-//                     </div>
-//                     </div>
-//                  </form>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     );
-//   }
-
-  
   

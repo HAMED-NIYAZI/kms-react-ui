@@ -141,7 +141,7 @@ function Login({
     }
 
     // Return the constructed URL
-    return "https://freelancework.ir/" + loginPageInfo.imagePath;
+    return import.meta.env.VITE_APP_BASE_URL+ loginPageInfo.imagePath;
   };
 
   return (

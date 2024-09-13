@@ -120,7 +120,7 @@ function Header({ logout, user }: { logout: () => void; user: any }) {
               >
                 <img
                   alt=""
-                  src={`https://freelancework.ir/${user.imagePath}`}
+                  src={import.meta.env.VITE_APP_BASE_URL+user.imagePath}
                 />
               </a>
               {isShowProfileItem && (
@@ -130,7 +130,7 @@ function Header({ logout, user }: { logout: () => void; user: any }) {
                       <div className="main-img-user">
                         <img
                           alt=""
-                          src={`https://freelancework.ir/${user.imagePath}`}
+                          src={import.meta.env.VITE_APP_BASE_URL+user.imagePath}
                           className=""
                         />
                       </div>
