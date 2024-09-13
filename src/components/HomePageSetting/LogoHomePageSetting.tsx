@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {  useEffect, useRef, useState } from "react";
 import HomePageSettingService from "../../services/HomePageSettingService";
 import { connect } from "react-redux";
 import { setHomePageSettingsAction } from "../../store/actions/home-page-setting-actions";
@@ -25,7 +25,7 @@ function LogoHomePageSetting({
     const storedSetting = localStorage.getItem("homePageSetting");
     if (storedSetting) {
       const setting = JSON.parse(storedSetting) as HomePageSetting;
-      setLogoPath(`${process.env.REACT_APP_BASE_URL}${setting.imagePath}`);
+      setLogoPath(import.meta.env.VITE_APP_BASE_URL+setting.imagePath);
     }
   }, []);
 
@@ -35,11 +35,12 @@ function LogoHomePageSetting({
 
   const updateLogo = async () => {
     if (!selectedFile) return;
-
+ console.log('homePageSettings:',homePageSettings.id);
     const formData = new FormData();
     formData.append("id", homePageSettings.id); //todo
     formData.append("imagePath", "");
     formData.append("file", selectedFile);
+    console.log(formData);
 
     try {
       const response = await HomePageSettingService.updateLogo(formData);
@@ -50,9 +51,7 @@ function LogoHomePageSetting({
         // Update local storage
         setHomePageSetting(response.data.data);
         // Update logo path state
-        setLogoPath(
-          `${process.env.REACT_APP_BASE_URL}${response.data.data.imagePath}`
-        );
+        setLogoPath(import.meta.env.VITE_APP_BASE_URL+response.data.data.imagePath);
       } else {
         alert(response.data.message);
       }
