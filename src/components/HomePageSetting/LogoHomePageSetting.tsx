@@ -1,3 +1,4 @@
+
 import {  useEffect, useRef, useState } from "react";
 import HomePageSettingService from "../../services/HomePageSettingService";
 import { connect } from "react-redux";
@@ -25,7 +26,9 @@ function LogoHomePageSetting({
     const storedSetting = localStorage.getItem("homePageSetting");
     if (storedSetting) {
       const setting = JSON.parse(storedSetting) as HomePageSetting;
+
       setLogoPath(import.meta.env.VITE_APP_BASE_URL+setting.imagePath);
+
     }
   }, []);
 
@@ -51,7 +54,10 @@ function LogoHomePageSetting({
         // Update local storage
         setHomePageSetting(response.data.data);
         // Update logo path state
+
         setLogoPath(import.meta.env.VITE_APP_BASE_URL+response.data.data.imagePath);
+
+
       } else {
         alert(response.data.message);
       }
