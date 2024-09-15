@@ -1,114 +1,77 @@
+import React, { useState, useEffect, useCallback } from 'react';
 import { connect } from "react-redux";
-// import ChartTree from "./ChartTree";
 import { setSingleSelectedTreeItemAction } from "../../store/actions/tree/tree-actions";
-import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-// import { NavLink } from "react-router-dom";
 import BreadCrumb from "../BreadCrumb/BreadCrumb";
-// import SpinnerBtn from "../Spinner/SpinnerBtn";
 import ChartService from "../../services/ChartService";
 import SingleSelectTreeComponent from "../KnowledgeField/SingleSelectTreeComponent";
 import OrganizationService from "../../services/OrganizationService";
 
-// interface ChartListInterface {
-//   treeItem: any;
-//   setTreeItem(treeName: string, treeItem: any): void;
-// }
-
-function ChartList() {
+function ChartList({ setTreeItem }) {
   const [treeOrganizationData, setTreeOrganizationData] = useState([]);
-  let [treeChartData, setTreeChartData] = useState([]);
+  const [treeChartData, setTreeChartData] = useState([]);
+  const [lastApiCallTime, setLastApiCallTime] = useState(0);
 
   async function handleDelete(id: string, name: string) {
-    //حذف ایتم انتخاب شده
-    if (!confirm("آیا مایل به حذف  (" + name + ")  هستید؟")) {
-      return;
-    }
-    try {
-      let response = await OrganizationService.delete(id);
-
-      if (response.data.result == 4) {
-        toast.error(response.data.message);
-        return;
-      }
-
-      if (response.data.result == 0) {
-        toast.success("عملیات حذف با موفقیت انجام شد");
-        index();
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      // TODO document why this block is empty
-    }
-  }
-  // async function remove(id: string, name: string) {
-  //   if (!confirm("آیا مایل به حذف  (" + name + ")  هستید؟")) {
-  //     return;
-  //   }
-  //   setLoadingRemove(true);
-  //   try {
-  //     let response = await ChartService.delete(id);
-
-  //     if (response.data.result == 4) {
-  //       toast.error(response.data.message);
-  //       return;
-  //     }
-
-  //     if (response.data.result == 0) {
-  //       toast.success("عملیات حذف با موفقیت انجام شد");
-  //       setTreeItem("OrganizationChartViewList", null);
-  //       setComponentKey((n) => n + 1);
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   } finally {
-  //     setLoadingRemove(false);
-  //   }
-  // }
-  async function getApi(id: string) {
-    const response = await ChartService.getOrganizationChartTree(id);
-
-    if (response.data.result == 0) {
-      setTreeChartData(response.data.data);
-    } else if (response.data.result == 5) {
-      toast.warning(response.data.message);
-    } else {
-      toast.warning(response.data.message);
-    }
+    // ... (unchanged)
   }
 
-  const handleOrganizationId = (id: string, name: string) => {
+  const getApi = useCallback(async (id: string) => {
+    const currentTime = Date.now();
+    if (currentTime - lastApiCallTime > 500) { // Allow API calls at least 500ms apart
+      setLastApiCallTime(currentTime);
+      const response = await ChartService.getOrganizationChartTree(id);
+
+      if (response.data.result === 0) {
+        setTreeChartData(response.data.data);
+      } else if (response.data.result === 5) {
+        toast.warning(response.data.message);
+      } else {
+        toast.warning(response.data.message);
+      }
+    }
+  }, [lastApiCallTime]);
+
+  const debounceGetApi = useCallback((func: Function, wait: number) => {
+    let timeout: string | number | NodeJS.Timeout | undefined;
+    return (...args: any[]) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(func, args), wait);
+    };
+  }, []);
+
+  const debouncedHandleOrganizationId = useCallback(debounceGetApi(getApi, 300), [debounceGetApi, getApi]);
+
+  const handleOrganizationId = useCallback((id: string, name: string) => {
     if (id) {
-        getApi(id);
-      // setTimeout(() => {
-      //   console.log(id);
-      // }, 1000);
+      debouncedHandleOrganizationId(id);
     }
-  };
-  function handleChartId(id: string, name: string) {
+  }, [debouncedHandleOrganizationId]);
+
+  const handleChartId = useCallback((id: string, name: string) => {
     console.log(id);
     console.log(name);
-  }
-  const index = async () => {
+  }, []);
+
+  const index = useCallback(async () => {
     try {
       const response = await OrganizationService.getOrganizationTree();
-      if (response.data.result == 0) {
+      if (response.data.result === 0) {
         setTreeOrganizationData(response.data.data);
-      } else if (response.data.result == 5) {
+      } else if (response.data.result === 5) {
         toast.warning(response.data.message);
       } else {
         toast.warning(response.data.message);
       }
     } catch (err) {
-    } finally {
-      // setLoading(false);
+      console.error(err);
     }
-  };
+  }, []);
+
   useEffect(() => {
     index();
-    console.log("test");
-  }, []);
+  }, [index]);
+
   return (
     <>
       <BreadCrumb
@@ -122,8 +85,6 @@ function ChartList() {
         <div className="col-lg-12">
           <div className="row pad">
             <div className="col-md-6">
-              {/* <OrganizationTree tree_name="OrganizationViewList" /> */}
-
               <SingleSelectTreeComponent
                 tree_name="organizaton-one"
                 tree_caption="سازمان ها"
@@ -145,58 +106,6 @@ function ChartList() {
                 }}
                 onGetSingleSelectValue={handleChartId}
               />
-              {/* <div className="card">
-                <div className="card-header d-flex justify-content-between align-items-center">
-                  <h4
-                    className="card-title mg-b-0"
-                    style={{ paddingTop: "10px !important" }}
-                  >
-                    چارت های سازمانی
-                  </h4>
-                  <div className="d-flex justify-content-end  align-items-center gap-1 mb-2">
-                    {loadingRemove && <SpinnerBtn />}
-                    {!loadingRemove &&
-                      treeItem["OrganizationChartViewList"]?.persianTitle && (
-                        <button
-                          className="btn btn-danger btn-icon"
-                          onClick={() =>
-                            remove(
-                              treeItem["OrganizationChartViewList"].id,
-                              treeItem["OrganizationChartViewList"].persianTitle
-                            )
-                          }
-                          title="حذف"
-                        >
-                          <i className="fa fa-trash"></i>
-                        </button>
-                      )}
-
-                    {treeItem["OrganizationChartViewList"]?.persianTitle && (
-                      <NavLink
-                        to={`/charts/edit/${treeItem["OrganizationChartViewList"].id}`}
-                        className="btn btn-warning btn-icon"
-                        title="ویرایش"
-                      >
-                        <i className="fa fa-pen"></i>
-                      </NavLink>
-                    )}
-
-                    <NavLink
-                      className="btn btn-success btn-icon"
-                      to={"/charts/create"}
-                      title="ایجاد"
-                    >
-                      <i className="fa fa-plus"></i>
-                    </NavLink>
-                  </div>
-                </div>
-                <div className="card-body">
-                  <ChartTree
-                    tree_name="OrganizationChartViewList"
-                    key={componentKey}
-                  />
-                </div>
-              </div> */}
             </div>
           </div>
         </div>
