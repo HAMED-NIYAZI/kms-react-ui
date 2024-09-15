@@ -35,7 +35,7 @@ function LogoHomePageSetting({
 
   const updateLogo = async () => {
     if (!selectedFile) return;
- console.log('homePageSettings:',homePageSettings.id);
+ console.log( homePageSettings.id);
     const formData = new FormData();
     formData.append("id", homePageSettings.id); //todo
     formData.append("imagePath", "");
@@ -50,6 +50,9 @@ function LogoHomePageSetting({
         alert(response.data.message);
         // Update local storage
         setHomePageSetting(response.data.data);
+        console.log('------------------------------------test');
+
+        console.log(response.data.data);
         // Update logo path state
         setLogoPath(import.meta.env.VITE_APP_BASE_URL+response.data.data.imagePath);
       } else {
