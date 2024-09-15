@@ -7,6 +7,7 @@ import { NavLink } from "react-router-dom";
 import BreadCrumb from "../BreadCrumb/BreadCrumb";
 import SpinnerBtn from "../Spinner/SpinnerBtn";
 import ChartService from "../../services/ChartService";
+import OrganizationTree from "../Organization/OrganizationTree";
 
 interface ChartListInterface {
   treeItem: any;
@@ -53,47 +54,64 @@ function ChartList({ treeItem, setTreeItem }: ChartListInterface) {
       <div className="row">
         <div className="col-lg-12">
           <div className="row pad">
-            <div className="col-lg-12">
-              <div className="d-flex gap-1"></div>
-              <div className="d-flex justify-content-end  align-items-center gap-1 mb-2">
-                {loadingRemove && <SpinnerBtn />}
-                {!loadingRemove &&
-                  treeItem["OrganizationChartViewList"]?.persianTitle && (
-                    <button
-                      className="btn btn-danger btn-icon"
-                      onClick={() =>
-                        remove(
-                          treeItem["OrganizationChartViewList"].id,
-                          treeItem["OrganizationChartViewList"].persianTitle
-                        )
-                      }
-                      title="حذف"
-                    >
-                      <i className="fa fa-trash"></i>
-                    </button>
-                  )}
-
-                {treeItem["OrganizationChartViewList"]?.persianTitle && (
-                  <NavLink
-                    to={`/charts/edit/${treeItem["OrganizationChartViewList"].id}`}
-                    className="btn btn-warning btn-icon"
-                    title="ویرایش"
+            <div className="col-md-6">
+              <OrganizationTree tree_name="OrganizationViewList" />
+            </div>
+            <div className="col-md-6">
+              <div className="card">
+                <div className="card-header d-flex justify-content-between align-items-center">
+                  <h4
+                    className="card-title mg-b-0"
+                    style={{ paddingTop: "10px !important" }}
                   >
-                    <i className="fa fa-pen"></i>
-                  </NavLink>
-                )}
+                    چارت های سازمانی
+                  </h4>
+                  <div className="d-flex justify-content-end  align-items-center gap-1 mb-2">
+                    {loadingRemove && <SpinnerBtn />}
+                    {!loadingRemove &&
+                      treeItem["OrganizationChartViewList"]?.persianTitle && (
+                        <button
+                          className="btn btn-danger btn-icon"
+                          onClick={() =>
+                            remove(
+                              treeItem["OrganizationChartViewList"].id,
+                              treeItem["OrganizationChartViewList"].persianTitle
+                            )
+                          }
+                          title="حذف"
+                        >
+                          <i className="fa fa-trash"></i>
+                        </button>
+                      )}
 
-                <NavLink
-                  className="btn btn-success btn-icon"
-                  to={"/charts/create"}
-                  title="ایجاد"
-                >
-                  <i className="fa fa-plus"></i>
-                </NavLink>
+                    {treeItem["OrganizationChartViewList"]?.persianTitle && (
+                      <NavLink
+                        to={`/charts/edit/${treeItem["OrganizationChartViewList"].id}`}
+                        className="btn btn-warning btn-icon"
+                        title="ویرایش"
+                      >
+                        <i className="fa fa-pen"></i>
+                      </NavLink>
+                    )}
+
+                    <NavLink
+                      className="btn btn-success btn-icon"
+                      to={"/charts/create"}
+                      title="ایجاد"
+                    >
+                      <i className="fa fa-plus"></i>
+                    </NavLink>
+                  </div>
+                </div>
+                <div className="card-body">
+                  <ChartTree
+                    tree_name="OrganizationChartViewList"
+                    key={componentKey}
+                  />
+                </div>
               </div>
             </div>
           </div>
-          <ChartTree tree_name="OrganizationChartViewList" key={componentKey} />
         </div>
       </div>
     </>

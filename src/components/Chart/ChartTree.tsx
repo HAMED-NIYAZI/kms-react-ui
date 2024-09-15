@@ -20,8 +20,11 @@ function ChartTree({
     setLoading(true);
 
     try {
-      const response = await ChartService.getChartTree();
+      const response = await ChartService.getOrganizationChartTree(
+        "dee564e8-0c8d-4b25-a1c0-708edd3c9f95"
+      );
       if (response.data.result == 0) {
+        console.log(response.data.data);
         setTrees(response.data.data);
       } else if (response.data.result == 5) {
         toast.warning(response.data.message);
