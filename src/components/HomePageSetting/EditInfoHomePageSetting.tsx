@@ -47,12 +47,12 @@ export default function EditInfoHomePageSetting() {
                         placeholder="توضیحات"
                       ></textarea>
                     </div>
-                  </form>
+                  </div>
                 </div>
-              </div>
-      
-               <div className="card-footer">
-                <SpinnerBtn   />
+              </form>
+
+              <div className="card-footer">
+                <SpinnerBtn />
                 <a
                   style={{ width: "120px" }}
                   className="btn btn-primary"
@@ -61,15 +61,16 @@ export default function EditInfoHomePageSetting() {
                   data-bs-toggle="tooltip"
                   title="ذخیره"
                   v-else
-                //   @click.prevent="updateInfoHomePageSetting"
+                  //   @click.prevent="updateInfoHomePageSetting"
                   data-bs-original-title="ذخیره"
                 >
                   ذخیره
                 </a>
               </div>
             </div>
-            </div>
-            </div>
- 
-     );
-  }
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

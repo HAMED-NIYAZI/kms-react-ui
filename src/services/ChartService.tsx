@@ -4,7 +4,7 @@ class ChartService {
   async getChartTree() {
     return await api.get(`/api/Chart/GetChartTree`);
   }
-  async getOrganizationChartTree(id: Chart["id"]) {
+  async getOrganizationChartTree(id: Chart["organizationId"]) {
     return await api.get(
       `/api/Chart/GetChartTreeWithOrganizationId?organizationId=${id}`
     );

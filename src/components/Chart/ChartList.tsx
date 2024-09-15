@@ -1,30 +1,31 @@
 import { connect } from "react-redux";
-import ChartTree from "./ChartTree";
+// import ChartTree from "./ChartTree";
 import { setSingleSelectedTreeItemAction } from "../../store/actions/tree/tree-actions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { NavLink } from "react-router-dom";
+// import { NavLink } from "react-router-dom";
 import BreadCrumb from "../BreadCrumb/BreadCrumb";
-import SpinnerBtn from "../Spinner/SpinnerBtn";
+// import SpinnerBtn from "../Spinner/SpinnerBtn";
 import ChartService from "../../services/ChartService";
-import OrganizationTree from "../Organization/OrganizationTree";
+import SingleSelectTreeComponent from "../KnowledgeField/SingleSelectTreeComponent";
+import OrganizationService from "../../services/OrganizationService";
 
-interface ChartListInterface {
-  treeItem: any;
-  setTreeItem(treeName: string, treeItem: any): void;
-}
+// interface ChartListInterface {
+//   treeItem: any;
+//   setTreeItem(treeName: string, treeItem: any): void;
+// }
 
-function ChartList({ treeItem, setTreeItem }: ChartListInterface) {
-  const [loadingRemove, setLoadingRemove] = useState<boolean>(false);
-  const [componentKey, setComponentKey] = useState<number>(0);
+function ChartList() {
+  const [treeOrganizationData, setTreeOrganizationData] = useState([]);
+  let [treeChartData, setTreeChartData] = useState([]);
 
-  async function remove(id: string, name: string) {
+  async function handleDelete(id: string, name: string) {
+    //حذف ایتم انتخاب شده
     if (!confirm("آیا مایل به حذف  (" + name + ")  هستید؟")) {
       return;
     }
-    setLoadingRemove(true);
     try {
-      let response = await ChartService.delete(id);
+      let response = await OrganizationService.delete(id);
 
       if (response.data.result == 4) {
         toast.error(response.data.message);
@@ -33,15 +34,81 @@ function ChartList({ treeItem, setTreeItem }: ChartListInterface) {
 
       if (response.data.result == 0) {
         toast.success("عملیات حذف با موفقیت انجام شد");
-        setTreeItem("OrganizationChartViewList", null);
-        setComponentKey((n) => n + 1);
+        index();
       }
     } catch (err) {
       console.log(err);
     } finally {
-      setLoadingRemove(false);
+      // TODO document why this block is empty
     }
   }
+  // async function remove(id: string, name: string) {
+  //   if (!confirm("آیا مایل به حذف  (" + name + ")  هستید؟")) {
+  //     return;
+  //   }
+  //   setLoadingRemove(true);
+  //   try {
+  //     let response = await ChartService.delete(id);
+
+  //     if (response.data.result == 4) {
+  //       toast.error(response.data.message);
+  //       return;
+  //     }
+
+  //     if (response.data.result == 0) {
+  //       toast.success("عملیات حذف با موفقیت انجام شد");
+  //       setTreeItem("OrganizationChartViewList", null);
+  //       setComponentKey((n) => n + 1);
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   } finally {
+  //     setLoadingRemove(false);
+  //   }
+  // }
+  async function getApi(id: string) {
+    const response = await ChartService.getOrganizationChartTree(id);
+
+    if (response.data.result == 0) {
+      setTreeChartData(response.data.data);
+    } else if (response.data.result == 5) {
+      toast.warning(response.data.message);
+    } else {
+      toast.warning(response.data.message);
+    }
+  }
+
+  const handleOrganizationId = (id: string, name: string) => {
+    if (id) {
+        getApi(id);
+      // setTimeout(() => {
+      //   console.log(id);
+      // }, 1000);
+    }
+  };
+  function handleChartId(id: string, name: string) {
+    console.log(id);
+    console.log(name);
+  }
+  const index = async () => {
+    try {
+      const response = await OrganizationService.getOrganizationTree();
+      if (response.data.result == 0) {
+        setTreeOrganizationData(response.data.data);
+      } else if (response.data.result == 5) {
+        toast.warning(response.data.message);
+      } else {
+        toast.warning(response.data.message);
+      }
+    } catch (err) {
+    } finally {
+      // setLoading(false);
+    }
+  };
+  useEffect(() => {
+    index();
+    console.log("test");
+  }, []);
   return (
     <>
       <BreadCrumb
@@ -55,10 +122,30 @@ function ChartList({ treeItem, setTreeItem }: ChartListInterface) {
         <div className="col-lg-12">
           <div className="row pad">
             <div className="col-md-6">
-              <OrganizationTree tree_name="OrganizationViewList" />
+              {/* <OrganizationTree tree_name="OrganizationViewList" /> */}
+
+              <SingleSelectTreeComponent
+                tree_name="organizaton-one"
+                tree_caption="سازمان ها"
+                tree_data={treeOrganizationData}
+                onReload={() => {
+                  console.log("test");
+                }}
+                onDelete={handleDelete}
+                onGetSingleSelectValue={handleOrganizationId}
+              />
             </div>
             <div className="col-md-6">
-              <div className="card">
+              <SingleSelectTreeComponent
+                tree_name="chart-one"
+                tree_caption="چارت ها"
+                tree_data={treeChartData}
+                onReload={() => {
+                  console.log("test");
+                }}
+                onGetSingleSelectValue={handleChartId}
+              />
+              {/* <div className="card">
                 <div className="card-header d-flex justify-content-between align-items-center">
                   <h4
                     className="card-title mg-b-0"
@@ -109,7 +196,7 @@ function ChartList({ treeItem, setTreeItem }: ChartListInterface) {
                     key={componentKey}
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

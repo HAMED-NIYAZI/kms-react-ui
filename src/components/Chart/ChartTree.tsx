@@ -8,10 +8,10 @@ import ChartService from "../../services/ChartService";
 function ChartTree({
   tree_name,
   treeItem,
-}: Readonly<{
+}: {
   tree_name: string;
   treeItem: any;
-}>) {
+}) {
   const [loading, setLoading] = useState(false);
 
   const [trees, setTrees] = useState([]);
@@ -24,7 +24,6 @@ function ChartTree({
         "dee564e8-0c8d-4b25-a1c0-708edd3c9f95"
       );
       if (response.data.result == 0) {
-        console.log(response.data.data);
         setTrees(response.data.data);
       } else if (response.data.result == 5) {
         toast.warning(response.data.message);
