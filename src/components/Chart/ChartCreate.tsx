@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import SpinnerBtn from "../Spinner/SpinnerBtn";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -8,8 +8,8 @@ import OrganizationService from "../../services/OrganizationService";
 import { toast } from "react-toastify";
 import { setSingleSelectedTreeItemAction } from "../../store/actions/tree/tree-actions";
 import BreadCrumb from "../BreadCrumb/BreadCrumb";
-import OrganizationTreeModalSingleSelect from "../Organization/OrganizationTreeModalSingleSelect";
-import ChartTreeModalSingleSelect from "./ChartTreeModalSingleSelect";
+import TreeModalSingleSelect from "../KnowledgeField/TreeModalSingleSelect";
+
 function ChartCreate({
   treeItem,
   setTreeItem,
@@ -20,16 +20,22 @@ function ChartCreate({
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
+  const [data_selectOrganization, setdata_selectOrganization] = useState([]);
+  const [organizationName, setorganizationName] = useState('');
+  const [organizationId, setorganizationId] = useState('');
+
   const formik = useFormik({
     initialValues: {
       persianTitle: "",
       sortingNumber: 0,
       parentId: "",
+      organizationId: "",
     },
     onSubmit: async (values, { resetForm }) => {
       setLoading(true);
       try {
         values.parentId = treeItem["OrganizationViewList_ModalCreate"]?.id;
+   values.organizationId = organizationId;
         setTreeItem("OrganizationViewList_ModalCreate", null);
 
         const response = await OrganizationService.create(values);
@@ -37,7 +43,7 @@ function ChartCreate({
           resetForm();
           toast.success(response.data.message);
           setTreeItem("OrganizationViewList_ModalCreate", null);
-          navigate("/organizations");
+          navigate("/charts");
         } else {
           toast.warning(response.data.message);
         }
@@ -53,20 +59,48 @@ function ChartCreate({
         .max(50, "حداکثر 50 کارکتر وارد کنید"),
       sortingNumber: Yup.number().required("پرکردن این فیلد الزامیست"),
       parentId: Yup.string().nullable(),
+      organizationId: Yup.string().nullable(),
     }),
   });
+  const index = async () => {
+    try {
+      const response = await OrganizationService.getOrganizationTree();
+      if (response.data.result == 0) {
+        setdata_selectOrganization(response.data.data);
+      } else if (response.data.result == 5) {
+        toast.warning(response.data.message);
+      } else {
+        toast.warning(response.data.message);
+      }
+    } catch (err) {
+    } finally {
+    }
+  };
+
+  function handleGetSingleSelectValue_Organization(
+    id: string,
+    name: string
+  ): void {
+    //setorganizationName({id,name});
+    setorganizationName(name);
+    setorganizationId(id);
+    console.log(id);
+  }
 
   useEffect(() => {
-    // setTreeItem("OrganizationViewList", null);
+    // resetParentName();
   }, []);
 
+  useLayoutEffect(() => {
+    index();
+  }, []);
   return (
     <>
       <BreadCrumb
         BreadList={[
           { Title: "اطلاعات پایه", Address: "" },
-          { Title: "چارت ها", Address: "/organizations" },
-          { Title: "ایجاد چارت", Address: "/organizations/create" },
+          { Title: "چارت ها", Address: "/charts" },
+          { Title: "ایجاد چارت", Address: "/charts/create" },
         ]}
       />
 
@@ -76,10 +110,7 @@ function ChartCreate({
             <div className="card-header pb-0">
               <div className="d-flex justify-content-between">
                 <h4 className="card-title mg-b-0">ایجاد چارت </h4>
-                <NavLink
-                  to={"/organizations"}
-                  className=" btn btn-primary btn-icon"
-                >
+                <NavLink to={"/charts"} className=" btn btn-primary btn-icon">
                   <i className="fa  fa-arrow-left"></i>
                 </NavLink>
               </div>
@@ -129,6 +160,55 @@ function ChartCreate({
                   </div>
                 </div>
 
+                <div
+                  className="col-12"
+                  style={{
+                    padding: "0px",
+                  }}
+                >
+                  <label
+                    htmlFor="organizationName"
+                    style={{
+                      padding: "0.75rem",
+                    }}
+                  >
+                    سازمان
+                  </label>
+                  <div className="row">
+                    <div className="col-5">
+                      <input
+                        id="organizationName"
+                        className="form-control"
+                        disabled={true}
+                        value={organizationName}
+                        type="text"
+                      />
+                    </div>
+                    <div className="col-1">
+                      <TreeModalSingleSelect
+                        tree_caption="انتخاب سازمان"
+                        tree_name="selectOrganization"
+                        tree_data={data_selectOrganization}
+                        onReload={() => {
+                          const originalData = [...data_selectOrganization];
+                          setdata_selectOrganization([]);
+                          setorganizationId('');
+                          setorganizationName('');
+                           setTimeout(() => {
+                            setdata_selectOrganization(originalData);
+                          }, 100);
+                        }}
+                        onGetSingleSelectValue={
+                          handleGetSingleSelectValue_Organization
+                        }
+                        // onGetSingleSelectValue={(id,name)=>{setorganizationName({id:id,name:name});
+                        // }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* 
                 <div className="col-lg-6">
                   <label htmlFor="OrganizationViewList_ModalCreate">
                     نام سازمان
@@ -180,7 +260,7 @@ function ChartCreate({
                       </div>
                     </div>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
             <div className="card-footer text-center">

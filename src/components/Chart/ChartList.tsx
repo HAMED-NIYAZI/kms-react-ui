@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import  { useState, useEffect, useCallback } from 'react';
 import { connect } from "react-redux";
 import { setSingleSelectedTreeItemAction } from "../../store/actions/tree/tree-actions";
 import { toast } from "react-toastify";
@@ -6,20 +6,24 @@ import BreadCrumb from "../BreadCrumb/BreadCrumb";
 import ChartService from "../../services/ChartService";
 import SingleSelectTreeComponent from "../KnowledgeField/SingleSelectTreeComponent";
 import OrganizationService from "../../services/OrganizationService";
+import { useNavigate } from 'react-router-dom';
 
-function ChartList({ setTreeItem }) {
+
+
+function ChartList() {
   const [treeOrganizationData, setTreeOrganizationData] = useState([]);
   const [treeChartData, setTreeChartData] = useState([]);
   const [lastApiCallTime, setLastApiCallTime] = useState(0);
+  const [chartsKey, setchartsKey] = useState(0);
 
-  async function handleDelete(id: string, name: string) {
-    // ... (unchanged)
-  }
+  const navigate = useNavigate();
+
 
   const getApi = useCallback(async (id: string) => {
     const currentTime = Date.now();
-    if (currentTime - lastApiCallTime > 500) { // Allow API calls at least 500ms apart
+    if (currentTime - lastApiCallTime > 2000) { // Allow API calls at least 500ms apart
       setLastApiCallTime(currentTime);
+ 
       const response = await ChartService.getOrganizationChartTree(id);
 
       if (response.data.result === 0) {
@@ -40,21 +44,20 @@ function ChartList({ setTreeItem }) {
     };
   }, []);
 
-  const debouncedHandleOrganizationId = useCallback(debounceGetApi(getApi, 300), [debounceGetApi, getApi]);
+  const debouncedHandleOrganizationId = useCallback(debounceGetApi(getApi, 1300), [debounceGetApi, getApi]);
 
-  const handleOrganizationId = useCallback((id: string, name: string) => {
+  const handleOrganizationId = useCallback((id: string) => {
     if (id) {
       debouncedHandleOrganizationId(id);
     }
   }, [debouncedHandleOrganizationId]);
 
-  const handleChartId = useCallback((id: string, name: string) => {
-    console.log(id);
-    console.log(name);
+  const handleonGetSingleSelectValueChart = useCallback((id: string, name: string) => {
   }, []);
 
   const index = useCallback(async () => {
     try {
+      setTreeOrganizationData([]);
       const response = await OrganizationService.getOrganizationTree();
       if (response.data.result === 0) {
         setTreeOrganizationData(response.data.data);
@@ -86,25 +89,25 @@ function ChartList({ setTreeItem }) {
           <div className="row pad">
             <div className="col-md-6">
               <SingleSelectTreeComponent
-                tree_name="organizaton-one"
+                tree_name="organizatons"
                 tree_caption="سازمان ها"
                 tree_data={treeOrganizationData}
-                onReload={() => {
-                  console.log("test");
+                onReload={async() => {
+                  await index();
                 }}
-                onDelete={handleDelete}
+
                 onGetSingleSelectValue={handleOrganizationId}
               />
             </div>
             <div className="col-md-6">
               <SingleSelectTreeComponent
-                tree_name="chart-one"
+                tree_name="charts"
                 tree_caption="چارت ها"
                 tree_data={treeChartData}
-                onReload={() => {
-                  console.log("test");
-                }}
-                onGetSingleSelectValue={handleChartId}
+                key={chartsKey}
+                onReload={() => {setchartsKey(chartsKey+1)}}
+                onGetSingleSelectValue={handleonGetSingleSelectValueChart}
+                onAdd={()=>{navigate("/charts/create");}}
               />
             </div>
           </div>
