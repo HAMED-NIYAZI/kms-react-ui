@@ -3,20 +3,14 @@ import SpinnerBtn from "../Spinner/SpinnerBtn";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { connect } from "react-redux";
 import OrganizationService from "../../services/OrganizationService";
 import { toast } from "react-toastify";
-import { setSingleSelectedTreeItemAction } from "../../store/actions/tree/tree-actions";
 import BreadCrumb from "../BreadCrumb/BreadCrumb";
 import TreeModalSingleSelect from "../KnowledgeField/TreeModalSingleSelect";
+import { useLocation } from 'react-router-dom';
+import ChartService from "../../services/ChartService";
 
-function ChartCreate({
-  treeItem,
-  setTreeItem,
-}: Readonly<{
-  treeItem: any;
-  setTreeItem: (treeName: string, item: null) => void;
-}>) {
+function ChartCreate() {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
@@ -24,6 +18,14 @@ function ChartCreate({
   const [organizationName, setorganizationName] = useState('');
   const [organizationId, setorganizationId] = useState('');
 
+  const [data_selectChartParent, setdata_selectChartParent] = useState([]);
+  const [ChartParentName, setChartParentName] = useState('');
+  const [ChartParentId, setChartParentId] = useState('');
+
+  const location = useLocation();
+  const { selectedOrganizationId, selectedOrganizationName } = location.state;
+
+  
   const formik = useFormik({
     initialValues: {
       persianTitle: "",
@@ -34,22 +36,22 @@ function ChartCreate({
     onSubmit: async (values, { resetForm }) => {
       setLoading(true);
       try {
-        values.parentId = treeItem["OrganizationViewList_ModalCreate"]?.id;
+       values.parentId =ChartParentId;
    values.organizationId = organizationId;
-        setTreeItem("OrganizationViewList_ModalCreate", null);
+   console.log(organizationId);
 
-        const response = await OrganizationService.create(values);
+        const response = await ChartService.create(values);
         if (response.data.result === 0) {
           resetForm();
           toast.success(response.data.message);
-          setTreeItem("OrganizationViewList_ModalCreate", null);
           navigate("/charts");
         } else {
           toast.warning(response.data.message);
         }
-      } catch (err) {
+      } catch (err:any) {
+        toast.error(err);
+
       } finally {
-        debugger;
         setLoading(false);
       }
     },
@@ -62,11 +64,15 @@ function ChartCreate({
       organizationId: Yup.string().nullable(),
     }),
   });
-  const index = async () => {
+
+
+
+  const getOrganizationTree = async () => {
     try {
       const response = await OrganizationService.getOrganizationTree();
       if (response.data.result == 0) {
         setdata_selectOrganization(response.data.data);
+        console.log(response.data.data);
       } else if (response.data.result == 5) {
         toast.warning(response.data.message);
       } else {
@@ -77,22 +83,49 @@ function ChartCreate({
     }
   };
 
+
+
+  const getChartParentTree = async () => {
+    try {
+      const respon = await ChartService.getOrganizationChartTree(selectedOrganizationId);
+      if (respon.data.result == 0) {
+        setdata_selectChartParent(respon.data.data);
+        console.log(respon.data.data);
+      } else if (respon.data.result == 5) {
+        toast.warning(respon.data.message);
+      } else {
+        toast.warning(respon.data.message);
+      }
+    } catch (err) {
+    } finally {
+    }
+  };
+
+
+
   function handleGetSingleSelectValue_Organization(
     id: string,
     name: string
   ): void {
-    //setorganizationName({id,name});
     setorganizationName(name);
     setorganizationId(id);
-    console.log(id);
   }
+  function handleGetSingleSelectValue_ChartParent(
+    id: string,
+    name: string
+  ): void {
+     setChartParentName(name);
+    setChartParentId(id);
+   }
 
   useEffect(() => {
-    // resetParentName();
+    getOrganizationTree();
+    setorganizationId(selectedOrganizationId);
+    setorganizationName(selectedOrganizationName);
+    getChartParentTree();
   }, []);
 
   useLayoutEffect(() => {
-    index();
   }, []);
   return (
     <>
@@ -160,6 +193,65 @@ function ChartCreate({
                   </div>
                 </div>
 
+
+
+
+
+
+
+                <div
+                  className="col-12"
+                  style={{
+                    padding: "0px",
+                  }}
+                >
+                  <label
+                    htmlFor="organizationName"
+                    style={{
+                      padding: "0.75rem",
+                    }}
+                  >
+                    سرشاخه
+                  </label>
+                  <div className="row">
+                    <div className="col-10">
+                      <input
+                        id="organizationName"
+                        className="form-control"
+                        disabled={true}
+                        value={ChartParentName}
+                        type="text"
+                      />
+                    </div>
+                    <div className="col-1">
+                      <TreeModalSingleSelect
+                      key={10}
+                        tree_caption="انتخاب سرشاخه"
+                        tree_name="selectChartParentmmmmmmmmmmmmmmmmmmmmmmmmmm"
+                        tree_data={data_selectChartParent}
+                        onReload={() => {
+                          console.log('selectChartParentmmmmmmmmmmmmmmmmmmmmmmmmmm');
+                          console.log(data_selectChartParent);
+                           const originalDataChartParent = [...data_selectChartParent];
+                          setdata_selectChartParent([]);
+                          setChartParentId('');
+                          setChartParentName('');
+                           setTimeout(() => {
+                            setdata_selectChartParent(originalDataChartParent);
+                          }, 100);
+                        }}
+                        onGetSingleSelectValue={
+                          handleGetSingleSelectValue_ChartParent
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+
                 <div
                   className="col-12"
                   style={{
@@ -175,7 +267,7 @@ function ChartCreate({
                     سازمان
                   </label>
                   <div className="row">
-                    <div className="col-5">
+                    <div className="col-10">
                       <input
                         id="organizationName"
                         className="form-control"
@@ -201,66 +293,13 @@ function ChartCreate({
                         onGetSingleSelectValue={
                           handleGetSingleSelectValue_Organization
                         }
-                        // onGetSingleSelectValue={(id,name)=>{setorganizationName({id:id,name:name});
-                        // }}
                       />
                     </div>
                   </div>
                 </div>
 
-                {/* 
-                <div className="col-lg-6">
-                  <label htmlFor="OrganizationViewList_ModalCreate">
-                    نام سازمان
-                  </label>
-                  <div className="row">
-                    <div className="col-6">
-                      <input
-                        id="OrganizationViewList_ModalCreate"
-                        className="form-control"
-                        disabled={true}
-                        value={
-                          treeItem["OrganizationViewList_ModalCreate"] != null
-                            ? treeItem["OrganizationViewList_ModalCreate"]
-                                .persianTitle
-                            : ""
-                        }
-                        type="text"
-                      />
-                    </div>
-                    <div className="col-2">
-                      <OrganizationTreeModalSingleSelect />
-                    </div>
-                  </div>
-                </div>
 
-                {treeItem["OrganizationViewList_ModalCreate"] != null && (
-                  <div className="col-lg-6 mb-3">
-                    <label>سرشاخه</label>
-                    <div className="row">
-                      <div className="col-10">
-                        <input
-                          className="form-control"
-                          disabled={true}
-                          value={
-                            treeItem["OrganizationChartViewList"] != null
-                              ? treeItem["OrganizationChartViewList"]
-                                  .persianTitle
-                              : ""
-                          }
-                          type="text"
-                        />
-                      </div>
-
-                      <div className="col-2">
-                        <ChartTreeModalSingleSelect
-                          key={treeItem["OrganizationViewList_ModalCreate"].id}
-                          id={treeItem["OrganizationViewList_ModalCreate"].id}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                )} */}
+                
               </div>
             </div>
             <div className="card-footer text-center">
@@ -278,15 +317,5 @@ function ChartCreate({
     </>
   );
 }
-const mapStateToProps = (state: any) => {
-  return {
-    treeItem: state.singleSelectedTreeItemState.single_selected_tree_item,
-  };
-};
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    setTreeItem: (tree_name: string, item: null) =>
-      dispatch(setSingleSelectedTreeItemAction(item, tree_name)),
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(ChartCreate);
+
+export default ChartCreate;

@@ -14,7 +14,8 @@ function ChartList() {
   const [treeOrganizationData, setTreeOrganizationData] = useState([]);
   const [treeChartData, setTreeChartData] = useState([]);
   const [lastApiCallTime, setLastApiCallTime] = useState(0);
-  const [chartsKey, setchartsKey] = useState(0);
+  const [organizationId, setOrganizationId] = useState('');
+  const [organizationName, setOrganizationName] = useState('');
 
   const navigate = useNavigate();
 
@@ -46,13 +47,17 @@ function ChartList() {
 
   const debouncedHandleOrganizationId = useCallback(debounceGetApi(getApi, 1300), [debounceGetApi, getApi]);
 
-  const handleOrganizationId = useCallback((id: string) => {
+  const handleOrganizationId = useCallback((id: string,name:string) => {
     if (id) {
+      //set organizationId and organizationName
+      setOrganizationId(id);
+      setOrganizationName(name);
       debouncedHandleOrganizationId(id);
     }
   }, [debouncedHandleOrganizationId]);
 
   const handleonGetSingleSelectValueChart = useCallback((id: string, name: string) => {
+
   }, []);
 
   const index = useCallback(async () => {
@@ -93,6 +98,7 @@ function ChartList() {
                 tree_caption="سازمان ها"
                 tree_data={treeOrganizationData}
                 onReload={async() => {
+                  setTreeChartData([]);
                   await index();
                 }}
 
@@ -104,10 +110,17 @@ function ChartList() {
                 tree_name="charts"
                 tree_caption="چارت ها"
                 tree_data={treeChartData}
-                key={chartsKey}
-                onReload={() => {setchartsKey(chartsKey+1)}}
+                onReload={() => {
+                  const originalData=[...treeChartData];
+                  setTreeChartData([]);
+                  setTimeout(() => {
+                    setTreeChartData(originalData);
+                  }, 200);
+
+                }}
                 onGetSingleSelectValue={handleonGetSingleSelectValueChart}
-                onAdd={()=>{navigate("/charts/create");}}
+                onAdd={()=>{
+                  navigate("/charts/create",{state:{selectedOrganizationId:organizationId,selectedOrganizationName:organizationName}});}}
               />
             </div>
           </div>
