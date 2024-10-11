@@ -1,4 +1,4 @@
-import  { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import { setSingleSelectedTreeItemAction } from "../../store/actions/tree/tree-actions";
 import { toast } from "react-toastify";
@@ -6,36 +6,37 @@ import BreadCrumb from "../BreadCrumb/BreadCrumb";
 import ChartService from "../../services/ChartService";
 import SingleSelectTreeComponent from "../KnowledgeField/SingleSelectTreeComponent";
 import OrganizationService from "../../services/OrganizationService";
-import { useNavigate } from 'react-router-dom';
-
-
+import { useNavigate } from "react-router-dom";
 
 function ChartList() {
   const [treeOrganizationData, setTreeOrganizationData] = useState([]);
   const [treeChartData, setTreeChartData] = useState([]);
   const [lastApiCallTime, setLastApiCallTime] = useState(0);
-  const [organizationId, setOrganizationId] = useState('');
-  const [organizationName, setOrganizationName] = useState('');
+  const [organizationId, setOrganizationId] = useState("");
+  const [organizationName, setOrganizationName] = useState("");
 
   const navigate = useNavigate();
 
+  const getApi = useCallback(
+    async (id: string) => {
+      const currentTime = Date.now();
+      if (currentTime - lastApiCallTime > 2000) {
+        // Allow API calls at least 500ms apart
+        setLastApiCallTime(currentTime);
 
-  const getApi = useCallback(async (id: string) => {
-    const currentTime = Date.now();
-    if (currentTime - lastApiCallTime > 2000) { // Allow API calls at least 500ms apart
-      setLastApiCallTime(currentTime);
- 
-      const response = await ChartService.getOrganizationChartTree(id);
+        const response = await ChartService.getOrganizationChartTree(id);
 
-      if (response.data.result === 0) {
-        setTreeChartData(response.data.data);
-      } else if (response.data.result === 5) {
-        toast.warning(response.data.message);
-      } else {
-        toast.warning(response.data.message);
+        if (response.data.result === 0) {
+          setTreeChartData(response.data.data);
+        } else if (response.data.result === 5) {
+          toast.warning(response.data.message);
+        } else {
+          toast.warning(response.data.message);
+        }
       }
-    }
-  }, [lastApiCallTime]);
+    },
+    [lastApiCallTime]
+  );
 
   const debounceGetApi = useCallback((func: Function, wait: number) => {
     let timeout: string | number | NodeJS.Timeout | undefined;
@@ -45,20 +46,27 @@ function ChartList() {
     };
   }, []);
 
-  const debouncedHandleOrganizationId = useCallback(debounceGetApi(getApi, 1300), [debounceGetApi, getApi]);
+  const debouncedHandleOrganizationId = useCallback(
+    debounceGetApi(getApi, 1300),
+    [debounceGetApi, getApi]
+  );
 
-  const handleOrganizationId = useCallback((id: string,name:string) => {
-    if (id) {
-      //set organizationId and organizationName
-      setOrganizationId(id);
-      setOrganizationName(name);
-      debouncedHandleOrganizationId(id);
-    }
-  }, [debouncedHandleOrganizationId]);
+  const handleOrganizationId = useCallback(
+    (id: string, name: string) => {
+      if (id) {
+        //set organizationId and organizationName
+        setOrganizationId(id);
+        setOrganizationName(name);
+        debouncedHandleOrganizationId(id);
+      }
+    },
+    [debouncedHandleOrganizationId]
+  );
 
-  const handleonGetSingleSelectValueChart = useCallback((id: string, name: string) => {
-
-  }, []);
+  const handleonGetSingleSelectValueChart = useCallback(
+    (id: string, name: string) => {},
+    []
+  );
 
   const index = useCallback(async () => {
     try {
@@ -76,6 +84,50 @@ function ChartList() {
     }
   }, []);
 
+  async function handleDelete(id: string, name: string) {
+    //حذف ایتم انتخاب شده
+    if (!confirm("آیا مایل به حذف  (" + name + ")  هستید؟")) {
+      return;
+    }
+    try {
+      let response = await ChartService.delete(id);
+
+      if (response.data.result == 4) {
+        toast.error(response.data.message);
+        return;
+      }
+
+      if (response.data.result == 0) {
+        setTimeout(() => {
+          index();
+        }, 500);
+        toast.success("عملیات حذف با موفقیت انجام شد");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function handleAdd() {
+    navigate("/charts/create", {
+      state: {
+        selectedOrganizationId: organizationId,
+        selectedOrganizationName: organizationName,
+      },
+    });
+  }
+  async function handleReloadCharts() {
+    const originalData = [...treeChartData];
+    setTreeChartData([]);
+    setTimeout(() => {
+      setTreeChartData(originalData);
+    }, 200);
+  }
+
+  async function handleEdit(id: string) {
+    //اضافه کردن تری
+    navigate("/KnowledgeFieldPage/Edit/" + id);
+  }
   useEffect(() => {
     index();
   }, [index]);
@@ -97,11 +149,10 @@ function ChartList() {
                 tree_name="organizatons"
                 tree_caption="سازمان ها"
                 tree_data={treeOrganizationData}
-                onReload={async() => {
+                onReload={async () => {
                   setTreeChartData([]);
                   await index();
                 }}
-
                 onGetSingleSelectValue={handleOrganizationId}
               />
             </div>
@@ -110,17 +161,11 @@ function ChartList() {
                 tree_name="charts"
                 tree_caption="چارت ها"
                 tree_data={treeChartData}
-                onReload={() => {
-                  const originalData=[...treeChartData];
-                  setTreeChartData([]);
-                  setTimeout(() => {
-                    setTreeChartData(originalData);
-                  }, 200);
-
-                }}
+                onReload={handleReloadCharts}
                 onGetSingleSelectValue={handleonGetSingleSelectValueChart}
-                onAdd={()=>{
-                  navigate("/charts/create",{state:{selectedOrganizationId:organizationId,selectedOrganizationName:organizationName}});}}
+                onAdd={handleAdd}
+                onDelete={handleDelete}
+                onEdit={handleEdit}
               />
             </div>
           </div>
