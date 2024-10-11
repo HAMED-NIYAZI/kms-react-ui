@@ -40,7 +40,7 @@ function ChartEdit({
           resetForm();
           toast.success(response.data.message);
           setTreeItem("OrganizationViewList_ModalCreate", null);
-          navigate("/organizations");
+          navigate("/charts");
         } else {
           toast.warning(response.data.message);
         }
@@ -80,10 +80,10 @@ function ChartEdit({
       <BreadCrumb
         BreadList={[
           { Title: "اطلاعات پایه", Address: "" },
-          { Title: "سازمان ها", Address: "/organizations" },
+          { Title: "چارت ها", Address: "/charts" },
           {
-            Title: "ویرایش سازمان",
-            Address: "/organizations/edit/" + params.id,
+            Title: "ویرایش چارت",
+            Address: "/charts/edit/" + params.id,
           },
         ]}
       />
@@ -94,9 +94,9 @@ function ChartEdit({
             <div className="card">
               <div className="card-header pb-0">
                 <div className="d-flex justify-content-between">
-                  <h4 className="card-title mg-b-0">ویرایش سازمان</h4>
+                  <h4 className="card-title mg-b-0">ویرایش چارت</h4>
                   <NavLink
-                    to={"/organizations"}
+                    to={"/charts"}
                     className=" btn btn-primary btn-icon"
                   >
                     <i className="fa  fa-arrow-left"></i>
@@ -107,11 +107,11 @@ function ChartEdit({
                 <div className="row">
                   <div className="col-lg-4">
                     <div className="form-group">
-                      <label htmlFor="persianTitle">نام سازمان</label>
+                      <label htmlFor="persianTitle">نام چارت</label>
                       <input
                         id="persianTitle"
                         className="form-control"
-                        placeholder="نام سازمان را وارد کنید"
+                        placeholder="نام چارت را وارد کنید"
                         type="text"
                         {...formik.getFieldProps("persianTitle")}
                       />

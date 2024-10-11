@@ -126,7 +126,7 @@ function ChartList() {
 
   async function handleEdit(id: string) {
     //اضافه کردن تری
-    navigate("/KnowledgeFieldPage/Edit/" + id);
+    navigate("/charts/edit/" + id);
   }
   useEffect(() => {
     index();
