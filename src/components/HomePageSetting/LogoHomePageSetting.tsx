@@ -1,9 +1,10 @@
 
-import {  useEffect, useRef, useState } from "react";
+import {  useEffect, useState } from "react";
 import HomePageSettingService from "../../services/HomePageSettingService";
 import { connect } from "react-redux";
 import { setHomePageSettingsAction } from "../../store/actions/home-page-setting-actions";
-
+import { toast } from "react-toastify";
+import './style.css'
 interface HomePageSetting {
   id: number;
   imagePath: string;
@@ -17,8 +18,6 @@ function LogoHomePageSetting({
   setHomePageSetting: (item: any) => void;
 }) {
   const [logoPath, setLogoPath] = useState<string>("");
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const logoInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     console.log(homePageSettings);
@@ -32,50 +31,32 @@ function LogoHomePageSetting({
     }
   }, []);
 
-  const selectAvatar = () => {
-    logoInputRef.current?.click();
-  };
+   async function loadAvatar(e: React.ChangeEvent<HTMLInputElement>) {
+    const target = e.target;
 
-  const updateLogo = async () => {
-    if (!selectedFile) return;
- console.log( homePageSettings.id);
-    const formData = new FormData();
-    formData.append("id", homePageSettings.id); //todo
-    formData.append("imagePath", "");
-    formData.append("file", selectedFile);
-    console.log(formData);
+    if (!(target && target.files && target.files[0])) {
+      return;
+    }
 
     try {
-      const response = await HomePageSettingService.updateLogo(formData);
-      console.log(response.data);
+      let fd = new FormData();
 
-      if (response.data.result === 0) {
-        alert(response.data.message);
-        // Update local storage
-        setHomePageSetting(response.data.data);
-        console.log('------------------------------------test');
+      fd.append("file", target.files[0]);
+      fd.append("id",homePageSettings.id );
 
-        console.log(response.data.data);
-        // Update logo path state
+      const response = await HomePageSettingService.updateLogo(fd);
 
-        setLogoPath(import.meta.env.VITE_APP_BASE_URL+response.data.data.imagePath);
+      if (response.data.result == 0) {
+        toast.success(response.data.message);
 
-
+      } else if (response.data.result == 5) {
+        toast.warning(response.data.message);
       } else {
-        alert(response.data.message);
+        toast.warning(response.data.message);
       }
-    } catch (err) {
-      console.error(err);
-      alert("An error occurred while updating the logo.");
-    }
-  };
+    } catch (err) {}
+  }
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-      setSelectedFile(event.target.files[0]);
-      updateLogo();
-    }
-  };
 
   return (
     <div className="row">
@@ -89,25 +70,30 @@ function LogoHomePageSetting({
               <form>
                 <div className="form-group">
                   <div className="bd pd-20 clearfix d-flex justify-content-center align-items-center">
-                    <div className="main-img-user profile-user position-relative">
-                      <img src={logoPath} alt="Current Logo" />
-                      <button
-                        type="button"
-                        className="fas fa-camera profile-edit position-absolute"
-                        style={{ cursor: "pointer" }}
-                        title=" آپلود لوگوی جدید"
-                        onClick={selectAvatar}
-                      >
-                        {/* Camera icon */}
-                      </button>
-                      <input
-                        type="file"
-                        ref={logoInputRef}
-                        onChange={handleFileChange}
-                        id="logo"
-                        className="d-none"
-                      />
-                    </div>
+
+
+
+                    <div className="rounded-avatar profile-user">
+                    <img
+                       src={logoPath}
+                      onClick={() => $("#avatar").click()}
+                      style={{ height:"100px !important" , width:"100px !important"}}
+                    />
+                    <a
+                      href="#"
+                      onClick={() => $("#avatar").click()}
+                      className="fas fa-camera profile-edit position-absolute"
+                      title=" آپلود لوگوی جدید"
+                    ></a>
+                    <input
+                      type="file"
+                      id="avatar"
+                      onChange={(e) => loadAvatar(e)}
+                      className="d-none"
+                    />
+                  </div>
+
+
                   </div>
                 </div>
               </form>

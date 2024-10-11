@@ -60,7 +60,6 @@ export default function EditInfoHomePageSetting() {
                   data-placement="top"
                   data-bs-toggle="tooltip"
                   title="ذخیره"
-                  v-else
                   //   @click.prevent="updateInfoHomePageSetting"
                   data-bs-original-title="ذخیره"
                 >
